@@ -1393,6 +1393,43 @@ const DAILY_DATA = {
 },
 // ^^^ NEW DAILY DATA ENTRIES GET APPENDED ABOVE THIS LINE ^^^
 };
+</script>
+
+<script>
+/* ===== DASHBOARD LOGIC (separate block so update_dashboard.py cannot affect it) ===== */
+let currentDate = null;
+let currentFilter = 'all';
+
+function getAvailableDates() {
+  return Object.keys(DAILY_DATA).sort();
+}
+
+function setupDatePicker() {
+  const dates = getAvailableDates();
+  document.getElementById('availDates').textContent = dates.length;
+  const dotsEl = document.getElementById('dateDots');
+  dotsEl.innerHTML = '';
+  dates.forEach(d => {
+    const dot = document.createElement('div');
+    dot.className = 'date-dot has-data';
+    dot.title = DAILY_DATA[d].dateFormatted || d;
+    dot.onclick = () => loadDate(d);
+    dot.id = 'dot-' + d;
+    dotsEl.appendChild(dot);
+  });
+}
+
+function onDatePick(dateStr) {
+  if (DAILY_DATA[dateStr]) {
+    loadDate(dateStr);
+  } else {
+    const dates = getAvailableDates();
+    let nearest = dates[0];
+    for (const d of dates) { if (d <= dateStr) nearest = d; }
+    loadDate(nearest);
+    document.getElementById('dateInput').value = nearest;
+  }
+}
 
 function navigateDay(dir) {
   const dates = getAvailableDates();

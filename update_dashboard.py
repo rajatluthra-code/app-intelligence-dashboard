@@ -39,18 +39,36 @@ def write_index(content):
 
 
 def inject_data(html, date_str, data_json):
-    """Insert or replace a date entry in DAILY_DATA."""
-    # Check if this date already exists — if so, replace it
-    # Pattern: "YYYY-MM-DD": { ... },  (match up to next date key or marker)
-    # Use a lookahead to stop before the next date entry or the marker comment
-    existing_pattern = re.compile(
-        r'  "' + re.escape(date_str) + r'": \{.*?\n\},?\n(?=  "|\s*// \^\^\^)',
-        re.DOTALL
-    )
-    if existing_pattern.search(html):
-        # Replace existing entry
+    """Insert or replace a date entry in DAILY_DATA.
+
+    Strategy: find the entry by its date key, then locate its end by counting
+    brace depth so we never over-consume into adjacent entries or code.
+    """
+    # Find the start of this date's entry
+    entry_start_pattern = re.compile(r'^  "' + re.escape(date_str) + r'": \{', re.MULTILINE)
+    match = entry_start_pattern.search(html)
+
+    if match:
+        # Found existing entry — find its end by counting braces
+        start = match.start()
+        brace_start = match.end() - 1  # position of the opening {
+        depth = 1
+        pos = brace_start + 1
+        while pos < len(html) and depth > 0:
+            if html[pos] == '{':
+                depth += 1
+            elif html[pos] == '}':
+                depth -= 1
+            pos += 1
+        # pos is now right after the closing }
+        # Skip optional comma and newline
+        if pos < len(html) and html[pos] == ',':
+            pos += 1
+        if pos < len(html) and html[pos] == '\n':
+            pos += 1
+
         new_entry = f'  "{date_str}": {data_json},\n'
-        html = existing_pattern.sub(new_entry, html)
+        html = html[:start] + new_entry + html[pos:]
         print(f"  Updated existing entry for {date_str}")
     else:
         # Append before the marker
