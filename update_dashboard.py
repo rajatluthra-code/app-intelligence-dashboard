@@ -41,16 +41,16 @@ def write_index(content):
 def inject_data(html, date_str, data_json):
     """Insert or replace a date entry in DAILY_DATA."""
     # Check if this date already exists — if so, replace it
-    # Pattern: "YYYY-MM-DD": { ... } (multiline, up to the next date key or marker)
+    # Pattern: "YYYY-MM-DD": { ... },  (match up to next date key or marker)
+    # Use a lookahead to stop before the next date entry or the marker comment
     existing_pattern = re.compile(
-        r'  "' + re.escape(date_str) + r'": \{.*?\n  \}[,]?\n',
+        r'  "' + re.escape(date_str) + r'": \{.*?\n\},?\n(?=  "|\s*// \^\^\^)',
         re.DOTALL
     )
     if existing_pattern.search(html):
         # Replace existing entry
-        new_entry = f'  "{date_str}": {data_json}\n'
-        # Need to be careful with trailing commas
-        html = existing_pattern.sub(new_entry + ",\n", html)
+        new_entry = f'  "{date_str}": {data_json},\n'
+        html = existing_pattern.sub(new_entry, html)
         print(f"  Updated existing entry for {date_str}")
     else:
         # Append before the marker
