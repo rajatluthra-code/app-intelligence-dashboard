@@ -643,8 +643,19 @@ const DAILY_DATA = {
         "TXP-3389 and IXP-26081 hit max reminders with no response — escalate to management",
         "Recurring theme: cross-team platform dependencies are the #1 blocker — recommend auto-escalation to platform teams"
     ]
+},
+  // ^^^ NEW DAILY DATA ENTRIES GET APPENDED ABOVE THIS LINE ^^^
+};
+
+let currentDate = null;
+let currentFilter = 'all';
+
+function getAvailableDates() {
+  return Object.keys(DAILY_DATA).sort();
 }
-,
+
+function setupDatePicker() {
+  const dates = getAvailableDates();
   document.getElementById('availDates').textContent = dates.length;
   // Build date dots
   const dotsEl = document.getElementById('dateDots');
