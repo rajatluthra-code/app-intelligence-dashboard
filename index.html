@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>App Intelligence Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<style>
+/* ===== RESET & VARIABLES ===== */
+:root {
+  --blue: #1A73E8; --dark-blue: #0D47A1; --light-blue: #E8F0FE;
+  --green: #34A853; --light-green: #E6F4EA;
+  --red: #EA4335; --light-red: #FDECEA;
+  --amber: #F9AB00; --light-amber: #FEF7E0;
+  --purple: #9C27B0; --teal: #00897B;
+  --gray: #5F6368; --light-gray: #F8F9FA; --border: #E0E0E0;
+  --bg: #F0F2F5; --white: #FFFFFF;
+  --shadow: 0 2px 12px rgba(0,0,0,0.08);
+  --shadow-hover: 0 4px 20px rgba(0,0,0,0.15);
+  --radius: 14px;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: #333; overflow-x: hidden; }
+
+/* ===== ANIMATED GRADIENT HEADER ===== */
+.header {
+  background: linear-gradient(135deg, #0D47A1 0%, #1A73E8 40%, #4285F4 100%);
+  color: white; padding: 28px 40px; position: relative; overflow: hidden;
+}
+.header::after {
+  content: ''; position: absolute; top: -50%; right: -20%; width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.header-content { position: relative; z-index: 1; display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; }
+.header h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.5px; }
+.header .subtitle { opacity: 0.85; font-size: 13px; margin-top: 2px; }
+.header-right { text-align: right; display: flex; align-items: center; gap: 16px; }
+.header-badge { background: rgba(255,255,255,0.2); padding: 6px 16px; border-radius: 20px; font-size: 12px; backdrop-filter: blur(10px); display: inline-block; }
+.header-stat { font-size: 11px; opacity: 0.8; }
+.live-dot { display: inline-block; width: 8px; height: 8px; background: #34A853; border-radius: 50%; margin-right: 6px; animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+/* ===== DATE PICKER ===== */
+.date-picker-wrap {
+  display: flex; align-items: center; gap: 8px;
+}
+.date-picker-wrap label { font-size: 12px; opacity: 0.85; white-space: nowrap; }
+.date-select {
+  background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3);
+  padding: 6px 12px; border-radius: 8px; font-size: 13px; font-weight: 600;
+  cursor: pointer; backdrop-filter: blur(10px); outline: none;
+  appearance: none; -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='white' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 10px center; padding-right: 30px;
+}
+.date-select option { background: #1A73E8; color: white; }
+.date-nav-btn {
+  background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);
+  color: white; width: 30px; height: 30px; border-radius: 6px;
+  cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center;
+  transition: var(--transition);
+}
+.date-nav-btn:hover { background: rgba(255,255,255,0.3); }
+.date-nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+/* ===== NAVIGATION TABS ===== */
+.nav-bar {
+  background: white; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.nav-inner { max-width: 1400px; margin: 0 auto; display: flex; gap: 0; padding: 0 20px; }
+.nav-tab {
+  padding: 14px 24px; cursor: pointer; font-size: 13px; font-weight: 600; color: var(--gray);
+  border-bottom: 3px solid transparent; transition: var(--transition); user-select: none;
+  display: flex; align-items: center; gap: 6px;
+}
+.nav-tab:hover { color: var(--blue); background: var(--light-blue); }
+.nav-tab.active { color: var(--blue); border-bottom-color: var(--blue); }
+.nav-tab .tab-badge { background: var(--red); color: white; font-size: 10px; padding: 1px 7px; border-radius: 10px; font-weight: 700; }
+
+/* ===== FILTER BAR ===== */
+.filter-bar {
+  max-width: 1400px; margin: 16px auto 0; padding: 0 20px;
+  display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+}
+.filter-btn {
+  padding: 6px 16px; border: 2px solid var(--border); border-radius: 20px; background: white;
+  font-size: 12px; font-weight: 600; cursor: pointer; transition: var(--transition); color: var(--gray);
+}
+.filter-btn:hover { border-color: var(--blue); color: var(--blue); }
+.filter-btn.active { background: var(--blue); color: white; border-color: var(--blue); }
+.filter-label { font-size: 12px; color: var(--gray); font-weight: 600; margin-right: 4px; }
+
+/* ===== CONTAINER ===== */
+.container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+
+/* ===== PAGE SECTIONS ===== */
+.page { display: none; animation: fadeIn 0.4s ease; }
+.page.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ===== KPI CARDS ===== */
+.kpi-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; margin-bottom: 24px; }
+.kpi-card {
+  background: white; border-radius: var(--radius); padding: 20px; text-align: center;
+  box-shadow: var(--shadow); cursor: pointer; transition: var(--transition);
+  position: relative; overflow: hidden;
+}
+.kpi-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+.kpi-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; }
+.kpi-card.c-blue::before { background: linear-gradient(90deg, var(--blue), #4285F4); }
+.kpi-card.c-green::before { background: linear-gradient(90deg, var(--green), #66BB6A); }
+.kpi-card.c-red::before { background: linear-gradient(90deg, var(--red), #EF5350); }
+.kpi-card.c-amber::before { background: linear-gradient(90deg, var(--amber), #FFB74D); }
+.kpi-card.c-purple::before { background: linear-gradient(90deg, var(--purple), #BA68C8); }
+.kpi-card.c-teal::before { background: linear-gradient(90deg, var(--teal), #26A69A); }
+.kpi-value { font-size: 34px; font-weight: 800; line-height: 1; }
+.kpi-change { font-size: 11px; margin-top: 4px; font-weight: 600; }
+.kpi-change.up { color: var(--green); }
+.kpi-change.down { color: var(--red); }
+.kpi-label { font-size: 11px; color: var(--gray); margin-top: 6px; text-transform: uppercase; letter-spacing: 0.6px; font-weight: 600; }
+.kpi-bar { height: 6px; background: #E8EAED; border-radius: 3px; margin-top: 8px; overflow: hidden; }
+.kpi-bar-fill { height: 100%; border-radius: 3px; transition: width 1.5s ease; }
+
+/* ===== CHART CARDS ===== */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; margin-bottom: 18px; }
+.grid-1-2 { display: grid; grid-template-columns: 1fr 2fr; gap: 18px; margin-bottom: 18px; }
+.grid-2-1 { display: grid; grid-template-columns: 2fr 1fr; gap: 18px; margin-bottom: 18px; }
+.card {
+  background: white; border-radius: var(--radius); padding: 22px;
+  box-shadow: var(--shadow); transition: var(--transition);
+}
+.card:hover { box-shadow: var(--shadow-hover); }
+.card-title {
+  font-size: 14px; font-weight: 700; color: var(--dark-blue); margin-bottom: 14px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.card-title .icon { font-size: 18px; margin-right: 8px; }
+.card-title .drill-btn {
+  font-size: 11px; color: var(--blue); cursor: pointer; font-weight: 600;
+  opacity: 0; transition: var(--transition);
+}
+.card:hover .drill-btn { opacity: 1; }
+.chart-wrap { position: relative; }
+.chart-wrap canvas { max-height: 280px; }
+
+/* ===== TABLES ===== */
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { background: linear-gradient(135deg, var(--dark-blue), var(--blue)); color: white; padding: 11px 14px; text-align: left; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.4px; position: sticky; top: 0; }
+th:first-child { border-radius: 8px 0 0 0; }
+th:last-child { border-radius: 0 8px 0 0; }
+td { padding: 10px 14px; border-bottom: 1px solid #f0f0f0; transition: var(--transition); }
+tr:hover td { background: var(--light-blue); }
+tr:nth-child(even) td { background: var(--light-gray); }
+tr:nth-child(even):hover td { background: var(--light-blue); }
+
+/* ===== BADGES ===== */
+.badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; }
+.b-red { background: var(--light-red); color: var(--red); }
+.b-green { background: var(--light-green); color: var(--green); }
+.b-amber { background: var(--light-amber); color: #E37400; }
+.b-blue { background: var(--light-blue); color: var(--blue); }
+.b-gray { background: #F1F3F4; color: var(--gray); }
+.b-purple { background: #F3E5F5; color: var(--purple); }
+
+/* ===== CALLOUTS ===== */
+.callout {
+  padding: 14px 18px; border-radius: 10px; margin-bottom: 16px;
+  font-size: 13px; display: flex; align-items: flex-start; gap: 10px; line-height: 1.5;
+}
+.callout-red { background: var(--light-red); border-left: 4px solid var(--red); }
+.callout-green { background: var(--light-green); border-left: 4px solid var(--green); }
+.callout-amber { background: var(--light-amber); border-left: 4px solid var(--amber); }
+.callout-blue { background: var(--light-blue); border-left: 4px solid var(--blue); }
+
+/* ===== MINI PROGRESS ===== */
+.mini-bar { height: 8px; background: #E8EAED; border-radius: 4px; overflow: hidden; width: 100px; display: inline-block; vertical-align: middle; }
+.mini-fill { height: 100%; border-radius: 4px; }
+
+/* ===== TOOLTIP PANEL (drill down) ===== */
+.detail-panel {
+  position: fixed; top: 0; right: -500px; width: 480px; height: 100vh;
+  background: white; box-shadow: -4px 0 30px rgba(0,0,0,0.15); z-index: 200;
+  transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1); overflow-y: auto; padding: 0;
+}
+.detail-panel.open { right: 0; }
+.detail-panel-header {
+  background: linear-gradient(135deg, var(--dark-blue), var(--blue));
+  color: white; padding: 20px 24px; position: sticky; top: 0; z-index: 1;
+}
+.detail-panel-header h3 { font-size: 16px; margin-bottom: 4px; }
+.detail-panel-header .close-btn {
+  position: absolute; top: 16px; right: 20px; cursor: pointer;
+  font-size: 20px; opacity: 0.8; transition: var(--transition);
+}
+.detail-panel-header .close-btn:hover { opacity: 1; }
+.detail-panel-body { padding: 20px 24px; }
+.overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 199; display: none; }
+.overlay.show { display: block; }
+
+/* ===== METRIC ROW ===== */
+.metric-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #f0f0f0; }
+.metric-label { font-size: 13px; color: var(--gray); }
+.metric-value { font-size: 13px; font-weight: 700; }
+
+/* ===== ACTION ITEMS ===== */
+.action-item { display: flex; align-items: center; gap: 12px; padding: 14px 0; border-bottom: 1px solid #f0f0f0; }
+.action-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.action-text { font-size: 13px; flex: 1; }
+.action-tag { font-size: 10px; font-weight: 700; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; }
+
+/* ===== TREND SPARKLINE ===== */
+.trend-row { display: flex; gap: 18px; margin-bottom: 18px; flex-wrap: wrap; }
+.trend-card {
+  flex: 1; min-width: 200px; background: white; border-radius: var(--radius); padding: 18px;
+  box-shadow: var(--shadow); text-align: center;
+}
+.trend-card canvas { max-height: 80px; }
+.trend-card-label { font-size: 11px; color: var(--gray); margin-top: 6px; font-weight: 600; text-transform: uppercase; }
+.trend-card-value { font-size: 22px; font-weight: 800; }
+
+/* ===== FOOTER ===== */
+.footer { text-align: center; padding: 24px; color: var(--gray); font-size: 11px; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .kpi-row { grid-template-columns: repeat(3, 1fr); }
+  .grid-2, .grid-3, .grid-1-2, .grid-2-1 { grid-template-columns: 1fr; }
+  .header-content { flex-direction: column; gap: 12px; }
+  .detail-panel { width: 100%; right: -100%; }
+  .trend-row { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-content">
+    <div>
+      <h1>App Intelligence</h1>
+      <div class="subtitle">Performance Forensics Dashboard — QBO Web & TurboTax Online</div>
+    </div>
+    <div class="header-right">
+      <div class="date-picker-wrap">
+        <label>Report Date:</label>
+        <button class="date-nav-btn" id="prevDay" onclick="navigateDay(-1)" title="Previous day">&#9664;</button>
+        <select class="date-select" id="dateSelect" onchange="loadDate(this.value)"></select>
+        <button class="date-nav-btn" id="nextDay" onclick="navigateDay(1)" title="Next day">&#9654;</button>
+      </div>
+      <div>
+        <div class="header-badge"><span class="live-dot"></span><span id="dateLabel">Loading...</span></div>
+        <div class="header-stat">Auto-generated by AI Agent | <span id="availDates"></span> days of data</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NAVIGATION -->
+<div class="nav-bar">
+  <div class="nav-inner">
+    <div class="nav-tab active" onclick="showPage('overview')">Overview</div>
+    <div class="nav-tab" onclick="showPage('closures')">Closures <span class="tab-badge" id="badge-closures">0</span></div>
+    <div class="nav-tab" onclick="showPage('pastdue')">Past Due <span class="tab-badge" style="background:var(--red)" id="badge-pastdue">0</span></div>
+    <div class="nav-tab" onclick="showPage('feedback')">Feedback</div>
+    <div class="nav-tab" onclick="showPage('workload')">Workload</div>
+    <div class="nav-tab" onclick="showPage('trends')">Trends</div>
+    <div class="nav-tab" onclick="showPage('actions')">Actions</div>
+  </div>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <span class="filter-label">Filter:</span>
+  <button class="filter-btn active" onclick="setFilter('all', this)">All</button>
+  <button class="filter-btn" onclick="setFilter('qbo', this)">QBO</button>
+  <button class="filter-btn" onclick="setFilter('tto', this)">TTO</button>
+  <span style="margin-left:auto; font-size:11px; color:var(--gray)" id="lastRefreshed"></span>
+</div>
+
+<div class="container">
+
+<!-- ============ PAGE: OVERVIEW ============ -->
+<div class="page active" id="page-overview">
+  <div class="kpi-row" id="kpiRow"></div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title"><span><span class="icon">&#x1F4CA;</span> Ticket Health by Web App</span><span class="drill-btn" onclick="showPage('pastdue')">View details &rarr;</span></div>
+      <div class="chart-wrap"><canvas id="c_health"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span><span class="icon">&#x1F3AF;</span> Status Distribution</span></div>
+      <div class="chart-wrap"><canvas id="c_donut"></canvas></div>
+    </div>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title"><span><span class="icon">&#x1F525;</span> Past Due Severity</span><span class="drill-btn" onclick="showPage('pastdue')">Drill down &rarr;</span></div>
+      <div class="chart-wrap"><canvas id="c_severity"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span><span class="icon">&#x1F4EC;</span> Feedback Funnel</span><span class="drill-btn" onclick="showPage('feedback')">View details &rarr;</span></div>
+      <div class="chart-wrap"><canvas id="c_funnel"></canvas></div>
+    </div>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title"><span><span class="icon">&#x1F9E9;</span> Ticket Type (API vs Widget)</span></div>
+      <div class="chart-wrap"><canvas id="c_type"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span><span class="icon">&#x1F465;</span> Top Assignees by Load</span><span class="drill-btn" onclick="showPage('workload')">View all &rarr;</span></div>
+      <div class="chart-wrap"><canvas id="c_workload_mini"></canvas></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span><span class="icon">&#x1F4CB;</span> Health Scorecard</span></div>
+    <div id="scorecardTable"></div>
+  </div>
+</div>
+
+<!-- ============ PAGE: CLOSURES ============ -->
+<div class="page" id="page-closures">
+  <div id="closuresCallout"></div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title"><span><span class="icon">&#x1F4C8;</span> Closure Velocity</span></div>
+      <div class="chart-wrap"><canvas id="c_velocity"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span><span class="icon">&#x1F4CA;</span> Resolution Types</span></div>
+      <div class="chart-wrap"><canvas id="c_resolution"></canvas></div>
+    </div>
+  </div>
+  <div id="closuresTables"></div>
+</div>
+
+<!-- ============ PAGE: PAST DUE ============ -->
+<div class="page" id="page-pastdue">
+  <div id="pastdueCallout"></div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title"><span><span class="icon">&#x1F525;</span> Severity Distribution</span></div>
+      <div class="chart-wrap"><canvas id="c_sev2"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span><span class="icon">&#x23F1;</span> Days Overdue Comparison</span></div>
+      <div class="chart-wrap"><canvas id="c_overdue"></canvas></div>
+    </div>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title"><span><span class="icon">&#x1F465;</span> Assigned vs Unassigned</span></div>
+      <div class="chart-wrap"><canvas id="c_assigned"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span><span class="icon">&#x1F4CA;</span> Past Due by Type</span></div>
+      <div class="chart-wrap"><canvas id="c_pd_type"></canvas></div>
+    </div>
+  </div>
+  <div id="criticalTable"></div>
+</div>
+
+<!-- ============ PAGE: FEEDBACK ============ -->
+<div class="page" id="page-feedback">
+  <div id="feedbackCallout"></div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title"><span><span class="icon">&#x1F4CA;</span> Response Rate by App</span></div>
+      <div class="chart-wrap"><canvas id="c_resp_rate"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span><span class="icon">&#x1F4EC;</span> Form Status</span></div>
+      <div class="chart-wrap"><canvas id="c_form_status"></canvas></div>
+    </div>
+  </div>
+  <div id="feedbackDetail"></div>
+</div>
+
+<!-- ============ PAGE: WORKLOAD ============ -->
+<div class="page" id="page-workload">
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title"><span><span class="icon">&#x1F4CA;</span> Assignee Workload</span></div>
+      <div class="chart-wrap"><canvas id="c_workload_full"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span><span class="icon">&#x1F3AF;</span> Closure Rate by Assignee</span></div>
+      <div class="chart-wrap"><canvas id="c_closure_rate"></canvas></div>
+    </div>
+  </div>
+  <div id="workloadTable"></div>
+</div>
+
+<!-- ============ PAGE: TRENDS ============ -->
+<div class="page" id="page-trends">
+  <div class="callout callout-blue">
+    <span>&#x1F4C8;</span> <strong>Historical trends</strong> across all available report dates. Tracks key metrics over time to identify patterns and measure progress.
+  </div>
+  <div class="trend-row" id="trendKPIs"></div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title"><span><span class="icon">&#x1F4C8;</span> Tickets Over Time</span></div>
+      <div class="chart-wrap"><canvas id="c_trend_tickets" style="max-height:300px"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span><span class="icon">&#x1F4C9;</span> Past Due Rate Over Time</span></div>
+      <div class="chart-wrap"><canvas id="c_trend_pastdue" style="max-height:300px"></canvas></div>
+    </div>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title"><span><span class="icon">&#x2705;</span> Closures Over Time</span></div>
+      <div class="chart-wrap"><canvas id="c_trend_closures" style="max-height:300px"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span><span class="icon">&#x1F4AC;</span> Response Rate Over Time</span></div>
+      <div class="chart-wrap"><canvas id="c_trend_response" style="max-height:300px"></canvas></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PAGE: ACTIONS ============ -->
+<div class="page" id="page-actions">
+  <div id="actionsContent"></div>
+</div>
+
+</div><!-- /container -->
+
+<!-- DETAIL PANEL (slide-out) -->
+<div class="overlay" id="overlay" onclick="closePanel()"></div>
+<div class="detail-panel" id="detailPanel">
+  <div class="detail-panel-header">
+    <h3 id="panel-title">Details</h3>
+    <div class="close-btn" onclick="closePanel()">&times;</div>
+  </div>
+  <div class="detail-panel-body" id="panel-body"></div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer" id="footer"></div>
+
+<!-- ===== DATA STORE ===== -->
+<script>
+/*
+ * DAILY_DATA: Each key is a date string (YYYY-MM-DD).
+ * New daily reports append their data here.
+ * The agent writes a new entry each day.
+ */
+const DAILY_DATA = {
+  "2026-04-14": {
+    date: "2026-04-14",
+    dateFormatted: "April 14, 2026",
+    qbo: { open: 51, closed: 5, pastDue: 35, total: 56, widget: 32, api: 24, assigned: 24, unassigned: 11, avgOverdue: 13, maxOverdue: 25 },
+    tto: { open: 34, closed: 5, pastDue: 25, total: 39, widget: 22, api: 17, assigned: 19, unassigned: 6, avgOverdue: 15, maxOverdue: 30 },
+    grand: { open: 85, closed: 10, pastDue: 60, total: 95, onTrack: 25 },
+    newClosuresToday: 8,
+    severity: { critical: { qbo: 4, tto: 7 }, high: { qbo: 27, tto: 16 }, moderate: { qbo: 4, tto: 2 } },
+    feedback: { sent: 11, received: 1, responseRate: 9, qboRate: 0, ttoRate: 20, notSent: 84 },
+    closures: {
+      qbo: [
+        { key: "QBOA-16115", type: "Widget", component: "OIAHeaderItem", assignee: "Avinash Padmanabhan", resolution: "Obsolete", feedback: "Pending" },
+        { key: "QBAA-2244", type: "API", component: "sbseggraphqlorch", assignee: "Jyothi Potluri", resolution: "Duplicate", feedback: "Pending" },
+        { key: "QBAA-2243", type: "API", component: "advancedMatchDetails", assignee: "Jyothi Potluri", resolution: "Duplicate", feedback: "Pending" },
+        { key: "LG01WBPERF-195", type: "API", component: "subscription-sbg-aws", assignee: "Anusha Ragunathan", resolution: "\u2014", feedback: "Pending" }
+      ],
+      tto: [
+        { key: "LG01WBPERF-77", type: "Widget", component: "tto-player", assignee: "David LeRoy", resolution: "Done", priority: "P1: High" },
+        { key: "LG01WBPERF-76", type: "Widget", component: "gtkm/parent", assignee: "Moxiao He", resolution: "Done", priority: "P1: High" },
+        { key: "FTDC-4300", type: "Widget", component: "pro-matching", assignee: "Abhinav Konda", resolution: "\u2014", priority: "P2" },
+        { key: "DATAX-10588", type: "Widget", component: "my-docs/vault", assignee: "Jiwoo Jeong", resolution: "Duplicate", priority: "P2" }
+      ],
+      resolutionBreakdown: { done: 4, duplicate: 3, obsolete: 2, other: 1 },
+      velocity: { qboToday: 4, qboPrev: 1, ttoToday: 4, ttoPrev: 1 }
+    },
+    criticalTickets: [
+      { key: "UIPLATFORM-9447", app: "TTO", type: "Widget", component: "tax-prep/core", assignee: "Gregory Miller", due: "2026-03-15", overdue: 30 },
+      { key: "UIPLATFORM-9445", app: "TTO", type: "Widget", component: "tax-prep/iep", assignee: "Gregory Miller", due: "2026-03-15", overdue: 30 },
+      { key: "NTEX-1881", app: "TTO", type: "Widget", component: "notification-center", assignee: "Ali Vali", due: "2026-03-15", overdue: 30 },
+      { key: "CGCPVA-6110", app: "TTO", type: "Widget", component: "tto-player", assignee: null, due: "2026-03-15", overdue: 30 },
+      { key: "CGCPVA-6109", app: "TTO", type: "Widget", component: "tto-player", assignee: null, due: "2026-03-15", overdue: 30 },
+      { key: "TXP-3389", app: "QBO", type: "Widget", component: "quickfills", assignee: null, due: "2026-03-20", overdue: 25 },
+      { key: "SBGIPD-1729", app: "QBO", type: "Widget", component: "page-message", assignee: "Durga Kandasamy", due: "2026-03-20", overdue: 25 },
+      { key: "CONSUMER-23161", app: "TTO", type: "API", component: "lxor activity", assignee: "Derek Wilson", due: "2026-03-20", overdue: 25 },
+      { key: "CONSUMER-23160", app: "TTO", type: "API", component: "ixp-ff flags", assignee: "Derek Wilson", due: "2026-03-20", overdue: 25 },
+      { key: "AIPA-59", app: "QBO", type: "Widget", component: "iaqb-settings", assignee: null, due: "2026-03-20", overdue: 25 },
+      { key: "AIPA-58", app: "QBO", type: "Widget", component: "toolbox-panel-footer", assignee: null, due: "2026-03-20", overdue: 25 }
+    ],
+    unassigned: {
+      count: 17,
+      critical: [
+        { key: "CGCPVA-6110", app: "TTO", overdue: 30 },
+        { key: "CGCPVA-6109", app: "TTO", overdue: 30 },
+        { key: "TXP-3389", app: "QBO", overdue: 25 },
+        { key: "AIPA-59", app: "QBO", overdue: 25 },
+        { key: "AIPA-58", app: "QBO", overdue: 25 }
+      ],
+      high: [
+        { key: "TTOPLAT-19517", app: "TTO", overdue: 11 },
+        { key: "QBOEA-27669", app: "QBO", overdue: 11 },
+        { key: "QBOEA-27668", app: "QBO", overdue: 11 },
+        { key: "ME-3785", app: "QBO", overdue: 11 },
+        { key: "IXP-26081", app: "TTO", overdue: 11 },
+        { key: "IXP-26080", app: "TTO", overdue: 11 },
+        { key: "IXP-26079", app: "TTO", overdue: 11 },
+        { key: "IIEA-19732", app: "TTO", overdue: 11 },
+        { key: "DATAX-11137", app: "TTO", overdue: 11 },
+        { key: "BDPLT-15941", app: "QBO", overdue: 11 }
+      ]
+    },
+    feedbackDetail: {
+      respondent: "Russell Dean", ticket: "TPDM-2137", app: "TTO", type: "API", component: "uedata.api",
+      responses: [
+        { q: "Issue Relevant?", a: "Yes", insight: "Bot identified a real issue" },
+        { q: "Right Team?", a: "Yes", insight: "Correct routing" },
+        { q: "Already Known?", a: "Yes", insight: "Known \u2014 bot confirmed priority" },
+        { q: "Bot Helpful?", a: "Yes", insight: "Value confirmed" },
+        { q: "Context Enough?", a: "Partially", insight: "Needs more verbose analysis" },
+        { q: "Action Taken", a: "Redirected to another team", insight: "Cross-team dependency" },
+        { q: "Own or Consume?", a: "Consume", insight: "Downstream consumer" },
+        { q: "Improvement?", a: "No", insight: "No perf gain measured yet" },
+        { q: "Data Useful?", a: "Somewhat", insight: "Room for improvement" },
+        { q: "Suggestion", a: "Verbose better", insight: "Increase report detail level" }
+      ]
+    },
+    workload: [
+      { name: "Megha Agrawal", app: "QBO", open: 12, pastDue: 9, closed: 0, total: 12, pct: 100, status: "Overloaded", statusColor: "red" },
+      { name: "Puneet Bhagat", app: "QBO", open: 10, pastDue: 8, closed: 0, total: 10, pct: 83, status: "Overloaded", statusColor: "red" },
+      { name: "Derek Wilson", app: "TTO", open: 8, pastDue: 8, closed: 0, total: 8, pct: 67, status: "Heavy", statusColor: "amber" },
+      { name: "Erica Hang", app: "QBO", open: 5, pastDue: 4, closed: 0, total: 5, pct: 42, status: "Moderate", statusColor: "amber" },
+      { name: "Anand Mattikopp", app: "QBO", open: 4, pastDue: 2, closed: 0, total: 4, pct: 33, status: "Normal", statusColor: "blue" },
+      { name: "Lester Gloria", app: "TTO", open: 3, pastDue: 0, closed: 0, total: 3, pct: 25, status: "Normal", statusColor: "blue" },
+      { name: "Ali Vali", app: "TTO", open: 3, pastDue: 3, closed: 0, total: 3, pct: 25, status: "All Past Due", statusColor: "amber" },
+      { name: "Durga Kandasamy", app: "QBO", open: 4, pastDue: 1, closed: 0, total: 4, pct: 33, status: "Normal", statusColor: "blue" },
+      { name: "David LeRoy", app: "TTO", open: 2, pastDue: 2, closed: 1, total: 3, pct: 25, status: "Closing", statusColor: "green" },
+      { name: "Bhavin Bhatia", app: "QBO", open: 2, pastDue: 2, closed: 0, total: 2, pct: 17, status: "Normal", statusColor: "blue" }
+    ],
+    closureLeaders: [
+      { name: "David L.", count: 1 }, { name: "Aman K.", count: 1 }, { name: "Russell D.", count: 1 },
+      { name: "Jyothi P.", count: 2 }, { name: "Anusha R.", count: 1 }, { name: "Others", count: 4 }
+    ],
+    actions: [
+      { priority: "Urgent", color: "red", text: "Escalate 11 critical past-due tickets (25-30 days overdue)" },
+      { priority: "Urgent", color: "red", text: "Triage 17 unassigned tickets \u2014 assign owners to enable blocker forms" },
+      { priority: "High", color: "amber", text: "Send blocker forms for 43 assigned past-due tickets (next agent run)" },
+      { priority: "High", color: "amber", text: "Follow up on QBO feedback \u2014 0% response rate needs direct outreach" },
+      { priority: "Normal", color: "blue", text: "Increase verbosity in nightly agentic reports (per Russell Dean\u2019s feedback)" },
+      { priority: "Normal", color: "blue", text: "Monitor workload for Megha Agrawal (12 tickets) and Puneet Bhagat (10 tickets)" }
+    ],
+    agentActions: {
+      nextRun: "2026-04-15 09:00 IST",
+      blockerForms: 43,
+      remindersDue: 0,
+      firstReminders: "2026-04-16"
+    },
+    recommendations: [
+      { label: "Report Verbosity", value: "Increase for API tickets" },
+      { label: "Routing Context", value: "Add cross-team info" },
+      { label: "Duplicate Detection", value: "3 of 10 closed = Duplicate" },
+      { label: "QBO Response Rate", value: "0% \u2014 needs intervention", alert: true }
+    ]
+  }
+};
+// ^^^ NEW DAILY DATA ENTRIES GET APPENDED ABOVE THIS LINE ^^^
+</script>
+
+<!-- ===== RENDERING ENGINE ===== -->
+<script>
+const B='#1A73E8',G='#34A853',R='#EA4335',A='#F9AB00',P='#9C27B0',T='#00897B',GR='#9AA0A6',LG='#E8EAED';
+Chart.register(ChartDataLabels);
+Chart.defaults.plugins.datalabels.display = false;
+
+let currentDate = null;
+let chartInstances = {};
+
+// ===== DATE MANAGEMENT =====
+function getAvailableDates() {
+  return Object.keys(DAILY_DATA).sort();
+}
+
+function populateDateSelect() {
+  const select = document.getElementById('dateSelect');
+  const dates = getAvailableDates();
+  select.innerHTML = '';
+  dates.forEach(d => {
+    const opt = document.createElement('option');
+    opt.value = d;
+    opt.textContent = DAILY_DATA[d].dateFormatted || d;
+    select.appendChild(opt);
+  });
+  document.getElementById('availDates').textContent = dates.length;
+}
+
+function navigateDay(dir) {
+  const dates = getAvailableDates();
+  const idx = dates.indexOf(currentDate);
+  const newIdx = idx + dir;
+  if (newIdx >= 0 && newIdx < dates.length) {
+    loadDate(dates[newIdx]);
+  }
+}
+
+function updateNavButtons() {
+  const dates = getAvailableDates();
+  const idx = dates.indexOf(currentDate);
+  document.getElementById('prevDay').disabled = idx <= 0;
+  document.getElementById('nextDay').disabled = idx >= dates.length - 1;
+}
+
+function loadDate(dateStr) {
+  const data = DAILY_DATA[dateStr];
+  if (!data) return;
+  currentDate = dateStr;
+
+  document.getElementById('dateSelect').value = dateStr;
+  document.getElementById('dateLabel').textContent = data.dateFormatted || dateStr;
+  document.getElementById('lastRefreshed').textContent = `Viewing: ${data.dateFormatted || dateStr}`;
+  document.title = `App Intelligence Dashboard \u2014 ${dateStr}`;
+  updateNavButtons();
+
+  // Update badges
+  document.getElementById('badge-closures').textContent = data.newClosuresToday || 0;
+  document.getElementById('badge-pastdue').textContent = data.grand.pastDue || 0;
+
+  // Render all sections
+  renderKPIs(data);
+  renderScorecard(data);
+  renderClosures(data);
+  renderPastDue(data);
+  renderFeedback(data);
+  renderWorkload(data);
+  renderActions(data);
+  renderFooter(data);
+
+  // Destroy old charts then create new ones
+  Object.values(chartInstances).forEach(c => c.destroy());
+  chartInstances = {};
+  renderCharts(data);
+  renderTrends();
+}
+
+// ===== RENDER FUNCTIONS =====
+
+function renderKPIs(d) {
+  const pdRate = d.grand.open > 0 ? Math.round(d.grand.pastDue / d.grand.open * 100) : 0;
+  const closureRate = Math.round(d.grand.closed / d.grand.total * 100 * 10) / 10;
+  document.getElementById('kpiRow').innerHTML = `
+    <div class="kpi-card c-blue" onclick="showPage('pastdue')">
+      <div class="kpi-value" style="color:var(--blue)">${d.grand.total}</div>
+      <div class="kpi-label">Total Tickets</div>
+      <div class="kpi-change">QBO: ${d.qbo.total} | TTO: ${d.tto.total}</div>
+    </div>
+    <div class="kpi-card c-green" onclick="showPage('closures')">
+      <div class="kpi-value" style="color:var(--green)">${d.grand.closed}</div>
+      <div class="kpi-change up">+${d.newClosuresToday} today</div>
+      <div class="kpi-label">Closed</div>
+      <div class="kpi-bar"><div class="kpi-bar-fill" style="width:${closureRate}%;background:var(--green)"></div></div>
+    </div>
+    <div class="kpi-card c-red" onclick="showPage('pastdue')">
+      <div class="kpi-value" style="color:var(--red)">${d.grand.pastDue}</div>
+      <div class="kpi-change down">${pdRate}% of open</div>
+      <div class="kpi-label">Past Due</div>
+      <div class="kpi-bar"><div class="kpi-bar-fill" style="width:${pdRate}%;background:var(--red)"></div></div>
+    </div>
+    <div class="kpi-card c-amber" onclick="showPage('feedback')">
+      <div class="kpi-value" style="color:var(--amber)">${d.feedback.responseRate}%</div>
+      <div class="kpi-change down">${d.feedback.received} of ${d.feedback.sent}</div>
+      <div class="kpi-label">Response Rate</div>
+      <div class="kpi-bar"><div class="kpi-bar-fill" style="width:${d.feedback.responseRate}%;background:var(--amber)"></div></div>
+    </div>
+    <div class="kpi-card c-purple" onclick="showPage('closures')">
+      <div class="kpi-value" style="color:var(--purple)">${d.newClosuresToday}</div>
+      <div class="kpi-change up">Today</div>
+      <div class="kpi-label">New Closures</div>
+    </div>
+    <div class="kpi-card c-teal" onclick="openPanel('unassigned')">
+      <div class="kpi-value" style="color:var(--teal)">${d.unassigned.count}</div>
+      <div class="kpi-change down">Need triage</div>
+      <div class="kpi-label">Unassigned</div>
+    </div>
+  `;
+}
+
+function renderScorecard(d) {
+  const qboPD = d.qbo.open > 0 ? Math.round(d.qbo.pastDue / d.qbo.open * 100) : 0;
+  const ttoPD = d.tto.open > 0 ? Math.round(d.tto.pastDue / d.tto.open * 100) : 0;
+  const qboHealth = qboPD > 70 ? ['b-red','Critical'] : qboPD > 50 ? ['b-amber','Needs Attention'] : ['b-green','Healthy'];
+  const ttoHealth = ttoPD > 70 ? ['b-red','Critical'] : ttoPD > 50 ? ['b-amber','Needs Attention'] : ['b-green','Healthy'];
+  document.getElementById('scorecardTable').innerHTML = `
+    <table>
+      <tr><th>Web App</th><th>Open</th><th>Closed</th><th>Past Due</th><th>% Past Due</th><th>Avg Overdue</th><th>Max Overdue</th><th>Health</th></tr>
+      <tr>
+        <td><strong>QBO</strong></td><td>${d.qbo.open}</td><td>${d.qbo.closed}</td><td>${d.qbo.pastDue}</td>
+        <td><div class="mini-bar"><div class="mini-fill" style="width:${qboPD}%;background:var(--${qboPD>70?'red':'amber'})"></div></div> ${qboPD}%</td>
+        <td>${d.qbo.avgOverdue} days</td><td>${d.qbo.maxOverdue} days</td>
+        <td><span class="badge ${qboHealth[0]}">${qboHealth[1]}</span></td>
+      </tr>
+      <tr>
+        <td><strong>TTO</strong></td><td>${d.tto.open}</td><td>${d.tto.closed}</td><td>${d.tto.pastDue}</td>
+        <td><div class="mini-bar"><div class="mini-fill" style="width:${ttoPD}%;background:var(--${ttoPD>70?'red':'amber'})"></div></div> ${ttoPD}%</td>
+        <td>${d.tto.avgOverdue} days</td><td>${d.tto.maxOverdue} days</td>
+        <td><span class="badge ${ttoHealth[0]}">${ttoHealth[1]}</span></td>
+      </tr>
+    </table>`;
+}
+
+function renderClosures(d) {
+  const c = d.closures;
+  document.getElementById('closuresCallout').innerHTML = `
+    <div class="callout callout-green">
+      <span>&#x2705;</span> <strong>${d.newClosuresToday} tickets closed today</strong> (QBO: ${c.qbo.length}, TTO: ${c.tto.length}).
+    </div>`;
+
+  let html = '<div class="card"><div class="card-title"><span><span class="icon">&#x1F4CB;</span> QBO Closures ('+c.qbo.length+')</span></div><table>';
+  html += '<tr><th>JIRA Key</th><th>Type</th><th>Component</th><th>Assignee</th><th>Resolution</th><th>Feedback</th></tr>';
+  c.qbo.forEach(t => {
+    const typeBadge = t.type === 'Widget' ? 'b-blue' : 'b-purple';
+    html += `<tr><td><strong>${t.key}</strong></td><td><span class="badge ${typeBadge}">${t.type}</span></td><td>${t.component}</td><td>${t.assignee}</td><td><span class="badge b-gray">${t.resolution}</span></td><td><span class="badge b-amber">${t.feedback}</span></td></tr>`;
+  });
+  html += '</table></div>';
+
+  html += '<div class="card" style="margin-top:18px"><div class="card-title"><span><span class="icon">&#x1F4CB;</span> TTO Closures ('+c.tto.length+')</span></div><table>';
+  html += '<tr><th>JIRA Key</th><th>Type</th><th>Component</th><th>Assignee</th><th>Resolution</th><th>Priority</th></tr>';
+  c.tto.forEach(t => {
+    const typeBadge = t.type === 'Widget' ? 'b-blue' : 'b-purple';
+    const priBadge = (t.priority||'').includes('P1') ? 'b-red' : 'b-gray';
+    html += `<tr><td><strong>${t.key}</strong></td><td><span class="badge ${typeBadge}">${t.type}</span></td><td>${t.component}</td><td>${t.assignee}</td><td><span class="badge b-green">${t.resolution}</span></td><td><span class="badge ${priBadge}">${t.priority||'\u2014'}</span></td></tr>`;
+  });
+  html += '</table></div>';
+  document.getElementById('closuresTables').innerHTML = html;
+}
+
+function renderPastDue(d) {
+  document.getElementById('pastdueCallout').innerHTML = `
+    <div class="callout callout-red">
+      <span>&#x1F6A8;</span> <strong>${d.grand.pastDue} of ${d.grand.open} open tickets (${Math.round(d.grand.pastDue/d.grand.open*100)}%) are past their due date.</strong> ${d.unassigned.count} are unassigned.
+    </div>`;
+
+  let html = '<div class="card"><div class="card-title"><span><span class="icon">&#x1F6A8;</span> Critical Tickets (25-30 days overdue)</span></div><table>';
+  html += '<tr><th>JIRA Key</th><th>App</th><th>Type</th><th>Component</th><th>Assignee</th><th>Due Date</th><th>Overdue</th></tr>';
+  d.criticalTickets.forEach(t => {
+    const typeBadge = t.type === 'Widget' ? 'b-blue' : 'b-purple';
+    const assignee = t.assignee || '<em style="color:var(--red)">Unassigned</em>';
+    html += `<tr><td><strong>${t.key}</strong></td><td>${t.app}</td><td><span class="badge ${typeBadge}">${t.type}</span></td><td>${t.component}</td><td>${assignee}</td><td>${t.due}</td><td><span class="badge b-red">${t.overdue}d</span></td></tr>`;
+  });
+  html += '</table></div>';
+  document.getElementById('criticalTable').innerHTML = html;
+}
+
+function renderFeedback(d) {
+  const fb = d.feedbackDetail;
+  document.getElementById('feedbackCallout').innerHTML = `
+    <div class="callout callout-blue">
+      <span>&#x1F4AC;</span> <strong>${d.feedback.received} of ${d.feedback.sent} feedback forms returned (${d.feedback.responseRate}% response rate).</strong> QBO: ${d.feedback.qboRate}%, TTO: ${d.feedback.ttoRate}%.
+    </div>`;
+
+  let html = `<div class="card"><div class="card-title"><span><span class="icon">&#x1F50D;</span> Feedback: ${fb.ticket} (${fb.app}/${fb.type})</span></div>
+    <div class="callout callout-green" style="margin-bottom:14px"><span>&#x1F4DD;</span> <strong>${fb.respondent}</strong> | ${fb.component}</div>
+    <table><tr><th>Question</th><th>Response</th><th>Insight</th></tr>`;
+  fb.responses.forEach(r => {
+    const badge = r.a === 'Yes' ? 'b-green' : r.a === 'No' ? 'b-red' : r.a === 'Partially' || r.a === 'Somewhat' ? 'b-amber' : 'b-gray';
+    const isShort = ['Yes','No','Partially','Somewhat'].includes(r.a);
+    html += `<tr><td>${r.q}</td><td>${isShort ? '<span class="badge '+badge+'">'+r.a+'</span>' : r.a}</td><td>${r.insight}</td></tr>`;
+  });
+  html += '</table></div>';
+  document.getElementById('feedbackDetail').innerHTML = html;
+}
+
+function renderWorkload(d) {
+  let html = '<div class="card"><div class="card-title"><span><span class="icon">&#x1F465;</span> Full Assignee Breakdown</span></div><table>';
+  html += '<tr><th>Assignee</th><th>Web App</th><th>Open</th><th>Past Due</th><th>Closed</th><th>Total</th><th>Load</th><th>Status</th></tr>';
+  d.workload.forEach(w => {
+    html += `<tr><td><strong>${w.name}</strong></td><td>${w.app}</td><td>${w.open}</td><td>${w.pastDue}</td><td>${w.closed}</td><td>${w.total}</td><td><div class="mini-bar"><div class="mini-fill" style="width:${w.pct}%;background:var(--${w.statusColor})"></div></div></td><td><span class="badge b-${w.statusColor}">${w.status}</span></td></tr>`;
+  });
+  html += '</table></div>';
+  document.getElementById('workloadTable').innerHTML = html;
+}
+
+function renderActions(d) {
+  let html = '<div class="card"><div class="card-title"><span><span class="icon">&#x1F3AF;</span> Priority Actions</span></div>';
+  d.actions.forEach(a => {
+    html += `<div class="action-item"><div class="action-dot" style="background:var(--${a.color})"></div><div class="action-text">${a.text}</div><span class="action-tag b-${a.color}">${a.priority}</span></div>`;
+  });
+  html += '</div>';
+
+  html += '<div class="grid-2" style="margin-top:18px"><div class="card"><div class="card-title"><span><span class="icon">&#x1F4C5;</span> Upcoming Agent Actions</span></div>';
+  html += `<div class="metric-row"><span class="metric-label">Next Run</span><span class="metric-value">${d.agentActions.nextRun}</span></div>`;
+  html += `<div class="metric-row"><span class="metric-label">Blocker Forms to Send</span><span class="metric-value">${d.agentActions.blockerForms} (assigned past-due)</span></div>`;
+  html += `<div class="metric-row"><span class="metric-label">Reminders Due</span><span class="metric-value">${d.agentActions.remindersDue}</span></div>`;
+  html += `<div class="metric-row"><span class="metric-label">First Reminders Eligible</span><span class="metric-value">${d.agentActions.firstReminders}</span></div>`;
+  html += '</div><div class="card"><div class="card-title"><span><span class="icon">&#x1F4DD;</span> Key Recommendations</span></div>';
+  d.recommendations.forEach(r => {
+    const style = r.alert ? ' style="color:var(--red)"' : '';
+    html += `<div class="metric-row"><span class="metric-label">${r.label}</span><span class="metric-value"${style}>${r.value}</span></div>`;
+  });
+  html += '</div></div>';
+  document.getElementById('actionsContent').innerHTML = html;
+}
+
+function renderFooter(d) {
+  document.getElementById('footer').textContent = `App Intelligence Agent | ${d.dateFormatted} | Auto-generated | Data source: JIRA + Smartsheet`;
+}
+
+// ===== CHARTS =====
+const dOpts = { responsive:true, maintainAspectRatio:false, plugins:{ legend:{position:'bottom',labels:{usePointStyle:true,padding:14,font:{size:11}}}} };
+
+function renderCharts(d) {
+  const qboOnTrack = d.qbo.open - d.qbo.pastDue;
+  const ttoOnTrack = d.tto.open - d.tto.pastDue;
+
+  chartInstances.health = new Chart(document.getElementById('c_health'), {
+    type:'bar', data:{ labels:['QBO','TTO'],
+      datasets:[
+        {label:'On Track',data:[qboOnTrack,ttoOnTrack],backgroundColor:B,borderRadius:6},
+        {label:'Past Due',data:[d.qbo.pastDue,d.tto.pastDue],backgroundColor:R,borderRadius:6},
+        {label:'Closed',data:[d.qbo.closed,d.tto.closed],backgroundColor:G,borderRadius:6}
+      ]},
+    options:{...dOpts, scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,beginAtZero:true,grid:{color:'#f0f0f0'}}},
+      plugins:{...dOpts.plugins, datalabels:{display:true,color:'#fff',font:{weight:'bold',size:12},formatter:(v)=>v>3?v:''}}}
+  });
+
+  chartInstances.donut = new Chart(document.getElementById('c_donut'), {
+    type:'doughnut', data:{ labels:[`On Track (${d.grand.onTrack})`,`Past Due (${d.grand.pastDue})`,`Closed (${d.grand.closed})`],
+      datasets:[{data:[d.grand.onTrack,d.grand.pastDue,d.grand.closed],backgroundColor:[B,R,G],borderWidth:3,borderColor:'#fff',hoverOffset:8}]},
+    options:{...dOpts, cutout:'60%',
+      plugins:{...dOpts.plugins, datalabels:{display:true,color:'#fff',font:{weight:'bold',size:13},formatter:(v)=>Math.round(v/d.grand.total*100)+'%'}}}
+  });
+
+  chartInstances.severity = new Chart(document.getElementById('c_severity'), {
+    type:'bar', data:{ labels:['Critical\n25-30d','High\n11-19d','Moderate\n1-10d'],
+      datasets:[
+        {label:'QBO',data:[d.severity.critical.qbo,d.severity.high.qbo,d.severity.moderate.qbo],backgroundColor:B,borderRadius:6},
+        {label:'TTO',data:[d.severity.critical.tto,d.severity.high.tto,d.severity.moderate.tto],backgroundColor:A,borderRadius:6}
+      ]},
+    options:{...dOpts, indexAxis:'y', scales:{x:{beginAtZero:true,grid:{color:'#f0f0f0'}},y:{grid:{display:false}}},
+      plugins:{...dOpts.plugins, datalabels:{display:true,anchor:'end',align:'right',color:'#333',font:{weight:'bold',size:11}}}}
+  });
+
+  chartInstances.funnel = new Chart(document.getElementById('c_funnel'), {
+    type:'bar', data:{ labels:['Total Tickets','Forms Sent','Responses','Acted On'],
+      datasets:[{data:[d.grand.total,d.feedback.sent,d.feedback.received,0],backgroundColor:[B,A,G,P],borderRadius:6}]},
+    options:{...dOpts, plugins:{...dOpts.plugins,legend:{display:false},
+      datalabels:{display:true,anchor:'end',align:'top',color:'#333',font:{weight:'bold',size:13}}},
+      scales:{y:{beginAtZero:true,grid:{color:'#f0f0f0'}},x:{grid:{display:false}}}}
+  });
+
+  const totalAPI = d.qbo.api + d.tto.api;
+  const totalWidget = d.qbo.widget + d.tto.widget;
+  chartInstances.type = new Chart(document.getElementById('c_type'), {
+    type:'pie', data:{ labels:[`API (${totalAPI})`,`Widget (${totalWidget})`],
+      datasets:[{data:[totalAPI,totalWidget],backgroundColor:[B,A],borderWidth:3,borderColor:'#fff',hoverOffset:8}]},
+    options:{...dOpts, plugins:{...dOpts.plugins,
+      datalabels:{display:true,color:'#fff',font:{weight:'bold',size:14},formatter:(v)=>Math.round(v/d.grand.total*100)+'%'}}}
+  });
+
+  const topW = d.workload.slice(0, 5);
+  chartInstances.workloadMini = new Chart(document.getElementById('c_workload_mini'), {
+    type:'bar', data:{ labels:topW.map(w=>w.name.split(' ')[0]+' '+w.name.split(' ')[1][0]+'.'),
+      datasets:[
+        {label:'Past Due',data:topW.map(w=>w.pastDue),backgroundColor:R,borderRadius:4},
+        {label:'On Track',data:topW.map(w=>w.open-w.pastDue),backgroundColor:B,borderRadius:4}
+      ]},
+    options:{...dOpts, indexAxis:'y', scales:{x:{stacked:true,beginAtZero:true,grid:{color:'#f0f0f0'}},y:{stacked:true,grid:{display:false}}},
+      plugins:{...dOpts.plugins, datalabels:{display:false}}}
+  });
+
+  // Closures charts
+  const cv = d.closures.velocity;
+  chartInstances.velocity = new Chart(document.getElementById('c_velocity'), {
+    type:'bar', data:{ labels:['QBO','TTO'],
+      datasets:[
+        {label:'Closed Today',data:[cv.qboToday,cv.ttoToday],backgroundColor:G,borderRadius:6},
+        {label:'Previously Closed',data:[cv.qboPrev,cv.ttoPrev],backgroundColor:'#A5D6A7',borderRadius:6}
+      ]},
+    options:{...dOpts, scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,beginAtZero:true,grid:{color:'#f0f0f0'}}},
+      plugins:{...dOpts.plugins, datalabels:{display:true,color:'#fff',font:{weight:'bold',size:14}}}}
+  });
+
+  const rb = d.closures.resolutionBreakdown;
+  chartInstances.resolution = new Chart(document.getElementById('c_resolution'), {
+    type:'doughnut', data:{ labels:[`Done (${rb.done})`,`Duplicate (${rb.duplicate})`,`Obsolete (${rb.obsolete})`,`Other (${rb.other})`],
+      datasets:[{data:[rb.done,rb.duplicate,rb.obsolete,rb.other],backgroundColor:[G,GR,A,B],borderWidth:3,borderColor:'#fff',hoverOffset:8}]},
+    options:{...dOpts, cutout:'55%', plugins:{...dOpts.plugins,
+      datalabels:{display:true,color:'#fff',font:{weight:'bold',size:12}}}}
+  });
+
+  // Past Due charts
+  const sev = d.severity;
+  const totalCrit = sev.critical.qbo + sev.critical.tto;
+  const totalHigh = sev.high.qbo + sev.high.tto;
+  const totalMod = sev.moderate.qbo + sev.moderate.tto;
+  chartInstances.sev2 = new Chart(document.getElementById('c_sev2'), {
+    type:'polarArea', data:{ labels:[`Critical 25-30d (${totalCrit})`,`High 11-19d (${totalHigh})`,`Moderate 1-10d (${totalMod})`],
+      datasets:[{data:[totalCrit,totalHigh,totalMod],backgroundColor:['rgba(234,67,53,0.7)','rgba(249,171,0,0.7)','rgba(26,115,232,0.7)'],borderWidth:2,borderColor:'#fff'}]},
+    options:{...dOpts, plugins:{...dOpts.plugins,
+      datalabels:{display:true,color:'#333',font:{weight:'bold',size:13}}}}
+  });
+
+  chartInstances.overdue = new Chart(document.getElementById('c_overdue'), {
+    type:'bar', data:{ labels:['QBO','TTO'],
+      datasets:[
+        {label:'Avg Overdue',data:[d.qbo.avgOverdue,d.tto.avgOverdue],backgroundColor:A,borderRadius:6},
+        {label:'Max Overdue',data:[d.qbo.maxOverdue,d.tto.maxOverdue],backgroundColor:R,borderRadius:6}
+      ]},
+    options:{...dOpts, scales:{y:{beginAtZero:true,title:{display:true,text:'Days'},grid:{color:'#f0f0f0'}},x:{grid:{display:false}}},
+      plugins:{...dOpts.plugins, datalabels:{display:true,anchor:'end',align:'top',color:'#333',font:{weight:'bold',size:12},formatter:v=>v+'d'}}}
+  });
+
+  chartInstances.assigned = new Chart(document.getElementById('c_assigned'), {
+    type:'bar', data:{ labels:['QBO','TTO'],
+      datasets:[
+        {label:'Assigned',data:[d.qbo.assigned,d.tto.assigned],backgroundColor:A,borderRadius:6},
+        {label:'Unassigned',data:[d.qbo.unassigned,d.tto.unassigned],backgroundColor:GR,borderRadius:6}
+      ]},
+    options:{...dOpts, scales:{y:{beginAtZero:true,grid:{color:'#f0f0f0'}},x:{grid:{display:false}}},
+      plugins:{...dOpts.plugins, datalabels:{display:true,anchor:'end',align:'top',color:'#333',font:{weight:'bold',size:12}}}}
+  });
+
+  const apiPD = d.qbo.api + d.tto.api;  // approximate
+  const widgetPD = d.qbo.widget + d.tto.widget;
+  chartInstances.pdType = new Chart(document.getElementById('c_pd_type'), {
+    type:'doughnut', data:{ labels:['API Past Due','Widget Past Due'],
+      datasets:[{data:[apiPD > widgetPD ? 35 : apiPD, widgetPD > apiPD ? 25 : widgetPD],backgroundColor:[B,A],borderWidth:3,borderColor:'#fff',hoverOffset:8}]},
+    options:{...dOpts, cutout:'55%', plugins:{...dOpts.plugins,
+      datalabels:{display:true,color:'#fff',font:{weight:'bold',size:14},formatter:(v)=>v}}}
+  });
+
+  // Feedback charts
+  chartInstances.respRate = new Chart(document.getElementById('c_resp_rate'), {
+    type:'bar', data:{ labels:['QBO','TTO','Overall'],
+      datasets:[{label:'Response Rate %',data:[d.feedback.qboRate,d.feedback.ttoRate,d.feedback.responseRate],backgroundColor:[R,G,A],borderRadius:6}]},
+    options:{...dOpts, scales:{y:{beginAtZero:true,max:100,title:{display:true,text:'%'},grid:{color:'#f0f0f0'}},x:{grid:{display:false}}},
+      plugins:{...dOpts.plugins,legend:{display:false},
+      datalabels:{display:true,anchor:'end',align:'top',color:'#333',font:{weight:'bold',size:14},formatter:v=>v+'%'}}}
+  });
+
+  chartInstances.formStatus = new Chart(document.getElementById('c_form_status'), {
+    type:'doughnut', data:{ labels:[`Received (${d.feedback.received})`,`Pending (${d.feedback.sent - d.feedback.received})`,`Not Sent (${d.feedback.notSent})`],
+      datasets:[{data:[d.feedback.received,d.feedback.sent-d.feedback.received,d.feedback.notSent],backgroundColor:[G,A,LG],borderWidth:3,borderColor:'#fff'}]},
+    options:{...dOpts, cutout:'60%', plugins:{...dOpts.plugins,
+      datalabels:{display:true,color:'#333',font:{weight:'bold',size:11},formatter:(v,c)=>c.chart.data.labels[c.dataIndex]}}}
+  });
+
+  // Workload charts
+  chartInstances.workloadFull = new Chart(document.getElementById('c_workload_full'), {
+    type:'bar', data:{ labels:d.workload.map(w=>w.name.split(' ')[0]+' '+w.name.split(' ')[1][0]+'.'),
+      datasets:[
+        {label:'Past Due',data:d.workload.map(w=>w.pastDue),backgroundColor:R,borderRadius:4},
+        {label:'On Track',data:d.workload.map(w=>w.open-w.pastDue),backgroundColor:B,borderRadius:4},
+        {label:'Closed',data:d.workload.map(w=>w.closed),backgroundColor:G,borderRadius:4}
+      ]},
+    options:{...dOpts, indexAxis:'y', scales:{x:{stacked:true,beginAtZero:true,grid:{color:'#f0f0f0'}},y:{stacked:true,grid:{display:false}}},
+      plugins:{...dOpts.plugins, datalabels:{display:false}}}
+  });
+
+  chartInstances.closureRate = new Chart(document.getElementById('c_closure_rate'), {
+    type:'bar', data:{ labels:d.closureLeaders.map(l=>l.name),
+      datasets:[{label:'Tickets Closed',data:d.closureLeaders.map(l=>l.count),backgroundColor:[G,'#66BB6A','#81C784','#A5D6A7','#C8E6C9','#E8F5E9'],borderRadius:6}]},
+    options:{...dOpts, plugins:{...dOpts.plugins,legend:{display:false},
+      datalabels:{display:true,anchor:'end',align:'top',color:'#333',font:{weight:'bold',size:12}}},
+      scales:{y:{beginAtZero:true,grid:{color:'#f0f0f0'}},x:{grid:{display:false}}}}
+  });
+}
+
+// ===== TRENDS (cross-day) =====
+function renderTrends() {
+  // Destroy old trend charts
+  ['trendTickets','trendPastdue','trendClosures','trendResponse'].forEach(k => {
+    if(chartInstances[k]) chartInstances[k].destroy();
+  });
+
+  const dates = getAvailableDates();
+  const labels = dates.map(d => DAILY_DATA[d].dateFormatted || d);
+  const totals = dates.map(d => DAILY_DATA[d].grand.total);
+  const opens = dates.map(d => DAILY_DATA[d].grand.open);
+  const closeds = dates.map(d => DAILY_DATA[d].grand.closed);
+  const pastDues = dates.map(d => DAILY_DATA[d].grand.pastDue);
+  const pdRates = dates.map(d => {
+    const dd = DAILY_DATA[d];
+    return dd.grand.open > 0 ? Math.round(dd.grand.pastDue / dd.grand.open * 100) : 0;
+  });
+  const newClosures = dates.map(d => DAILY_DATA[d].newClosuresToday);
+  const respRates = dates.map(d => DAILY_DATA[d].feedback.responseRate);
+
+  // Trend KPI cards
+  const latest = DAILY_DATA[dates[dates.length - 1]];
+  const prev = dates.length > 1 ? DAILY_DATA[dates[dates.length - 2]] : null;
+  document.getElementById('trendKPIs').innerHTML = dates.length > 1 ? `
+    <div class="trend-card">
+      <div class="trend-card-value" style="color:var(--blue)">${latest.grand.total}</div>
+      <div class="trend-card-label">Total Tickets</div>
+      ${prev ? `<div style="font-size:11px;color:${latest.grand.total > prev.grand.total ? 'var(--red)' : 'var(--green)'}; margin-top:4px">${latest.grand.total > prev.grand.total ? '\u25B2' : '\u25BC'} ${Math.abs(latest.grand.total - prev.grand.total)} from prev</div>` : ''}
+    </div>
+    <div class="trend-card">
+      <div class="trend-card-value" style="color:var(--red)">${pdRates[pdRates.length-1]}%</div>
+      <div class="trend-card-label">Past Due Rate</div>
+      ${prev ? `<div style="font-size:11px;color:${pdRates[pdRates.length-1] > pdRates[pdRates.length-2] ? 'var(--red)' : 'var(--green)'}; margin-top:4px">${pdRates[pdRates.length-1] > pdRates[pdRates.length-2] ? '\u25B2' : '\u25BC'} ${Math.abs(pdRates[pdRates.length-1] - pdRates[pdRates.length-2])}pp from prev</div>` : ''}
+    </div>
+    <div class="trend-card">
+      <div class="trend-card-value" style="color:var(--green)">${closeds[closeds.length-1]}</div>
+      <div class="trend-card-label">Total Closed</div>
+    </div>
+    <div class="trend-card">
+      <div class="trend-card-value" style="color:var(--amber)">${respRates[respRates.length-1]}%</div>
+      <div class="trend-card-label">Response Rate</div>
+    </div>
+  ` : '<div class="callout callout-amber"><span>&#x1F4C5;</span> <strong>Trends require at least 2 days of data.</strong> Check back tomorrow for historical comparisons.</div>';
+
+  const trendOpts = {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 14, font: { size: 11 } } }, datalabels: { display: false } },
+    scales: { y: { beginAtZero: true, grid: { color: '#f0f0f0' } }, x: { grid: { display: false } } }
+  };
+
+  chartInstances.trendTickets = new Chart(document.getElementById('c_trend_tickets'), {
+    type: 'line', data: { labels,
+      datasets: [
+        { label: 'Total', data: totals, borderColor: B, backgroundColor: 'rgba(26,115,232,0.1)', fill: true, tension: 0.3, pointRadius: 5, pointBackgroundColor: B },
+        { label: 'Open', data: opens, borderColor: A, backgroundColor: 'transparent', tension: 0.3, pointRadius: 4, borderDash: [5,3] },
+        { label: 'Closed', data: closeds, borderColor: G, backgroundColor: 'transparent', tension: 0.3, pointRadius: 4 }
+      ]},
+    options: trendOpts
+  });
+
+  chartInstances.trendPastdue = new Chart(document.getElementById('c_trend_pastdue'), {
+    type: 'line', data: { labels,
+      datasets: [
+        { label: 'Past Due Rate %', data: pdRates, borderColor: R, backgroundColor: 'rgba(234,67,53,0.1)', fill: true, tension: 0.3, pointRadius: 5, pointBackgroundColor: R },
+        { label: 'Past Due Count', data: pastDues, borderColor: A, backgroundColor: 'transparent', tension: 0.3, pointRadius: 4, yAxisID: 'y1' }
+      ]},
+    options: {
+      ...trendOpts,
+      scales: {
+        ...trendOpts.scales,
+        y: { ...trendOpts.scales.y, title: { display: true, text: 'Rate %' } },
+        y1: { position: 'right', beginAtZero: true, grid: { display: false }, title: { display: true, text: 'Count' } }
+      }
+    }
+  });
+
+  chartInstances.trendClosures = new Chart(document.getElementById('c_trend_closures'), {
+    type: 'bar', data: { labels,
+      datasets: [
+        { label: 'New Closures', data: newClosures, backgroundColor: G, borderRadius: 6 }
+      ]},
+    options: trendOpts
+  });
+
+  chartInstances.trendResponse = new Chart(document.getElementById('c_trend_response'), {
+    type: 'line', data: { labels,
+      datasets: [
+        { label: 'Response Rate %', data: respRates, borderColor: A, backgroundColor: 'rgba(249,171,0,0.1)', fill: true, tension: 0.3, pointRadius: 5, pointBackgroundColor: A }
+      ]},
+    options: { ...trendOpts, scales: { ...trendOpts.scales, y: { ...trendOpts.scales.y, max: 100, title: { display: true, text: '%' } } } }
+  });
+}
+
+// ===== NAVIGATION =====
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => {
+    const txt = t.textContent.toLowerCase();
+    if(txt.includes(id.substring(0,4))) t.classList.add('active');
+  });
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function setFilter(val, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ===== DETAIL PANEL =====
+function openPanel(type) {
+  const panel = document.getElementById('detailPanel');
+  const overlay = document.getElementById('overlay');
+  const title = document.getElementById('panel-title');
+  const body = document.getElementById('panel-body');
+  const d = DAILY_DATA[currentDate];
+
+  if(type === 'unassigned' && d.unassigned) {
+    title.textContent = `Unassigned Tickets (${d.unassigned.count})`;
+    let html = '<div class="callout callout-red" style="margin-bottom:16px">These tickets cannot receive blocker feedback forms until assigned.</div>';
+    if(d.unassigned.critical && d.unassigned.critical.length) {
+      html += '<h4 style="margin-bottom:12px;color:#0D47A1">Critical Unassigned</h4><table style="font-size:12px"><tr><th>Key</th><th>App</th><th>Overdue</th></tr>';
+      d.unassigned.critical.forEach(t => { html += `<tr><td>${t.key}</td><td>${t.app}</td><td><span class="badge b-red">${t.overdue}d</span></td></tr>`; });
+      html += '</table><hr style="margin:16px 0;border:none;border-top:1px solid #eee">';
+    }
+    if(d.unassigned.high && d.unassigned.high.length) {
+      html += '<h4 style="margin-bottom:12px;color:#0D47A1">High Priority Unassigned</h4><table style="font-size:12px"><tr><th>Key</th><th>App</th><th>Overdue</th></tr>';
+      d.unassigned.high.forEach(t => { html += `<tr><td>${t.key}</td><td>${t.app}</td><td><span class="badge b-amber">${t.overdue}d</span></td></tr>`; });
+      html += '</table>';
+    }
+    body.innerHTML = html;
+  }
+  panel.classList.add('open');
+  overlay.classList.add('show');
+}
+
+function closePanel() {
+  document.getElementById('detailPanel').classList.remove('open');
+  document.getElementById('overlay').classList.remove('show');
+}
+
+// ===== INIT =====
+populateDateSelect();
+const dates = getAvailableDates();
+loadDate(dates[dates.length - 1]); // Load most recent date
+</script>
+
+</body>
+</html>
