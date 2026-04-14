@@ -460,227 +460,279 @@ const DAILY_DATA = {
     "date": "2026-04-14",
     "dateFormatted": "April 14, 2026",
     "qbo": {
-        "open": 48,
-        "closed": 8,
-        "pastDue": 32,
-        "total": 56,
+        "open": 49,
+        "closed": 4,
+        "pastDue": 2,
+        "total": 55,
         "widget": 32,
-        "api": 24,
-        "assigned": 43,
-        "unassigned": 13,
-        "avgOverdue": 17,
+        "api": 23,
+        "assigned": 48,
+        "unassigned": 7,
+        "avgOverdue": 18,
         "maxOverdue": 25
     },
     "tto": {
-        "open": 31,
-        "closed": 8,
-        "pastDue": 22,
-        "total": 39,
-        "widget": 19,
-        "api": 20,
+        "open": 32,
+        "closed": 2,
+        "pastDue": 2,
+        "total": 36,
+        "widget": 22,
+        "api": 14,
         "assigned": 30,
-        "unassigned": 9,
-        "avgOverdue": 14,
+        "unassigned": 6,
+        "avgOverdue": 22,
         "maxOverdue": 30
     },
     "grand": {
-        "open": 79,
-        "closed": 16,
-        "pastDue": 54,
-        "total": 95,
-        "onTrack": 25
+        "open": 81,
+        "closed": 6,
+        "pastDue": 4,
+        "total": 91,
+        "onTrack": 77
     },
-    "newClosuresToday": 0,
+    "newClosuresToday": 6,
     "severity": {
         "critical": {
-            "qbo": 6,
-            "tto": 4
+            "qbo": 0,
+            "tto": 0
         },
         "high": {
-            "qbo": 13,
-            "tto": 8
+            "qbo": 3,
+            "tto": 5
         },
         "moderate": {
-            "qbo": 37,
-            "tto": 27
+            "qbo": 52,
+            "tto": 31
         }
     },
     "feedback": {
-        "sent": 13,
-        "received": 11,
-        "responseRate": 84.6,
-        "qboRate": 80.0,
-        "ttoRate": 87.5,
+        "sent": 10,
+        "received": 2,
+        "responseRate": 20.0,
+        "qboRate": 25.0,
+        "ttoRate": 25.0,
         "notSent": 0
     },
     "closures": {
-        "qbo": [],
-        "tto": [],
-        "resolutionBreakdown": {
-            "investigatedAndFixed": 4,
-            "redirected": 1,
-            "closedAsDuplicate": 0,
-            "noActionTaken": 1,
-            "pending": 2
-        },
-        "velocity": {
-            "avgDaysToClose": 10.1,
-            "fastest": "QBAA-2244 (6 days)",
-            "slowest": "LG01WBPERF-77 (24 days)"
-        }
-    },
-    "criticalTickets": [],
-    "unassigned": {
-        "count": 22,
-        "critical": [
+        "qbo": [
             {
-                "key": "TXP-3389",
-                "webapp": "QBO",
-                "type": "Widget"
+                "key": "QBOA-16115",
+                "component": "OIAHWidget",
+                "type": "Widget",
+                "assignee": "Avinash Padmanabhan",
+                "route": "/app/homepage",
+                "feedbackStatus": "Pending"
+            },
+            {
+                "key": "QBB-6548",
+                "component": "OIHWidget",
+                "type": "Widget",
+                "assignee": "Aman Keshwani",
+                "route": "/app/homepage",
+                "feedbackStatus": "Received",
+                "action": "Investigated and fixed",
+                "improvement": true
+            },
+            {
+                "key": "LG01WBPERF-195",
+                "component": "subscription-sbg-aws API",
+                "type": "API",
+                "assignee": "Anusha Ragunathan",
+                "route": "/app/homepage",
+                "feedbackStatus": "Pending"
+            },
+            {
+                "key": "QBAA-2244",
+                "component": "sbseggraphqlorch API",
+                "type": "API",
+                "assignee": "Jyothi Potluri",
+                "route": "/app/invoices",
+                "feedbackStatus": "Pending"
             }
         ],
+        "tto": [
+            {
+                "key": "LG01WBPERF-77",
+                "component": "tto-player",
+                "type": "Widget",
+                "assignee": "David LeRoy",
+                "route": "/tax/review",
+                "feedbackStatus": "Received",
+                "action": "Investigated and fixed",
+                "improvement": true
+            },
+            {
+                "key": "FTDC-4300",
+                "component": "pro-matching",
+                "type": "Widget",
+                "assignee": "Abhinav Konda",
+                "route": "/tax/home",
+                "feedbackStatus": "Pending"
+            }
+        ],
+        "resolutionBreakdown": {
+            "investigated_fixed": 2,
+            "no_action": 0,
+            "redirected": 0,
+            "pending_feedback": 4
+        },
+        "velocity": {
+            "avgDaysToClose": 8.5,
+            "fastestClose": 5,
+            "slowestClose": 24
+        }
+    },
+    "criticalTickets": [
+        {
+            "key": "TXP-3389",
+            "app": "QBO",
+            "type": "Widget",
+            "component": "quickfills",
+            "daysOverdue": 25,
+            "assignee": "Unassigned",
+            "status": "Past Due"
+        },
+        {
+            "key": "UIPLATFORM-9447",
+            "app": "TTO",
+            "type": "Widget",
+            "component": "tax-prep/core",
+            "daysOverdue": 30,
+            "assignee": "Gregory Miller",
+            "status": "Past Due"
+        },
+        {
+            "key": "IXP-26081",
+            "app": "TTO",
+            "type": "API",
+            "component": "ixp-ff API",
+            "daysOverdue": 11,
+            "assignee": "Unassigned",
+            "status": "Past Due"
+        },
+        {
+            "key": "QBINT-16376",
+            "app": "QBO",
+            "type": "API",
+            "component": "quickbooksapplications API",
+            "daysOverdue": 11,
+            "assignee": "Anand Mattikopp",
+            "status": "Past Due"
+        }
+    ],
+    "unassigned": {
+        "count": 2,
+        "critical": [],
         "high": [
             {
+                "key": "TXP-3389",
+                "app": "QBO",
+                "component": "quickfills",
+                "daysOverdue": 25
+            },
+            {
                 "key": "IXP-26081",
-                "webapp": "TTO",
-                "type": "API"
+                "app": "TTO",
+                "component": "ixp-ff API",
+                "daysOverdue": 11
             }
         ]
     },
     "feedbackDetail": {
-        "closure": {
-            "total": 7,
-            "relevant": 6,
-            "rightTeam": 5,
-            "alreadyKnown": 2,
-            "botHelpful": 6,
-            "ownWidget": 5,
-            "consumeWidget": 2,
-            "measurableImprovement": 3,
-            "avgDataUsefulness": 3.6
+        "closureResponses": {
+            "relevant": 2,
+            "rightTeam": 2,
+            "alreadyKnown": 1,
+            "botHelpful": 2,
+            "measurableImprovement": 2,
+            "avgUsefulness": 4.5,
+            "total": 2
         },
-        "blocker": {
-            "total": 4,
-            "relevant": 4,
-            "rightTeam": 3,
-            "canFix": 1,
-            "partialFix": 2,
-            "noCantFix": 1,
-            "topBlocker": "Cross-team dependencies: IXP SDK, Identity token refresh, Shell bootstrap"
+        "blockerResponses": {
+            "relevant": 0,
+            "rightTeam": 0,
+            "canFix": 0,
+            "total": 0
         }
     },
     "workload": [
         {
-            "assignee": "Gregory Miller",
+            "team": "QBO Navigation",
+            "tickets": 1,
+            "status": "Closed"
+        },
+        {
+            "team": "QBO Help",
+            "tickets": 1,
+            "status": "Closed"
+        },
+        {
+            "team": "QBO Subscriptions",
+            "tickets": 1,
+            "status": "Closed"
+        },
+        {
+            "team": "QBO Accounting",
+            "tickets": 1,
+            "status": "Closed"
+        },
+        {
+            "team": "TTO Web Player",
+            "tickets": 1,
+            "status": "Closed"
+        },
+        {
+            "team": "TTO Pro Matching",
+            "tickets": 1,
+            "status": "Closed"
+        },
+        {
+            "team": "QBO Integrations",
+            "tickets": 1,
+            "status": "Past Due"
+        },
+        {
             "team": "TTO UI Platform",
-            "open": 2,
-            "closed": 0,
-            "pastDue": 2
-        },
-        {
-            "assignee": "Ali Vali",
-            "team": "TTO Shell",
-            "open": 2,
-            "closed": 0,
-            "pastDue": 2
-        },
-        {
-            "assignee": "Erica Hang",
-            "team": "QBO Billing",
-            "open": 2,
-            "closed": 0,
-            "pastDue": 2
+            "tickets": 1,
+            "status": "Past Due"
         }
     ],
     "closureLeaders": [
         {
-            "assignee": "David LeRoy",
-            "team": "TTO Web Player",
-            "closedCount": 1,
-            "improvement": "TP95 reduced by 400ms"
-        },
-        {
-            "assignee": "Aman Keshwani",
+            "name": "Aman Keshwani",
             "team": "QBO Help",
-            "closedCount": 1,
-            "improvement": "PageReady reduced by 150ms via lazy-load"
+            "closures": 1,
+            "improvement": true
         },
         {
-            "assignee": "Avinash Padmanabhan",
-            "team": "QBO Navigation",
-            "closedCount": 1,
-            "improvement": "OIAHWidget load regression fixed"
-        },
-        {
-            "assignee": "Anusha Ragunathan",
-            "team": "QBO Subscriptions",
-            "closedCount": 1,
-            "improvement": "Subscription API batching"
+            "name": "David LeRoy",
+            "team": "TTO Web Player",
+            "closures": 1,
+            "improvement": true
         }
     ],
     "actions": [
-        {
-            "type": "reminder",
-            "count": 2,
-            "detail": "2nd reminders to TXP-3389 (unassigned, max reached), IXP-26081 (unassigned, max reached)"
-        },
-        {
-            "type": "responses_received",
-            "count": 3,
-            "detail": "QBB-6548, LG01WBPERF-195 (closure), NTEX-1881 (blocker)"
-        }
+        "6 closure feedback forms sent (4 QBO, 2 TTO)",
+        "4 blocker feedback forms sent (2 QBO, 2 TTO)",
+        "2 fast responses received — QBB-6548 and LG01WBPERF-77 both confirmed measurable improvements",
+        "2 unassigned past-due tickets flagged: TXP-3389 (25 days overdue) and IXP-26081 (11 days overdue)"
     ],
     "agentActions": {
-        "formsDelivered": 0,
-        "responsesCollected": 3,
-        "remindersPosted": 2,
-        "smartsheetRowsCreated": 0
+        "closureFormsSent": 6,
+        "blockerFormsSent": 4,
+        "remindersSent": 0,
+        "smartsheetRowsCreated": 10,
+        "slackDMsSent": 8
     },
     "recommendations": [
-        "84.6% response rate achieved in 3 days — feedback loop is working",
-        "4 of 7 closure respondents confirmed measurable improvement — bot is driving real fixes",
-        "3 tickets flagged as wrong-team routing (QBAA-2244, TPDM-2137, NTEX-1881) — bot needs team ownership mapping",
-        "TXP-3389 and IXP-26081 hit max reminders with no response — escalate to management",
-        "Recurring theme: cross-team platform dependencies are the #1 blocker — recommend auto-escalation to platform teams"
+        "Assign TXP-3389 (QBO quickfills) immediately — 25 days overdue with no owner",
+        "Assign IXP-26081 (TTO ixp-ff API) — 11 days overdue, unassigned",
+        "Follow up with QBINT-16376 blocker — waiting on identity team dependency",
+        "Track QBB-6548 improvement: lazy-loaded help widget reduced PageReady by 150ms",
+        "Track LG01WBPERF-77 improvement: chunking optimization reduced TP95 by 400ms"
     ]
-},
-  // ^^^ NEW DAILY DATA ENTRIES GET APPENDED ABOVE THIS LINE ^^^
-};
-
-let currentDate = null;
-let currentFilter = 'all';
-
-function getAvailableDates() {
-  return Object.keys(DAILY_DATA).sort();
 }
-
-function setupDatePicker() {
-  const dates = getAvailableDates();
-  document.getElementById('availDates').textContent = dates.length;
-  // Build date dots
-  const dotsEl = document.getElementById('dateDots');
-  dotsEl.innerHTML = '';
-  dates.forEach(d => {
-    const dot = document.createElement('div');
-    dot.className = 'date-dot has-data';
-    dot.title = DAILY_DATA[d].dateFormatted || d;
-    dot.onclick = () => loadDate(d);
-    dot.id = 'dot-' + d;
-    dotsEl.appendChild(dot);
-  });
-}
-
-function onDatePick(dateStr) {
-  if (DAILY_DATA[dateStr]) {
-    loadDate(dateStr);
-  } else {
-    // Snap to nearest available date
-    const dates = getAvailableDates();
-    let nearest = dates[0];
-    for (const d of dates) { if (d <= dateStr) nearest = d; }
-    loadDate(nearest);
-    document.getElementById('dateInput').value = nearest;
-  }
+,
 }
 
 function navigateDay(dir) {
