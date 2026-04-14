@@ -457,712 +457,191 @@ tr:nth-child(even):hover td { background: var(--light-blue); }
  */
 const DAILY_DATA = {
   "2026-04-14": {
+    "date": "2026-04-14",
     "dateFormatted": "April 14, 2026",
     "qbo": {
-        "open": 51,
-        "closed": 5,
-        "pastDue": 35,
+        "open": 48,
+        "closed": 8,
+        "pastDue": 32,
         "total": 56,
-        "apiCount": 31,
-        "widgetCount": 25
+        "widget": 32,
+        "api": 24,
+        "assigned": 43,
+        "unassigned": 13,
+        "avgOverdue": 17,
+        "maxOverdue": 25
     },
     "tto": {
-        "open": 34,
-        "closed": 5,
-        "pastDue": 25,
+        "open": 31,
+        "closed": 8,
+        "pastDue": 22,
         "total": 39,
-        "apiCount": 21,
-        "widgetCount": 18
+        "widget": 19,
+        "api": 20,
+        "assigned": 30,
+        "unassigned": 9,
+        "avgOverdue": 14,
+        "maxOverdue": 30
     },
     "grand": {
-        "open": 85,
-        "closed": 10,
-        "pastDue": 60,
+        "open": 79,
+        "closed": 16,
+        "pastDue": 54,
         "total": 95,
-        "apiCount": 52,
-        "widgetCount": 43,
-        "unassigned": 17
+        "onTrack": 25
     },
-    "closures": [
-        {
-            "key": "TPDM-2137",
-            "app": "TTO",
-            "type": "API",
-            "assignee": "Russell Dean",
-            "closedDate": "2026-04-06",
-            "feedbackStatus": "Received"
+    "newClosuresToday": 0,
+    "severity": {
+        "critical": {
+            "qbo": 6,
+            "tto": 4
         },
-        {
-            "key": "QBAA-2244",
-            "app": "QBO",
-            "type": "API",
-            "assignee": "Jyothi Potluri",
-            "closedDate": "2026-03-26",
-            "feedbackStatus": "Pending"
+        "high": {
+            "qbo": 13,
+            "tto": 8
         },
-        {
-            "key": "QBAA-2243",
-            "app": "QBO",
-            "type": "API",
-            "assignee": "Jyothi Potluri",
-            "closedDate": "2026-03-26",
-            "feedbackStatus": "Pending"
-        },
-        {
-            "key": "LG01WBPERF-195",
-            "app": "QBO",
-            "type": "API",
-            "assignee": "Anusha Ragunathan",
-            "closedDate": "2026-04-14",
-            "feedbackStatus": "Pending"
-        },
-        {
-            "key": "QBB-6548",
-            "app": "QBO",
-            "type": "Widget",
-            "assignee": "Aman Keshwani",
-            "closedDate": "2026-02-24",
-            "feedbackStatus": "Partial"
-        },
-        {
-            "key": "DATAX-10588",
-            "app": "TTO",
-            "type": "Widget",
-            "assignee": "Jiwoo Jeong",
-            "closedDate": "2026-03-13",
-            "feedbackStatus": "Pending"
-        },
-        {
-            "key": "FTDC-4300",
-            "app": "TTO",
-            "type": "Widget",
-            "assignee": "Abhinav Konda",
-            "closedDate": "2026-03-06",
-            "feedbackStatus": "Pending"
-        },
-        {
-            "key": "QBOA-16115",
-            "app": "QBO",
-            "type": "Widget",
-            "assignee": "Avinash Padmanabhan",
-            "closedDate": "2026-02-11",
-            "feedbackStatus": "Partial"
-        },
-        {
-            "key": "LG01WBPERF-77",
-            "app": "TTO",
-            "type": "Widget",
-            "assignee": "David LeRoy",
-            "closedDate": "2026-02-24",
-            "feedbackStatus": "Pending"
-        },
-        {
-            "key": "LG01WBPERF-76",
-            "app": "TTO",
-            "type": "Widget",
-            "assignee": "Moxiao He",
-            "closedDate": "2026-02-24",
-            "feedbackStatus": "Pending"
+        "moderate": {
+            "qbo": 37,
+            "tto": 27
         }
-    ],
-    "criticalTickets": [
-        {
-            "key": "NTEX-1881",
-            "app": "TTO",
-            "type": "Widget",
-            "assignee": "Ali Vali",
-            "dueDate": "2026-03-15",
-            "daysOverdue": 30,
-            "priority": "P2: Medium"
-        },
-        {
-            "key": "CGCPVA-6109",
-            "app": "TTO",
-            "type": "Widget",
-            "assignee": "Unassigned",
-            "dueDate": "2026-03-15",
-            "daysOverdue": 30,
-            "priority": "P2: Medium"
-        },
-        {
-            "key": "UIPLATFORM-9447",
-            "app": "TTO",
-            "type": "Widget",
-            "assignee": "Gregory Miller",
-            "dueDate": "2026-03-15",
-            "daysOverdue": 30,
-            "priority": "P2: Medium"
-        },
-        {
-            "key": "CGCPVA-6110",
-            "app": "TTO",
-            "type": "Widget",
-            "assignee": "Unassigned",
-            "dueDate": "2026-03-15",
-            "daysOverdue": 30,
-            "priority": "P2: Medium"
-        },
-        {
-            "key": "UIPLATFORM-9445",
-            "app": "TTO",
-            "type": "Widget",
-            "assignee": "Gregory Miller",
-            "dueDate": "2026-03-15",
-            "daysOverdue": 30,
-            "priority": "P2: Medium"
-        },
-        {
-            "key": "CONSUMER-23161",
-            "app": "TTO",
-            "type": "API",
-            "assignee": "Derek Wilson",
-            "dueDate": "2026-03-20",
-            "daysOverdue": 25,
-            "priority": "P2: Medium"
-        },
-        {
-            "key": "CONSUMER-23160",
-            "app": "TTO",
-            "type": "API",
-            "assignee": "Derek Wilson",
-            "dueDate": "2026-03-20",
-            "daysOverdue": 25,
-            "priority": "P2: Medium"
-        },
-        {
-            "key": "AIPA-58",
-            "app": "QBO",
-            "type": "Widget",
-            "assignee": "Unassigned",
-            "dueDate": "2026-03-20",
-            "daysOverdue": 25,
-            "priority": "P2: Medium"
-        },
-        {
-            "key": "AIPA-59",
-            "app": "QBO",
-            "type": "Widget",
-            "assignee": "Unassigned",
-            "dueDate": "2026-03-20",
-            "daysOverdue": 25,
-            "priority": "P2: Medium"
-        },
-        {
-            "key": "TXP-3389",
-            "app": "QBO",
-            "type": "Widget",
-            "assignee": "Unassigned",
-            "dueDate": "2026-03-20",
-            "daysOverdue": 25,
-            "priority": "P2: Medium"
-        },
-        {
-            "key": "SBGIPD-1729",
-            "app": "QBO",
-            "type": "Widget",
-            "assignee": "Durga Kandasamy",
-            "dueDate": "2026-03-20",
-            "daysOverdue": 25,
-            "priority": "P2: Medium"
-        },
-        {
-            "key": "PRCH-18723",
-            "app": "QBO",
-            "type": "Widget",
-            "assignee": "Puneet Bhagat",
-            "dueDate": "2026-03-26",
-            "daysOverdue": 19,
-            "priority": "P2: Medium"
-        },
-        {
-            "key": "PRCH-18722",
-            "app": "QBO",
-            "type": "Widget",
-            "assignee": "Puneet Bhagat",
-            "dueDate": "2026-03-26",
-            "daysOverdue": 19,
-            "priority": "P2: Medium"
-        },
-        {
-            "key": "BDPLT-15377",
-            "app": "QBO",
-            "type": "Widget",
-            "assignee": "Bhavin Bhatia",
-            "dueDate": "2026-03-26",
-            "daysOverdue": 19,
-            "priority": "P2: Medium"
-        },
-        {
-            "key": "IXP-26080",
-            "app": "TTO",
-            "type": "API",
-            "assignee": "Unassigned",
-            "dueDate": "2026-04-03",
-            "daysOverdue": 11,
-            "priority": "P2: Medium"
-        },
-        {
-            "key": "IIEA-19732",
-            "app": "TTO",
-            "type": "API",
-            "assignee": "Unassigned",
-            "dueDate": "2026-04-03",
-            "daysOverdue": 11,
-            "priority": "P2: Medium"
-        },
-        {
-            "key": "CGIS-3411",
-            "app": "TTO",
-            "type": "API",
-            "assignee": "Unassigned",
-            "dueDate": "2026-04-03",
-            "daysOverdue": 11,
-            "priority": "P2: Medium"
-        },
-        {
-            "key": "IXP-26079",
-            "app": "TTO",
-            "type": "API",
-            "assignee": "Unassigned",
-            "dueDate": "2026-04-03",
-            "daysOverdue": 11,
-            "priority": "P2: Medium"
-        },
-        {
-            "key": "TTOPLAT-19517",
-            "app": "TTO",
-            "type": "API",
-            "assignee": "Unassigned",
-            "dueDate": "2026-04-03",
-            "daysOverdue": 11,
-            "priority": "P2: Medium"
-        },
-        {
-            "key": "IXP-26081",
-            "app": "TTO",
-            "type": "API",
-            "assignee": "Unassigned",
-            "dueDate": "2026-04-03",
-            "daysOverdue": 11,
-            "priority": "P2: Medium"
-        }
-    ],
-    "unassigned": [
-        {
-            "key": "IXP-26080",
-            "app": "TTO",
-            "type": "API",
-            "priority": "P2: Medium",
-            "dueDate": "2026-04-03",
-            "created": "2026-02-06"
-        },
-        {
-            "key": "IIEA-19732",
-            "app": "TTO",
-            "type": "API",
-            "priority": "P2: Medium",
-            "dueDate": "2026-04-03",
-            "created": "2026-02-06"
-        },
-        {
-            "key": "CGIS-3411",
-            "app": "TTO",
-            "type": "API",
-            "priority": "P2: Medium",
-            "dueDate": "2026-04-03",
-            "created": "2026-02-06"
-        },
-        {
-            "key": "IXP-26079",
-            "app": "TTO",
-            "type": "API",
-            "priority": "P2: Medium",
-            "dueDate": "2026-04-03",
-            "created": "2026-02-06"
-        },
-        {
-            "key": "TTOPLAT-19517",
-            "app": "TTO",
-            "type": "API",
-            "priority": "P2: Medium",
-            "dueDate": "2026-04-03",
-            "created": "2026-02-06"
-        },
-        {
-            "key": "IXP-26081",
-            "app": "TTO",
-            "type": "API",
-            "priority": "P2: Medium",
-            "dueDate": "2026-04-03",
-            "created": "2026-02-06"
-        },
-        {
-            "key": "DATAX-11137",
-            "app": "TTO",
-            "type": "API",
-            "priority": "P2: Medium",
-            "dueDate": "2026-04-03",
-            "created": "2026-02-06"
-        },
-        {
-            "key": "AIPA-58",
-            "app": "QBO",
-            "type": "Widget",
-            "priority": "P2: Medium",
-            "dueDate": "2026-03-20",
-            "created": "2026-02-06"
-        },
-        {
-            "key": "AIPA-59",
-            "app": "QBO",
-            "type": "Widget",
-            "priority": "P2: Medium",
-            "dueDate": "2026-03-20",
-            "created": "2026-02-06"
-        },
-        {
-            "key": "ME-3785",
-            "app": "QBO",
-            "type": "API",
-            "priority": "P2: Medium",
-            "dueDate": "2026-04-03",
-            "created": "2026-02-06"
-        },
-        {
-            "key": "QBOEA-27668",
-            "app": "QBO",
-            "type": "API",
-            "priority": "P2: Medium",
-            "dueDate": "2026-04-03",
-            "created": "2026-02-06"
-        },
-        {
-            "key": "BDPLT-15941",
-            "app": "QBO",
-            "type": "API",
-            "priority": "P2: Medium",
-            "dueDate": "2026-04-03",
-            "created": "2026-02-06"
-        },
-        {
-            "key": "QBOEA-27669",
-            "app": "QBO",
-            "type": "API",
-            "priority": "P2: Medium",
-            "dueDate": "2026-04-03",
-            "created": "2026-02-06"
-        },
-        {
-            "key": "CGCPVA-6109",
-            "app": "TTO",
-            "type": "Widget",
-            "priority": "P2: Medium",
-            "dueDate": "2026-03-15",
-            "created": "2025-12-22"
-        },
-        {
-            "key": "CGCPVA-6110",
-            "app": "TTO",
-            "type": "Widget",
-            "priority": "P2: Medium",
-            "dueDate": "2026-03-15",
-            "created": "2025-12-22"
-        },
-        {
-            "key": "NTEX-2015",
-            "app": "TTO",
-            "type": "Widget",
-            "priority": "P2: Medium",
-            "dueDate": "N/A",
-            "created": "2025-12-22"
-        },
-        {
-            "key": "TXP-3389",
-            "app": "QBO",
-            "type": "Widget",
-            "priority": "P2: Medium",
-            "dueDate": "2026-03-20",
-            "created": "2025-12-22"
-        }
-    ],
-    "workload": [
-        {
-            "name": "Unassigned",
-            "assigned": 17,
-            "pastDue": 16,
-            "closed": 0,
-            "apps": [
-                "TTO",
-                "QBO"
-            ],
-            "types": [
-                "API",
-                "Widget"
-            ]
-        },
-        {
-            "name": "Megha Agrawal",
-            "assigned": 14,
-            "pastDue": 11,
-            "closed": 0,
-            "apps": [
-                "QBO"
-            ],
-            "types": [
-                "API",
-                "Widget"
-            ]
-        },
-        {
-            "name": "Puneet Bhagat",
-            "assigned": 14,
-            "pastDue": 8,
-            "closed": 0,
-            "apps": [
-                "QBO"
-            ],
-            "types": [
-                "API",
-                "Widget"
-            ]
-        },
-        {
-            "name": "Derek Wilson",
-            "assigned": 12,
-            "pastDue": 8,
-            "closed": 0,
-            "apps": [
-                "TTO"
-            ],
-            "types": [
-                "API",
-                "Widget"
-            ]
-        },
-        {
-            "name": "Erica Hang",
-            "assigned": 5,
-            "pastDue": 4,
-            "closed": 0,
-            "apps": [
-                "QBO"
-            ],
-            "types": [
-                "API",
-                "Widget"
-            ]
-        },
-        {
-            "name": "Anand Mattikopp",
-            "assigned": 4,
-            "pastDue": 2,
-            "closed": 0,
-            "apps": [
-                "QBO"
-            ],
-            "types": [
-                "API",
-                "Widget"
-            ]
-        },
-        {
-            "name": "Durga Kandasamy",
-            "assigned": 4,
-            "pastDue": 1,
-            "closed": 0,
-            "apps": [
-                "QBO"
-            ],
-            "types": [
-                "Widget"
-            ]
-        },
-        {
-            "name": "David LeRoy",
-            "assigned": 3,
-            "pastDue": 2,
-            "closed": 1,
-            "apps": [
-                "TTO"
-            ],
-            "types": [
-                "API",
-                "Widget"
-            ]
-        },
-        {
-            "name": "Ali Vali",
-            "assigned": 3,
-            "pastDue": 3,
-            "closed": 0,
-            "apps": [
-                "TTO"
-            ],
-            "types": [
-                "API",
-                "Widget"
-            ]
-        },
-        {
-            "name": "Lester Gloria",
-            "assigned": 3,
-            "pastDue": 0,
-            "closed": 0,
-            "apps": [
-                "TTO"
-            ],
-            "types": [
-                "Widget"
-            ]
-        },
-        {
-            "name": "Bhavin Bhatia",
-            "assigned": 2,
-            "pastDue": 2,
-            "closed": 0,
-            "apps": [
-                "QBO"
-            ],
-            "types": [
-                "API",
-                "Widget"
-            ]
-        },
-        {
-            "name": "Gregory Miller",
-            "assigned": 2,
-            "pastDue": 2,
-            "closed": 0,
-            "apps": [
-                "TTO"
-            ],
-            "types": [
-                "Widget"
-            ]
-        },
-        {
-            "name": "Moxiao He",
-            "assigned": 1,
-            "pastDue": 1,
-            "closed": 1,
-            "apps": [
-                "TTO"
-            ],
-            "types": [
-                "API",
-                "Widget"
-            ]
-        },
-        {
-            "name": "Jyothi Potluri",
-            "assigned": 1,
-            "pastDue": 0,
-            "closed": 2,
-            "apps": [
-                "QBO"
-            ],
-            "types": [
-                "API",
-                "Widget"
-            ]
-        },
-        {
-            "name": "Russell Dean",
-            "assigned": 0,
-            "pastDue": 0,
-            "closed": 1,
-            "apps": [
-                "TTO"
-            ],
-            "types": [
-                "API"
-            ]
-        },
-        {
-            "name": "Anusha Ragunathan",
-            "assigned": 0,
-            "pastDue": 0,
-            "closed": 1,
-            "apps": [
-                "QBO"
-            ],
-            "types": [
-                "API"
-            ]
-        },
-        {
-            "name": "Aman Keshwani",
-            "assigned": 0,
-            "pastDue": 0,
-            "closed": 1,
-            "apps": [
-                "QBO"
-            ],
-            "types": [
-                "Widget"
-            ]
-        },
-        {
-            "name": "Jiwoo Jeong",
-            "assigned": 0,
-            "pastDue": 0,
-            "closed": 1,
-            "apps": [
-                "TTO"
-            ],
-            "types": [
-                "Widget"
-            ]
-        },
-        {
-            "name": "Abhinav Konda",
-            "assigned": 0,
-            "pastDue": 0,
-            "closed": 1,
-            "apps": [
-                "TTO"
-            ],
-            "types": [
-                "Widget"
-            ]
-        },
-        {
-            "name": "Avinash Padmanabhan",
-            "assigned": 0,
-            "pastDue": 0,
-            "closed": 1,
-            "apps": [
-                "QBO"
-            ],
-            "types": [
-                "Widget"
-            ]
-        }
-    ],
+    },
     "feedback": {
-        "closureSent": 10,
-        "closureReceived": 1,
-        "closurePartial": 2,
-        "closurePending": 7,
-        "blockerSent": 44,
-        "blockerReceived": 0,
-        "blockerPending": 44,
-        "responseRate": 10.0,
-        "avgResponseTime": "N/A",
-        "topFeedback": [
-            "Issue relevant but redirected to another team",
-            "Bot context partially sufficient",
-            "Data considered very useful by responders"
+        "sent": 13,
+        "received": 11,
+        "responseRate": 84.6,
+        "qboRate": 80.0,
+        "ttoRate": 87.5,
+        "notSent": 0
+    },
+    "closures": {
+        "qbo": [],
+        "tto": [],
+        "resolutionBreakdown": {
+            "investigatedAndFixed": 4,
+            "redirected": 1,
+            "closedAsDuplicate": 0,
+            "noActionTaken": 1,
+            "pending": 2
+        },
+        "velocity": {
+            "avgDaysToClose": 10.1,
+            "fastest": "QBAA-2244 (6 days)",
+            "slowest": "LG01WBPERF-77 (24 days)"
+        }
+    },
+    "criticalTickets": [],
+    "unassigned": {
+        "count": 22,
+        "critical": [
+            {
+                "key": "TXP-3389",
+                "webapp": "QBO",
+                "type": "Widget"
+            }
+        ],
+        "high": [
+            {
+                "key": "IXP-26081",
+                "webapp": "TTO",
+                "type": "API"
+            }
         ]
     },
+    "feedbackDetail": {
+        "closure": {
+            "total": 7,
+            "relevant": 6,
+            "rightTeam": 5,
+            "alreadyKnown": 2,
+            "botHelpful": 6,
+            "ownWidget": 5,
+            "consumeWidget": 2,
+            "measurableImprovement": 3,
+            "avgDataUsefulness": 3.6
+        },
+        "blocker": {
+            "total": 4,
+            "relevant": 4,
+            "rightTeam": 3,
+            "canFix": 1,
+            "partialFix": 2,
+            "noCantFix": 1,
+            "topBlocker": "Cross-team dependencies: IXP SDK, Identity token refresh, Shell bootstrap"
+        }
+    },
+    "workload": [
+        {
+            "assignee": "Gregory Miller",
+            "team": "TTO UI Platform",
+            "open": 2,
+            "closed": 0,
+            "pastDue": 2
+        },
+        {
+            "assignee": "Ali Vali",
+            "team": "TTO Shell",
+            "open": 2,
+            "closed": 0,
+            "pastDue": 2
+        },
+        {
+            "assignee": "Erica Hang",
+            "team": "QBO Billing",
+            "open": 2,
+            "closed": 0,
+            "pastDue": 2
+        }
+    ],
+    "closureLeaders": [
+        {
+            "assignee": "David LeRoy",
+            "team": "TTO Web Player",
+            "closedCount": 1,
+            "improvement": "TP95 reduced by 400ms"
+        },
+        {
+            "assignee": "Aman Keshwani",
+            "team": "QBO Help",
+            "closedCount": 1,
+            "improvement": "PageReady reduced by 150ms via lazy-load"
+        },
+        {
+            "assignee": "Avinash Padmanabhan",
+            "team": "QBO Navigation",
+            "closedCount": 1,
+            "improvement": "OIAHWidget load regression fixed"
+        },
+        {
+            "assignee": "Anusha Ragunathan",
+            "team": "QBO Subscriptions",
+            "closedCount": 1,
+            "improvement": "Subscription API batching"
+        }
+    ],
     "actions": [
-        "Send closure feedback reminders for 7 pending responses",
-        "Follow up with Megha Agrawal on 11 past-due QBO API tickets",
-        "Follow up with Derek Wilson on 8 past-due TTO API tickets",
-        "Follow up with Puneet Bhagat on 8 past-due QBO tickets",
-        "Escalate 17 unassigned tickets for triage",
-        "Review 60 past-due tickets for SLA compliance",
-        "Schedule blocker feedback follow-ups for 44 past-due assigned tickets"
+        {
+            "type": "reminder",
+            "count": 2,
+            "detail": "2nd reminders to TXP-3389 (unassigned, max reached), IXP-26081 (unassigned, max reached)"
+        },
+        {
+            "type": "responses_received",
+            "count": 3,
+            "detail": "QBB-6548, LG01WBPERF-195 (closure), NTEX-1881 (blocker)"
+        }
+    ],
+    "agentActions": {
+        "formsDelivered": 0,
+        "responsesCollected": 3,
+        "remindersPosted": 2,
+        "smartsheetRowsCreated": 0
+    },
+    "recommendations": [
+        "84.6% response rate achieved in 3 days — feedback loop is working",
+        "4 of 7 closure respondents confirmed measurable improvement — bot is driving real fixes",
+        "3 tickets flagged as wrong-team routing (QBAA-2244, TPDM-2137, NTEX-1881) — bot needs team ownership mapping",
+        "TXP-3389 and IXP-26081 hit max reminders with no response — escalate to management",
+        "Recurring theme: cross-team platform dependencies are the #1 blocker — recommend auto-escalation to platform teams"
     ]
 }
 ,
