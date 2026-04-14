@@ -571,15 +571,19 @@ const DAILY_DATA = {
             }
         ],
         "resolutionBreakdown": {
-            "investigated_fixed": 2,
-            "no_action": 0,
-            "redirected": 0,
-            "pending_feedback": 4
+            "done": 2,
+            "duplicate": 0,
+            "obsolete": 0,
+            "other": 4
         },
         "velocity": {
             "avgDaysToClose": 8.5,
             "fastestClose": 5,
-            "slowestClose": 24
+            "slowestClose": 24,
+            "qboToday": 4,
+            "qboPrev": 0,
+            "ttoToday": 2,
+            "ttoPrev": 0
         }
     },
     "criticalTickets": [
@@ -590,7 +594,9 @@ const DAILY_DATA = {
             "component": "quickfills",
             "daysOverdue": 25,
             "assignee": "Unassigned",
-            "status": "Past Due"
+            "status": "Past Due",
+            "overdue": 25,
+            "due": "2026-03-20"
         },
         {
             "key": "UIPLATFORM-9447",
@@ -599,7 +605,9 @@ const DAILY_DATA = {
             "component": "tax-prep/core",
             "daysOverdue": 30,
             "assignee": "Gregory Miller",
-            "status": "Past Due"
+            "status": "Past Due",
+            "overdue": 30,
+            "due": "2026-03-15"
         },
         {
             "key": "IXP-26081",
@@ -608,7 +616,9 @@ const DAILY_DATA = {
             "component": "ixp-ff API",
             "daysOverdue": 11,
             "assignee": "Unassigned",
-            "status": "Past Due"
+            "status": "Past Due",
+            "overdue": 11,
+            "due": "2026-04-03"
         },
         {
             "key": "QBINT-16376",
@@ -617,7 +627,9 @@ const DAILY_DATA = {
             "component": "quickbooksapplications API",
             "daysOverdue": 11,
             "assignee": "Anand Mattikopp",
-            "status": "Past Due"
+            "status": "Past Due",
+            "overdue": 11,
+            "due": "2026-04-03"
         }
     ],
     "unassigned": {
@@ -628,17 +640,56 @@ const DAILY_DATA = {
                 "key": "TXP-3389",
                 "app": "QBO",
                 "component": "quickfills",
-                "daysOverdue": 25
+                "daysOverdue": 25,
+                "overdue": 25
             },
             {
                 "key": "IXP-26081",
                 "app": "TTO",
                 "component": "ixp-ff API",
-                "daysOverdue": 11
+                "daysOverdue": 11,
+                "overdue": 11
             }
         ]
     },
     "feedbackDetail": {
+        "ticket": "QBOA-16115",
+        "app": "QBO",
+        "type": "Widget",
+        "respondent": "Avinash Padmanabhan",
+        "component": "OIAHWidget",
+        "responses": [
+            {
+                "q": "Was this insight relevant?",
+                "a": "Yes",
+                "insight": "2/2 respondents said relevant"
+            },
+            {
+                "q": "Was it routed to the right team?",
+                "a": "Yes",
+                "insight": "2/2 confirmed correct routing"
+            },
+            {
+                "q": "Was this already known?",
+                "a": "No",
+                "insight": "1/2 said already known"
+            },
+            {
+                "q": "Was the bot helpful?",
+                "a": "Yes",
+                "insight": "2/2 found bot helpful"
+            },
+            {
+                "q": "Measurable improvement?",
+                "a": "Yes",
+                "insight": "2/2 reported measurable gains"
+            },
+            {
+                "q": "Usefulness (1-5)",
+                "a": "4.5",
+                "insight": "Average rating across 2 responses"
+            }
+        ],
         "closureResponses": {
             "relevant": 2,
             "rightTeam": 2,
@@ -657,43 +708,91 @@ const DAILY_DATA = {
     },
     "workload": [
         {
-            "team": "QBO Navigation",
-            "tickets": 1,
+            "name": "Navigation",
+            "app": "QBO",
+            "open": 0,
+            "pastDue": 0,
+            "closed": 1,
+            "total": 1,
+            "pct": 100,
+            "statusColor": "green",
             "status": "Closed"
         },
         {
-            "team": "QBO Help",
-            "tickets": 1,
+            "name": "Help",
+            "app": "QBO",
+            "open": 0,
+            "pastDue": 0,
+            "closed": 1,
+            "total": 1,
+            "pct": 100,
+            "statusColor": "green",
             "status": "Closed"
         },
         {
-            "team": "QBO Subscriptions",
-            "tickets": 1,
+            "name": "Subscriptions",
+            "app": "QBO",
+            "open": 0,
+            "pastDue": 0,
+            "closed": 1,
+            "total": 1,
+            "pct": 100,
+            "statusColor": "green",
             "status": "Closed"
         },
         {
-            "team": "QBO Accounting",
-            "tickets": 1,
+            "name": "Accounting",
+            "app": "QBO",
+            "open": 0,
+            "pastDue": 0,
+            "closed": 1,
+            "total": 1,
+            "pct": 100,
+            "statusColor": "green",
             "status": "Closed"
         },
         {
-            "team": "TTO Web Player",
-            "tickets": 1,
+            "name": "Web Player",
+            "app": "TTO",
+            "open": 0,
+            "pastDue": 0,
+            "closed": 1,
+            "total": 1,
+            "pct": 100,
+            "statusColor": "green",
             "status": "Closed"
         },
         {
-            "team": "TTO Pro Matching",
-            "tickets": 1,
+            "name": "Pro Matching",
+            "app": "TTO",
+            "open": 0,
+            "pastDue": 0,
+            "closed": 1,
+            "total": 1,
+            "pct": 100,
+            "statusColor": "green",
             "status": "Closed"
         },
         {
-            "team": "QBO Integrations",
-            "tickets": 1,
+            "name": "Integrations",
+            "app": "QBO",
+            "open": 1,
+            "pastDue": 1,
+            "closed": 0,
+            "total": 1,
+            "pct": 80,
+            "statusColor": "red",
             "status": "Past Due"
         },
         {
-            "team": "TTO UI Platform",
-            "tickets": 1,
+            "name": "UI Platform",
+            "app": "TTO",
+            "open": 1,
+            "pastDue": 1,
+            "closed": 0,
+            "total": 1,
+            "pct": 80,
+            "statusColor": "red",
             "status": "Past Due"
         }
     ],
@@ -712,12 +811,32 @@ const DAILY_DATA = {
         }
     ],
     "actions": [
-        "6 closure feedback forms sent (4 QBO, 2 TTO)",
-        "4 blocker feedback forms sent (2 QBO, 2 TTO)",
-        "2 fast responses received — QBB-6548 and LG01WBPERF-77 both confirmed measurable improvements",
-        "2 unassigned past-due tickets flagged: TXP-3389 (25 days overdue) and IXP-26081 (11 days overdue)"
+        {
+            "color": "blue",
+            "text": "6 closure feedback forms sent (4 QBO, 2 TTO)",
+            "priority": "Action"
+        },
+        {
+            "color": "amber",
+            "text": "4 blocker feedback forms sent (2 QBO, 2 TTO)",
+            "priority": "High"
+        },
+        {
+            "color": "green",
+            "text": "2 fast responses received — QBB-6548 and LG01WBPERF-77 both confirmed measurable improvements",
+            "priority": "Positive"
+        },
+        {
+            "color": "red",
+            "text": "2 unassigned past-due tickets flagged: TXP-3389 (25 days overdue) and IXP-26081 (11 days overdue)",
+            "priority": "Critical"
+        }
     ],
     "agentActions": {
+        "nextRun": "April 15, 2026 9:00 AM IST",
+        "blockerForms": 4,
+        "remindersDue": 0,
+        "firstReminders": 0,
         "closureFormsSent": 6,
         "blockerFormsSent": 4,
         "remindersSent": 0,
@@ -725,14 +844,34 @@ const DAILY_DATA = {
         "slackDMsSent": 8
     },
     "recommendations": [
-        "Assign TXP-3389 (QBO quickfills) immediately — 25 days overdue with no owner",
-        "Assign IXP-26081 (TTO ixp-ff API) — 11 days overdue, unassigned",
-        "Follow up with QBINT-16376 blocker — waiting on identity team dependency",
-        "Track QBB-6548 improvement: lazy-loaded help widget reduced PageReady by 150ms",
-        "Track LG01WBPERF-77 improvement: chunking optimization reduced TP95 by 400ms"
+        {
+            "label": "Assign TXP-3389 (QBO quickfills) immediately",
+            "value": "25 days overdue with no owner",
+            "alert": true
+        },
+        {
+            "label": "Assign IXP-26081 (TTO ixp-ff API)",
+            "value": "11 days overdue, unassigned",
+            "alert": true
+        },
+        {
+            "label": "Follow up with QBINT-16376 blocker",
+            "value": "waiting on identity team dependency",
+            "alert": false
+        },
+        {
+            "label": "Track QBB-6548 improvement",
+            "value": "lazy-loaded help widget reduced PageReady by 150ms",
+            "alert": false
+        },
+        {
+            "label": "Track LG01WBPERF-77 improvement",
+            "value": "chunking optimization reduced TP95 by 400ms",
+            "alert": false
+        }
     ]
 },
-    "2026-04-15": {
+  "2026-04-15": {
     "date": "2026-04-15",
     "dateFormatted": "April 15, 2026",
     "qbo": {
@@ -859,15 +998,19 @@ const DAILY_DATA = {
             }
         ],
         "resolutionBreakdown": {
-            "investigated_fixed": 4,
-            "no_action": 0,
-            "redirected": 0,
-            "pending_feedback": 3
+            "done": 4,
+            "duplicate": 0,
+            "obsolete": 0,
+            "other": 3
         },
         "velocity": {
             "avgDaysToClose": 8.1,
             "fastestClose": 5,
-            "slowestClose": 24
+            "slowestClose": 24,
+            "qboToday": 4,
+            "qboPrev": 0,
+            "ttoToday": 3,
+            "ttoPrev": 0
         }
     },
     "criticalTickets": [
@@ -878,7 +1021,9 @@ const DAILY_DATA = {
             "component": "quickfills",
             "daysOverdue": 26,
             "assignee": "Unassigned",
-            "status": "Past Due"
+            "status": "Past Due",
+            "overdue": 26,
+            "due": "2026-03-20"
         },
         {
             "key": "UIPLATFORM-9447",
@@ -887,7 +1032,9 @@ const DAILY_DATA = {
             "component": "tax-prep/core",
             "daysOverdue": 31,
             "assignee": "Gregory Miller",
-            "status": "Past Due"
+            "status": "Past Due",
+            "overdue": 31,
+            "due": "2026-03-15"
         },
         {
             "key": "NTEX-1881",
@@ -896,7 +1043,9 @@ const DAILY_DATA = {
             "component": "notification-center",
             "daysOverdue": 31,
             "assignee": "Ali Vali",
-            "status": "Past Due"
+            "status": "Past Due",
+            "overdue": 31,
+            "due": "2026-03-15"
         },
         {
             "key": "IXP-26081",
@@ -905,7 +1054,9 @@ const DAILY_DATA = {
             "component": "ixp-ff API",
             "daysOverdue": 12,
             "assignee": "Unassigned",
-            "status": "Past Due"
+            "status": "Past Due",
+            "overdue": 12,
+            "due": "2026-04-03"
         },
         {
             "key": "QBINT-16376",
@@ -914,7 +1065,9 @@ const DAILY_DATA = {
             "component": "quickbooksapplications API",
             "daysOverdue": 12,
             "assignee": "Anand Mattikopp",
-            "status": "Past Due"
+            "status": "Past Due",
+            "overdue": 12,
+            "due": "2026-04-03"
         }
     ],
     "unassigned": {
@@ -925,17 +1078,56 @@ const DAILY_DATA = {
                 "key": "TXP-3389",
                 "app": "QBO",
                 "component": "quickfills",
-                "daysOverdue": 26
+                "daysOverdue": 26,
+                "overdue": 26
             },
             {
                 "key": "IXP-26081",
                 "app": "TTO",
                 "component": "ixp-ff API",
-                "daysOverdue": 12
+                "daysOverdue": 12,
+                "overdue": 12
             }
         ]
     },
     "feedbackDetail": {
+        "ticket": "QBOA-16115",
+        "app": "QBO",
+        "type": "Widget",
+        "respondent": "Avinash Padmanabhan",
+        "component": "OIAHWidget",
+        "responses": [
+            {
+                "q": "Was this insight relevant?",
+                "a": "Yes",
+                "insight": "4/4 respondents said relevant"
+            },
+            {
+                "q": "Was it routed to the right team?",
+                "a": "Yes",
+                "insight": "4/4 confirmed correct routing"
+            },
+            {
+                "q": "Was this already known?",
+                "a": "No",
+                "insight": "1/4 said already known"
+            },
+            {
+                "q": "Was the bot helpful?",
+                "a": "Yes",
+                "insight": "4/4 found bot helpful"
+            },
+            {
+                "q": "Measurable improvement?",
+                "a": "Yes",
+                "insight": "3/4 reported measurable gains"
+            },
+            {
+                "q": "Usefulness (1-5)",
+                "a": "4.25",
+                "insight": "Average rating across 4 responses"
+            }
+        ],
         "closureResponses": {
             "relevant": 4,
             "rightTeam": 4,
@@ -954,53 +1146,113 @@ const DAILY_DATA = {
     },
     "workload": [
         {
-            "team": "QBO Navigation",
-            "tickets": 1,
+            "name": "Navigation",
+            "app": "QBO",
+            "open": 0,
+            "pastDue": 0,
+            "closed": 1,
+            "total": 1,
+            "pct": 100,
+            "statusColor": "green",
             "status": "Closed"
         },
         {
-            "team": "QBO Help",
-            "tickets": 1,
+            "name": "Help",
+            "app": "QBO",
+            "open": 0,
+            "pastDue": 0,
+            "closed": 1,
+            "total": 1,
+            "pct": 100,
+            "statusColor": "green",
             "status": "Closed"
         },
         {
-            "team": "QBO Subscriptions",
-            "tickets": 1,
+            "name": "Subscriptions",
+            "app": "QBO",
+            "open": 0,
+            "pastDue": 0,
+            "closed": 1,
+            "total": 1,
+            "pct": 100,
+            "statusColor": "green",
             "status": "Closed"
         },
         {
-            "team": "QBO Accounting",
-            "tickets": 1,
+            "name": "Accounting",
+            "app": "QBO",
+            "open": 0,
+            "pastDue": 0,
+            "closed": 1,
+            "total": 1,
+            "pct": 100,
+            "statusColor": "green",
             "status": "Closed"
         },
         {
-            "team": "TTO Web Player",
-            "tickets": 1,
+            "name": "Web Player",
+            "app": "TTO",
+            "open": 0,
+            "pastDue": 0,
+            "closed": 1,
+            "total": 1,
+            "pct": 100,
+            "statusColor": "green",
             "status": "Closed"
         },
         {
-            "team": "TTO Pro Matching",
-            "tickets": 1,
+            "name": "Pro Matching",
+            "app": "TTO",
+            "open": 0,
+            "pastDue": 0,
+            "closed": 1,
+            "total": 1,
+            "pct": 100,
+            "statusColor": "green",
             "status": "Closed"
         },
         {
-            "team": "TTO Documents",
-            "tickets": 1,
+            "name": "Documents",
+            "app": "TTO",
+            "open": 0,
+            "pastDue": 0,
+            "closed": 1,
+            "total": 1,
+            "pct": 100,
+            "statusColor": "green",
             "status": "Closed"
         },
         {
-            "team": "QBO Integrations",
-            "tickets": 1,
+            "name": "Integrations",
+            "app": "QBO",
+            "open": 1,
+            "pastDue": 1,
+            "closed": 0,
+            "total": 1,
+            "pct": 80,
+            "statusColor": "red",
             "status": "Past Due"
         },
         {
-            "team": "TTO UI Platform",
-            "tickets": 1,
+            "name": "UI Platform",
+            "app": "TTO",
+            "open": 1,
+            "pastDue": 1,
+            "closed": 0,
+            "total": 1,
+            "pct": 80,
+            "statusColor": "red",
             "status": "Past Due"
         },
         {
-            "team": "TTO Shell",
-            "tickets": 1,
+            "name": "Shell",
+            "app": "TTO",
+            "open": 1,
+            "pastDue": 1,
+            "closed": 0,
+            "total": 1,
+            "pct": 80,
+            "statusColor": "red",
             "status": "Past Due"
         }
     ],
@@ -1025,27 +1277,74 @@ const DAILY_DATA = {
         }
     ],
     "actions": [
-        "1 new closure detected: DATAX-10588 (TTO/Widget) — form sent to Jiwoo Jeong",
-        "1 new past-due detected: NTEX-1881 (TTO/Widget, 31 days overdue) — blocker form sent to Ali Vali",
-        "4 new feedback responses received today (QBOA-16115, LG01WBPERF-195, QBINT-16376, UIPLATFORM-9447)",
-        "2 reminders sent: QBAA-2244 (Jyothi Potluri), FTDC-4300 (Abhinav Konda)",
-        "Response rate jumped from 20% to 50%"
+        {
+            "color": "blue",
+            "text": "1 new closure detected: DATAX-10588 (TTO/Widget) — form sent to Jiwoo Jeong",
+            "priority": "Action"
+        },
+        {
+            "color": "red",
+            "text": "1 new past-due detected: NTEX-1881 (TTO/Widget, 31 days overdue) — blocker form sent to Ali Vali",
+            "priority": "Critical"
+        },
+        {
+            "color": "green",
+            "text": "4 new feedback responses received today (QBOA-16115, LG01WBPERF-195, QBINT-16376, UIPLATFORM-9447)",
+            "priority": "Positive"
+        },
+        {
+            "color": "blue",
+            "text": "2 reminders sent: QBAA-2244 (Jyothi Potluri), FTDC-4300 (Abhinav Konda)",
+            "priority": "Action"
+        },
+        {
+            "color": "green",
+            "text": "Response rate jumped from 20% to 50%",
+            "priority": "Positive"
+        }
     ],
     "agentActions": {
+        "nextRun": "April 16, 2026 9:00 AM IST",
+        "blockerForms": 1,
+        "remindersDue": 2,
+        "firstReminders": 2,
         "closureFormsSent": 1,
         "blockerFormsSent": 1,
         "remindersSent": 2,
         "smartsheetRowsCreated": 2,
-        "smartsheetRowsUpdated": 4,
         "slackDMsSent": 4
     },
     "recommendations": [
-        "Assign TXP-3389 urgently — now 26 days overdue with no owner",
-        "Assign IXP-26081 — 12 days overdue, still unassigned",
-        "QBINT-16376 blocker confirmed: identity team dependency adding 200ms latency",
-        "UIPLATFORM-9447 blocker: IXP SDK dependency — needs follow-up on IXP-26200",
-        "3 of 4 closure respondents confirmed measurable improvement",
-        "OIAHWidget async fix reduced homepage load by 200ms — validate in next sprint"
+        {
+            "label": "Assign TXP-3389 urgently",
+            "value": "now 26 days overdue with no owner",
+            "alert": true
+        },
+        {
+            "label": "Assign IXP-26081",
+            "value": "12 days overdue, still unassigned",
+            "alert": true
+        },
+        {
+            "label": "QBINT-16376 blocker confirmed",
+            "value": "identity team dependency adding 200ms latency",
+            "alert": false
+        },
+        {
+            "label": "UIPLATFORM-9447 blocker",
+            "value": "IXP SDK dependency — needs follow-up on IXP-26200",
+            "alert": false
+        },
+        {
+            "label": "3 of 4 closure respondents confirmed mea...",
+            "value": "3 of 4 closure respondents confirmed measurable improvement",
+            "alert": false
+        },
+        {
+            "label": "OIAHWidget async fix reduced homepage load by 200ms",
+            "value": "validate in next sprint",
+            "alert": false
+        }
     ]
 },
   "2026-04-16": {
@@ -1191,15 +1490,19 @@ const DAILY_DATA = {
             }
         ],
         "resolutionBreakdown": {
-            "investigated_fixed": 6,
-            "no_action": 1,
-            "redirected": 1,
-            "pending_feedback": 0
+            "done": 6,
+            "duplicate": 1,
+            "obsolete": 1,
+            "other": 0
         },
         "velocity": {
             "avgDaysToClose": 8.4,
             "fastestClose": 1,
-            "slowestClose": 24
+            "slowestClose": 24,
+            "qboToday": 4,
+            "qboPrev": 0,
+            "ttoToday": 4,
+            "ttoPrev": 0
         }
     },
     "criticalTickets": [
@@ -1210,7 +1513,9 @@ const DAILY_DATA = {
             "component": "quickfills",
             "daysOverdue": 27,
             "assignee": "Unassigned",
-            "status": "Past Due"
+            "status": "Past Due",
+            "overdue": 27,
+            "due": "2026-03-20"
         },
         {
             "key": "UIPLATFORM-9447",
@@ -1219,7 +1524,9 @@ const DAILY_DATA = {
             "component": "tax-prep/core",
             "daysOverdue": 32,
             "assignee": "Gregory Miller",
-            "status": "Past Due"
+            "status": "Past Due",
+            "overdue": 32,
+            "due": "2026-03-15"
         },
         {
             "key": "NTEX-1881",
@@ -1228,7 +1535,9 @@ const DAILY_DATA = {
             "component": "notification-center",
             "daysOverdue": 32,
             "assignee": "Ali Vali",
-            "status": "Past Due"
+            "status": "Past Due",
+            "overdue": 32,
+            "due": "2026-03-15"
         },
         {
             "key": "IXP-26081",
@@ -1237,7 +1546,9 @@ const DAILY_DATA = {
             "component": "ixp-ff API",
             "daysOverdue": 13,
             "assignee": "Unassigned",
-            "status": "Past Due"
+            "status": "Past Due",
+            "overdue": 13,
+            "due": "2026-04-03"
         },
         {
             "key": "QBINT-16376",
@@ -1246,7 +1557,9 @@ const DAILY_DATA = {
             "component": "quickbooksapplications API",
             "daysOverdue": 13,
             "assignee": "Anand Mattikopp",
-            "status": "Past Due"
+            "status": "Past Due",
+            "overdue": 13,
+            "due": "2026-04-03"
         }
     ],
     "unassigned": {
@@ -1257,17 +1570,56 @@ const DAILY_DATA = {
                 "key": "TXP-3389",
                 "app": "QBO",
                 "component": "quickfills",
-                "daysOverdue": 27
+                "daysOverdue": 27,
+                "overdue": 27
             },
             {
                 "key": "IXP-26081",
                 "app": "TTO",
                 "component": "ixp-ff API",
-                "daysOverdue": 13
+                "daysOverdue": 13,
+                "overdue": 13
             }
         ]
     },
     "feedbackDetail": {
+        "ticket": "QBOA-16115",
+        "app": "QBO",
+        "type": "Widget",
+        "respondent": "Avinash Padmanabhan",
+        "component": "OIAHWidget",
+        "responses": [
+            {
+                "q": "Was this insight relevant?",
+                "a": "Yes",
+                "insight": "6/7 respondents said relevant"
+            },
+            {
+                "q": "Was it routed to the right team?",
+                "a": "Yes",
+                "insight": "5/7 confirmed correct routing"
+            },
+            {
+                "q": "Was this already known?",
+                "a": "No",
+                "insight": "2/7 said already known"
+            },
+            {
+                "q": "Was the bot helpful?",
+                "a": "Yes",
+                "insight": "6/7 found bot helpful"
+            },
+            {
+                "q": "Measurable improvement?",
+                "a": "Yes",
+                "insight": "4/7 reported measurable gains"
+            },
+            {
+                "q": "Usefulness (1-5)",
+                "a": "3.86",
+                "insight": "Average rating across 7 responses"
+            }
+        ],
         "closureResponses": {
             "relevant": 6,
             "rightTeam": 5,
@@ -1286,58 +1638,124 @@ const DAILY_DATA = {
     },
     "workload": [
         {
-            "team": "QBO Navigation",
-            "tickets": 1,
+            "name": "Navigation",
+            "app": "QBO",
+            "open": 0,
+            "pastDue": 0,
+            "closed": 1,
+            "total": 1,
+            "pct": 100,
+            "statusColor": "green",
             "status": "Closed"
         },
         {
-            "team": "QBO Help",
-            "tickets": 1,
+            "name": "Help",
+            "app": "QBO",
+            "open": 0,
+            "pastDue": 0,
+            "closed": 1,
+            "total": 1,
+            "pct": 100,
+            "statusColor": "green",
             "status": "Closed"
         },
         {
-            "team": "QBO Subscriptions",
-            "tickets": 1,
+            "name": "Subscriptions",
+            "app": "QBO",
+            "open": 0,
+            "pastDue": 0,
+            "closed": 1,
+            "total": 1,
+            "pct": 100,
+            "statusColor": "green",
             "status": "Closed"
         },
         {
-            "team": "QBO Accounting",
-            "tickets": 1,
+            "name": "Accounting",
+            "app": "QBO",
+            "open": 0,
+            "pastDue": 0,
+            "closed": 1,
+            "total": 1,
+            "pct": 100,
+            "statusColor": "green",
             "status": "Closed"
         },
         {
-            "team": "TTO Web Player",
-            "tickets": 1,
+            "name": "Web Player",
+            "app": "TTO",
+            "open": 0,
+            "pastDue": 0,
+            "closed": 1,
+            "total": 1,
+            "pct": 100,
+            "statusColor": "green",
             "status": "Closed"
         },
         {
-            "team": "TTO Pro Matching",
-            "tickets": 1,
+            "name": "Pro Matching",
+            "app": "TTO",
+            "open": 0,
+            "pastDue": 0,
+            "closed": 1,
+            "total": 1,
+            "pct": 100,
+            "statusColor": "green",
             "status": "Closed"
         },
         {
-            "team": "TTO Documents",
-            "tickets": 1,
+            "name": "Documents",
+            "app": "TTO",
+            "open": 0,
+            "pastDue": 0,
+            "closed": 1,
+            "total": 1,
+            "pct": 100,
+            "statusColor": "green",
             "status": "Closed"
         },
         {
-            "team": "TTO Data Platform",
-            "tickets": 1,
+            "name": "Data Platform",
+            "app": "TTO",
+            "open": 0,
+            "pastDue": 0,
+            "closed": 1,
+            "total": 1,
+            "pct": 100,
+            "statusColor": "green",
             "status": "Closed"
         },
         {
-            "team": "QBO Integrations",
-            "tickets": 1,
+            "name": "Integrations",
+            "app": "QBO",
+            "open": 1,
+            "pastDue": 1,
+            "closed": 0,
+            "total": 1,
+            "pct": 80,
+            "statusColor": "red",
             "status": "Past Due"
         },
         {
-            "team": "TTO UI Platform",
-            "tickets": 1,
+            "name": "UI Platform",
+            "app": "TTO",
+            "open": 1,
+            "pastDue": 1,
+            "closed": 0,
+            "total": 1,
+            "pct": 80,
+            "statusColor": "red",
             "status": "Past Due"
         },
         {
-            "team": "TTO Shell",
-            "tickets": 1,
+            "name": "Shell",
+            "app": "TTO",
+            "open": 1,
+            "pastDue": 1,
+            "closed": 0,
+            "total": 1,
+            "pct": 80,
+            "statusColor": "red",
             "status": "Past Due"
         }
     ],
@@ -1368,27 +1786,74 @@ const DAILY_DATA = {
         }
     ],
     "actions": [
-        "1 new closure detected: TPDM-2137 (TTO/API) — Russell Dean flagged as NOT relevant (telemetry endpoint)",
-        "4 new feedback responses: QBAA-2244 (wrong team), FTDC-4300 (known issue, bot helped prioritize), NTEX-1881 (wrong team — shell platform), DATAX-10588 (fixed, -300ms)",
-        "2 reminders sent to unassigned tickets: TXP-3389, IXP-26081 — still no response",
-        "Response rate reached 76.9% (10 of 13 forms) in 3 days",
-        "3 wrong-team tickets identified: QBAA-2244, NTEX-1881, TPDM-2137 — bot needs team ownership mapping improvement"
+        {
+            "color": "red",
+            "text": "1 new closure detected: TPDM-2137 (TTO/API) — Russell Dean flagged as NOT relevant (telemetry endpoint)",
+            "priority": "Critical"
+        },
+        {
+            "color": "amber",
+            "text": "4 new feedback responses: QBAA-2244 (wrong team), FTDC-4300 (known issue, bot helped prioritize), NTEX-1881 (wrong team — shell platform), DATAX-10588 (fixed, -300ms)",
+            "priority": "High"
+        },
+        {
+            "color": "red",
+            "text": "2 reminders sent to unassigned tickets: TXP-3389, IXP-26081 — still no response",
+            "priority": "Critical"
+        },
+        {
+            "color": "green",
+            "text": "Response rate reached 76.9% (10 of 13 forms) in 3 days",
+            "priority": "Positive"
+        },
+        {
+            "color": "green",
+            "text": "3 wrong-team tickets identified: QBAA-2244, NTEX-1881, TPDM-2137 — bot needs team ownership mapping improvement",
+            "priority": "Positive"
+        }
     ],
     "agentActions": {
+        "nextRun": "April 17, 2026 9:00 AM IST",
+        "blockerForms": 0,
+        "remindersDue": 2,
+        "firstReminders": 2,
         "closureFormsSent": 1,
         "blockerFormsSent": 0,
         "remindersSent": 2,
         "smartsheetRowsCreated": 1,
-        "smartsheetRowsUpdated": 6,
         "slackDMsSent": 3
     },
     "recommendations": [
-        "CRITICAL: Assign TXP-3389 and IXP-26081 — both unassigned and overdue with no response to multiple reminders",
-        "Improve team ownership mapping: 3 of 13 tickets (23%) routed to wrong team (QBAA-2244, NTEX-1881, TPDM-2137)",
-        "Exclude telemetry/observability endpoints (uedata) from automated ticket creation",
-        "4 of 8 closures confirmed measurable performance improvement — 50% improvement hit rate",
-        "Cross-team platform dependencies remain top blocker — recommend auto-escalation workflow",
-        "Overall: 76.9% response rate in 3 days, 4 confirmed improvements (QBB-6548: -150ms, LG01WBPERF-77: -400ms, QBOA-16115: -200ms, DATAX-10588: -300ms)"
+        {
+            "label": "CRITICAL",
+            "value": "Assign TXP-3389 and IXP-26081 — both unassigned and overdue with no response to multiple reminders",
+            "alert": true
+        },
+        {
+            "label": "Improve team ownership mapping",
+            "value": "3 of 13 tickets (23%) routed to wrong team (QBAA-2244, NTEX-1881, TPDM-2137)",
+            "alert": false
+        },
+        {
+            "label": "Exclude telemetry/observability endpoint...",
+            "value": "Exclude telemetry/observability endpoints (uedata) from automated ticket creation",
+            "alert": false
+        },
+        {
+            "label": "4 of 8 closures confirmed measurable performance improvement",
+            "value": "50% improvement hit rate",
+            "alert": false
+        },
+        {
+            "label": "Cross-team platform dependencies remain top blocker",
+            "value": "recommend auto-escalation workflow",
+            "alert": false
+        },
+        {
+            "label": "Overall",
+            "value": "76.9% response rate in 3 days, 4 confirmed improvements (QBB-6548: -150ms, LG01WBPERF-77: -400ms, QBOA-16115: -200ms, DATAX-10588: -300ms)",
+            "alert": false
+        }
     ]
 },
 // ^^^ NEW DAILY DATA ENTRIES GET APPENDED ABOVE THIS LINE ^^^
