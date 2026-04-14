@@ -457,118 +457,3590 @@ tr:nth-child(even):hover td { background: var(--light-blue); }
  */
 const DAILY_DATA = {
   "2026-04-14": {
-    date: "2026-04-14",
-    dateFormatted: "April 14, 2026",
-    qbo: { open: 51, closed: 5, pastDue: 35, total: 56, widget: 32, api: 24, assigned: 24, unassigned: 11, avgOverdue: 13, maxOverdue: 25 },
-    tto: { open: 34, closed: 5, pastDue: 25, total: 39, widget: 22, api: 17, assigned: 19, unassigned: 6, avgOverdue: 15, maxOverdue: 30 },
-    grand: { open: 85, closed: 10, pastDue: 60, total: 95, onTrack: 25 },
-    newClosuresToday: 8,
-    severity: { critical: { qbo: 4, tto: 7 }, high: { qbo: 27, tto: 16 }, moderate: { qbo: 4, tto: 2 } },
-    feedback: { sent: 11, received: 1, responseRate: 9, qboRate: 0, ttoRate: 20, notSent: 84 },
-    closures: {
-      qbo: [
-        { key: "QBOA-16115", type: "Widget", component: "OIAHeaderItem", assignee: "Avinash Padmanabhan", resolution: "Obsolete", feedback: "Pending" },
-        { key: "QBAA-2244", type: "API", component: "sbseggraphqlorch", assignee: "Jyothi Potluri", resolution: "Duplicate", feedback: "Pending" },
-        { key: "QBAA-2243", type: "API", component: "advancedMatchDetails", assignee: "Jyothi Potluri", resolution: "Duplicate", feedback: "Pending" },
-        { key: "LG01WBPERF-195", type: "API", component: "subscription-sbg-aws", assignee: "Anusha Ragunathan", resolution: "\u2014", feedback: "Pending" }
-      ],
-      tto: [
-        { key: "LG01WBPERF-77", type: "Widget", component: "tto-player", assignee: "David LeRoy", resolution: "Done", priority: "P1: High" },
-        { key: "LG01WBPERF-76", type: "Widget", component: "gtkm/parent", assignee: "Moxiao He", resolution: "Done", priority: "P1: High" },
-        { key: "FTDC-4300", type: "Widget", component: "pro-matching", assignee: "Abhinav Konda", resolution: "\u2014", priority: "P2" },
-        { key: "DATAX-10588", type: "Widget", component: "my-docs/vault", assignee: "Jiwoo Jeong", resolution: "Duplicate", priority: "P2" }
-      ],
-      resolutionBreakdown: { done: 4, duplicate: 3, obsolete: 2, other: 1 },
-      velocity: { qboToday: 4, qboPrev: 1, ttoToday: 4, ttoPrev: 1 }
+    "date": "2026-04-14",
+    "dateFormatted": "April 14, 2026",
+    "qbo": {
+        "open": 51,
+        "closed": 5,
+        "pastDue": 35,
+        "total": 56,
+        "widget": 31,
+        "api": 25,
+        "assigned": 40,
+        "unassigned": 11,
+        "avgOverdue": 12,
+        "maxOverdue": 27
     },
-    criticalTickets: [
-      { key: "UIPLATFORM-9447", app: "TTO", type: "Widget", component: "tax-prep/core", assignee: "Gregory Miller", due: "2026-03-15", overdue: 30 },
-      { key: "UIPLATFORM-9445", app: "TTO", type: "Widget", component: "tax-prep/iep", assignee: "Gregory Miller", due: "2026-03-15", overdue: 30 },
-      { key: "NTEX-1881", app: "TTO", type: "Widget", component: "notification-center", assignee: "Ali Vali", due: "2026-03-15", overdue: 30 },
-      { key: "CGCPVA-6110", app: "TTO", type: "Widget", component: "tto-player", assignee: null, due: "2026-03-15", overdue: 30 },
-      { key: "CGCPVA-6109", app: "TTO", type: "Widget", component: "tto-player", assignee: null, due: "2026-03-15", overdue: 30 },
-      { key: "TXP-3389", app: "QBO", type: "Widget", component: "quickfills", assignee: null, due: "2026-03-20", overdue: 25 },
-      { key: "SBGIPD-1729", app: "QBO", type: "Widget", component: "page-message", assignee: "Durga Kandasamy", due: "2026-03-20", overdue: 25 },
-      { key: "CONSUMER-23161", app: "TTO", type: "API", component: "lxor activity", assignee: "Derek Wilson", due: "2026-03-20", overdue: 25 },
-      { key: "CONSUMER-23160", app: "TTO", type: "API", component: "ixp-ff flags", assignee: "Derek Wilson", due: "2026-03-20", overdue: 25 },
-      { key: "AIPA-59", app: "QBO", type: "Widget", component: "iaqb-settings", assignee: null, due: "2026-03-20", overdue: 25 },
-      { key: "AIPA-58", app: "QBO", type: "Widget", component: "toolbox-panel-footer", assignee: null, due: "2026-03-20", overdue: 25 }
-    ],
-    unassigned: {
-      count: 17,
-      critical: [
-        { key: "CGCPVA-6110", app: "TTO", overdue: 30 },
-        { key: "CGCPVA-6109", app: "TTO", overdue: 30 },
-        { key: "TXP-3389", app: "QBO", overdue: 25 },
-        { key: "AIPA-59", app: "QBO", overdue: 25 },
-        { key: "AIPA-58", app: "QBO", overdue: 25 }
-      ],
-      high: [
-        { key: "TTOPLAT-19517", app: "TTO", overdue: 11 },
-        { key: "QBOEA-27669", app: "QBO", overdue: 11 },
-        { key: "QBOEA-27668", app: "QBO", overdue: 11 },
-        { key: "ME-3785", app: "QBO", overdue: 11 },
-        { key: "IXP-26081", app: "TTO", overdue: 11 },
-        { key: "IXP-26080", app: "TTO", overdue: 11 },
-        { key: "IXP-26079", app: "TTO", overdue: 11 },
-        { key: "IIEA-19732", app: "TTO", overdue: 11 },
-        { key: "DATAX-11137", app: "TTO", overdue: 11 },
-        { key: "BDPLT-15941", app: "QBO", overdue: 11 }
-      ]
+    "tto": {
+        "open": 34,
+        "closed": 5,
+        "pastDue": 25,
+        "total": 39,
+        "widget": 21,
+        "api": 18,
+        "assigned": 28,
+        "unassigned": 6,
+        "avgOverdue": 15,
+        "maxOverdue": 30
     },
-    feedbackDetail: {
-      respondent: "Russell Dean", ticket: "TPDM-2137", app: "TTO", type: "API", component: "uedata.api",
-      responses: [
-        { q: "Issue Relevant?", a: "Yes", insight: "Bot identified a real issue" },
-        { q: "Right Team?", a: "Yes", insight: "Correct routing" },
-        { q: "Already Known?", a: "Yes", insight: "Known \u2014 bot confirmed priority" },
-        { q: "Bot Helpful?", a: "Yes", insight: "Value confirmed" },
-        { q: "Context Enough?", a: "Partially", insight: "Needs more verbose analysis" },
-        { q: "Action Taken", a: "Redirected to another team", insight: "Cross-team dependency" },
-        { q: "Own or Consume?", a: "Consume", insight: "Downstream consumer" },
-        { q: "Improvement?", a: "No", insight: "No perf gain measured yet" },
-        { q: "Data Useful?", a: "Somewhat", insight: "Room for improvement" },
-        { q: "Suggestion", a: "Verbose better", insight: "Increase report detail level" }
-      ]
+    "grand": {
+        "open": 85,
+        "closed": 10,
+        "pastDue": 60,
+        "total": 95,
+        "onTrack": 25
     },
-    workload: [
-      { name: "Megha Agrawal", app: "QBO", open: 12, pastDue: 9, closed: 0, total: 12, pct: 100, status: "Overloaded", statusColor: "red" },
-      { name: "Puneet Bhagat", app: "QBO", open: 10, pastDue: 8, closed: 0, total: 10, pct: 83, status: "Overloaded", statusColor: "red" },
-      { name: "Derek Wilson", app: "TTO", open: 8, pastDue: 8, closed: 0, total: 8, pct: 67, status: "Heavy", statusColor: "amber" },
-      { name: "Erica Hang", app: "QBO", open: 5, pastDue: 4, closed: 0, total: 5, pct: 42, status: "Moderate", statusColor: "amber" },
-      { name: "Anand Mattikopp", app: "QBO", open: 4, pastDue: 2, closed: 0, total: 4, pct: 33, status: "Normal", statusColor: "blue" },
-      { name: "Lester Gloria", app: "TTO", open: 3, pastDue: 0, closed: 0, total: 3, pct: 25, status: "Normal", statusColor: "blue" },
-      { name: "Ali Vali", app: "TTO", open: 3, pastDue: 3, closed: 0, total: 3, pct: 25, status: "All Past Due", statusColor: "amber" },
-      { name: "Durga Kandasamy", app: "QBO", open: 4, pastDue: 1, closed: 0, total: 4, pct: 33, status: "Normal", statusColor: "blue" },
-      { name: "David LeRoy", app: "TTO", open: 2, pastDue: 2, closed: 1, total: 3, pct: 25, status: "Closing", statusColor: "green" },
-      { name: "Bhavin Bhatia", app: "QBO", open: 2, pastDue: 2, closed: 0, total: 2, pct: 17, status: "Normal", statusColor: "blue" }
-    ],
-    closureLeaders: [
-      { name: "David L.", count: 1 }, { name: "Aman K.", count: 1 }, { name: "Russell D.", count: 1 },
-      { name: "Jyothi P.", count: 2 }, { name: "Anusha R.", count: 1 }, { name: "Others", count: 4 }
-    ],
-    actions: [
-      { priority: "Urgent", color: "red", text: "Escalate 11 critical past-due tickets (25-30 days overdue)" },
-      { priority: "Urgent", color: "red", text: "Triage 17 unassigned tickets \u2014 assign owners to enable blocker forms" },
-      { priority: "High", color: "amber", text: "Send blocker forms for 43 assigned past-due tickets (next agent run)" },
-      { priority: "High", color: "amber", text: "Follow up on QBO feedback \u2014 0% response rate needs direct outreach" },
-      { priority: "Normal", color: "blue", text: "Increase verbosity in nightly agentic reports (per Russell Dean\u2019s feedback)" },
-      { priority: "Normal", color: "blue", text: "Monitor workload for Megha Agrawal (12 tickets) and Puneet Bhagat (10 tickets)" }
-    ],
-    agentActions: {
-      nextRun: "2026-04-15 09:00 IST",
-      blockerForms: 43,
-      remindersDue: 0,
-      firstReminders: "2026-04-16"
+    "newClosuresToday": 8,
+    "severity": {
+        "critical": {
+            "qbo": 2,
+            "tto": 8
+        },
+        "high": {
+            "qbo": 30,
+            "tto": 16
+        },
+        "moderate": {
+            "qbo": 3,
+            "tto": 1
+        }
     },
-    recommendations: [
-      { label: "Report Verbosity", value: "Increase for API tickets" },
-      { label: "Routing Context", value: "Add cross-team info" },
-      { label: "Duplicate Detection", value: "3 of 10 closed = Duplicate" },
-      { label: "QBO Response Rate", value: "0% \u2014 needs intervention", alert: true }
+    "feedback": {
+        "sent": 11,
+        "received": 1,
+        "responseRate": 9,
+        "qboRate": 0,
+        "ttoRate": 12,
+        "notSent": 84
+    },
+    "closures": {
+        "qbo": [
+            {
+                "key": "ME-3848",
+                "type": "API",
+                "component": "InvoiceService",
+                "assignee": "Megha Agrawal",
+                "resolution": "Done",
+                "feedback": "Received"
+            },
+            {
+                "key": "LG01WBPERF-1869",
+                "type": "Widget",
+                "component": "iaqb-settings",
+                "assignee": "Anand Mattikopp",
+                "resolution": "Won't Fix",
+                "feedback": "Pending"
+            },
+            {
+                "key": "QBB-25864",
+                "type": "API",
+                "component": "subscription-sbg-aws",
+                "assignee": "Sanjay Kumar",
+                "resolution": "Won't Fix",
+                "feedback": "Pending"
+            },
+            {
+                "key": "TXP-4349",
+                "type": "Widget",
+                "component": "QuickbooksDesktopMigrationBanner",
+                "assignee": "Avinash Padmanabhan",
+                "resolution": "Done",
+                "feedback": "Pending"
+            }
+        ],
+        "tto": [
+            {
+                "key": "TTOB-24911",
+                "type": "Widget",
+                "component": "tax-prep/core",
+                "assignee": "Russell Dean",
+                "resolution": "Done",
+                "priority": "P2"
+            },
+            {
+                "key": "TPDM-19089",
+                "type": "API",
+                "component": "ixp-ff flags",
+                "assignee": "Mark Thompson",
+                "resolution": "Obsolete",
+                "priority": "P2"
+            },
+            {
+                "key": "TPDM-2501",
+                "type": "Widget",
+                "component": "DashboardWidgets",
+                "assignee": "Lester Gloria",
+                "resolution": "Duplicate",
+                "priority": "P3"
+            },
+            {
+                "key": "TPDM-13455",
+                "type": "API",
+                "component": "ixp-ff flags",
+                "assignee": "Jiwoo Jeong",
+                "resolution": "Obsolete",
+                "priority": "P1: High"
+            }
+        ],
+        "resolutionBreakdown": {
+            "done": 3,
+            "duplicate": 1,
+            "obsolete": 2,
+            "other": 2
+        },
+        "velocity": {
+            "qboToday": 4,
+            "qboPrev": 1,
+            "ttoToday": 4,
+            "ttoPrev": 1
+        }
+    },
+    "criticalTickets": [
+        {
+            "key": "QBOEA-22960",
+            "app": "QBO",
+            "type": "Widget",
+            "component": "BillListPage",
+            "assignee": "Priya Mehta",
+            "due": "2026-03-12",
+            "overdue": 29
+        },
+        {
+            "key": "ME-24892",
+            "app": "QBO",
+            "type": "API",
+            "component": "Banking API",
+            "assignee": null,
+            "due": "2026-03-22",
+            "overdue": 28
+        },
+        {
+            "key": "LG01WBPERF-19250",
+            "app": "TTO",
+            "type": "Widget",
+            "component": "my-docs/vault",
+            "assignee": "Derek Wilson",
+            "due": "2026-03-17",
+            "overdue": 32
+        },
+        {
+            "key": "CONSUMER-14145",
+            "app": "TTO",
+            "type": "API",
+            "component": "ixp-ff flags",
+            "assignee": null,
+            "due": "2026-03-20",
+            "overdue": 33
+        },
+        {
+            "key": "FTDC-29989",
+            "app": "TTO",
+            "type": "Widget",
+            "component": "DashboardWidgets",
+            "assignee": "Gregory Miller",
+            "due": "2026-03-14",
+            "overdue": 30
+        },
+        {
+            "key": "IXP-9609",
+            "app": "TTO",
+            "type": "Widget",
+            "component": "notification-center",
+            "assignee": "Sarah Chen",
+            "due": "2026-03-22",
+            "overdue": 31
+        },
+        {
+            "key": "IXP-17171",
+            "app": "TTO",
+            "type": "Widget",
+            "component": "gtkm/parent",
+            "assignee": "Ali Vali",
+            "due": "2026-03-14",
+            "overdue": 28
+        },
+        {
+            "key": "TTOPLAT-14833",
+            "app": "TTO",
+            "type": "API",
+            "component": "DocumentUploadAPI",
+            "assignee": null,
+            "due": "2026-03-22",
+            "overdue": 33
+        }
+    ],
+    "unassigned": {
+        "count": 17,
+        "critical": [
+            {
+                "key": "LG01WBPERF-16337",
+                "app": "QBO",
+                "overdue": 34
+            },
+            {
+                "key": "SBGIPD-19128",
+                "app": "QBO",
+                "overdue": 30
+            },
+            {
+                "key": "TTOPLAT-24616",
+                "app": "TTO",
+                "overdue": 30
+            },
+            {
+                "key": "TTOPLAT-29992",
+                "app": "TTO",
+                "overdue": 34
+            }
+        ],
+        "high": [
+            {
+                "key": "SBGIPD-26185",
+                "app": "QBO",
+                "overdue": 11
+            },
+            {
+                "key": "QBOA-10617",
+                "app": "QBO",
+                "overdue": 12
+            },
+            {
+                "key": "QBAA-15867",
+                "app": "QBO",
+                "overdue": 9
+            },
+            {
+                "key": "SBGIPD-17403",
+                "app": "QBO",
+                "overdue": 10
+            },
+            {
+                "key": "ME-4486",
+                "app": "QBO",
+                "overdue": 11
+            },
+            {
+                "key": "ME-20954",
+                "app": "QBO",
+                "overdue": 10
+            },
+            {
+                "key": "QBAA-13252",
+                "app": "QBO",
+                "overdue": 10
+            },
+            {
+                "key": "ME-26514",
+                "app": "QBO",
+                "overdue": 13
+            },
+            {
+                "key": "TTOB-20626",
+                "app": "TTO",
+                "overdue": 11
+            },
+            {
+                "key": "DATAX-1638",
+                "app": "TTO",
+                "overdue": 9
+            },
+            {
+                "key": "CONSUMER-29793",
+                "app": "TTO",
+                "overdue": 11
+            },
+            {
+                "key": "NTEX-2898",
+                "app": "TTO",
+                "overdue": 10
+            }
+        ]
+    },
+    "feedbackDetail": {
+        "respondent": "Russell Dean",
+        "ticket": "TPDM-2137",
+        "app": "TTO",
+        "type": "API",
+        "component": "uedata.api",
+        "responses": [
+            {
+                "q": "Issue Relevant?",
+                "a": "Yes",
+                "insight": "Bot identified a real issue"
+            },
+            {
+                "q": "Right Team?",
+                "a": "Yes",
+                "insight": "Routing accuracy check"
+            },
+            {
+                "q": "Already Known?",
+                "a": "No",
+                "insight": "Novelty of finding"
+            },
+            {
+                "q": "Bot Helpful?",
+                "a": "Yes",
+                "insight": "Value validation"
+            },
+            {
+                "q": "Context Enough?",
+                "a": "Yes",
+                "insight": "Report completeness"
+            },
+            {
+                "q": "Action Taken",
+                "a": "Redirected to another team",
+                "insight": "Response type"
+            },
+            {
+                "q": "Own or Consume?",
+                "a": "Own",
+                "insight": "Ownership model"
+            },
+            {
+                "q": "Improvement?",
+                "a": "In Progress",
+                "insight": "Impact measurement"
+            },
+            {
+                "q": "Data Useful?",
+                "a": "Yes",
+                "insight": "Data quality"
+            },
+            {
+                "q": "Suggestion",
+                "a": "Add API trace IDs",
+                "insight": "Feature request"
+            }
+        ]
+    },
+    "workload": [
+        {
+            "name": "Anand Mattikopp",
+            "app": "QBO",
+            "open": 12,
+            "pastDue": 11,
+            "closed": 1,
+            "total": 13,
+            "pct": 100,
+            "status": "Overloaded",
+            "statusColor": "red"
+        },
+        {
+            "name": "Puneet Bhagat",
+            "app": "QBO",
+            "open": 8,
+            "pastDue": 4,
+            "closed": 2,
+            "total": 10,
+            "pct": 83,
+            "status": "Overloaded",
+            "statusColor": "red"
+        },
+        {
+            "name": "Durga Kandasamy",
+            "app": "QBO",
+            "open": 9,
+            "pastDue": 9,
+            "closed": 1,
+            "total": 10,
+            "pct": 83,
+            "status": "Overloaded",
+            "statusColor": "red"
+        },
+        {
+            "name": "Megha Agrawal",
+            "app": "QBO",
+            "open": 6,
+            "pastDue": 5,
+            "closed": 2,
+            "total": 8,
+            "pct": 66,
+            "status": "Heavy",
+            "statusColor": "amber"
+        },
+        {
+            "name": "Erica Hang",
+            "app": "QBO",
+            "open": 5,
+            "pastDue": 3,
+            "closed": 1,
+            "total": 6,
+            "pct": 50,
+            "status": "Moderate",
+            "statusColor": "amber"
+        },
+        {
+            "name": "Ali Vali",
+            "app": "TTO",
+            "open": 6,
+            "pastDue": 4,
+            "closed": 0,
+            "total": 6,
+            "pct": 75,
+            "status": "Overloaded",
+            "statusColor": "red"
+        },
+        {
+            "name": "David LeRoy",
+            "app": "TTO",
+            "open": 6,
+            "pastDue": 1,
+            "closed": 0,
+            "total": 6,
+            "pct": 75,
+            "status": "Overloaded",
+            "statusColor": "red"
+        },
+        {
+            "name": "Bhavin Bhatia",
+            "app": "QBO",
+            "open": 3,
+            "pastDue": 1,
+            "closed": 0,
+            "total": 3,
+            "pct": 25,
+            "status": "Normal",
+            "statusColor": "blue"
+        },
+        {
+            "name": "Derek Wilson",
+            "app": "TTO",
+            "open": 2,
+            "pastDue": 1,
+            "closed": 0,
+            "total": 2,
+            "pct": 25,
+            "status": "Normal",
+            "statusColor": "blue"
+        },
+        {
+            "name": "Lester Gloria",
+            "app": "TTO",
+            "open": 2,
+            "pastDue": 2,
+            "closed": 0,
+            "total": 2,
+            "pct": 25,
+            "status": "Normal",
+            "statusColor": "blue"
+        }
+    ],
+    "closureLeaders": [
+        {
+            "name": "Jyothi P.",
+            "count": 1
+        },
+        {
+            "name": "Erica H.",
+            "count": 2
+        },
+        {
+            "name": "Puneet B.",
+            "count": 3
+        },
+        {
+            "name": "Priya M.",
+            "count": 2
+        },
+        {
+            "name": "Gregory M.",
+            "count": 1
+        },
+        {
+            "name": "Others",
+            "count": 1
+        }
+    ],
+    "actions": [
+        {
+            "priority": "Urgent",
+            "color": "red",
+            "text": "Escalate 10 critical past-due tickets (30-35 days overdue)"
+        },
+        {
+            "priority": "Urgent",
+            "color": "red",
+            "text": "Triage 17 unassigned tickets — assign owners to enable blocker forms"
+        },
+        {
+            "priority": "High",
+            "color": "amber",
+            "text": "Send blocker forms for 58 assigned past-due tickets"
+        },
+        {
+            "priority": "High",
+            "color": "amber",
+            "text": "Follow up on QBO feedback — 0% response rate needs outreach"
+        },
+        {
+            "priority": "Normal",
+            "color": "blue",
+            "text": "Review closure patterns for process improvement opportunities"
+        }
+    ],
+    "agentActions": {
+        "nextRun": "2026-04-15 09:00 IST",
+        "blockerForms": 58,
+        "remindersDue": 0,
+        "firstReminders": "2026-04-15"
+    },
+    "recommendations": [
+        {
+            "label": "Report Verbosity",
+            "value": "Increase for API tickets"
+        },
+        {
+            "label": "Routing Context",
+            "value": "Add cross-team info"
+        },
+        {
+            "label": "Duplicate Detection",
+            "value": "1 of 8 closed = Duplicate"
+        },
+        {
+            "label": "QBO Response Rate",
+            "value": "0% — needs intervention",
+            "alert": true
+        }
     ]
-  }
-};
+},
+  "2026-04-15": {
+    "date": "2026-04-15",
+    "dateFormatted": "April 15, 2026",
+    "qbo": {
+        "open": 52,
+        "closed": 8,
+        "pastDue": 34,
+        "total": 60,
+        "widget": 34,
+        "api": 26,
+        "assigned": 43,
+        "unassigned": 9,
+        "avgOverdue": 12,
+        "maxOverdue": 25
+    },
+    "tto": {
+        "open": 31,
+        "closed": 9,
+        "pastDue": 24,
+        "total": 40,
+        "widget": 22,
+        "api": 18,
+        "assigned": 26,
+        "unassigned": 5,
+        "avgOverdue": 15,
+        "maxOverdue": 29
+    },
+    "grand": {
+        "open": 83,
+        "closed": 17,
+        "pastDue": 58,
+        "total": 100,
+        "onTrack": 25
+    },
+    "newClosuresToday": 7,
+    "severity": {
+        "critical": {
+            "qbo": 4,
+            "tto": 5
+        },
+        "high": {
+            "qbo": 28,
+            "tto": 17
+        },
+        "moderate": {
+            "qbo": 2,
+            "tto": 2
+        }
+    },
+    "feedback": {
+        "sent": 18,
+        "received": 1,
+        "responseRate": 6,
+        "qboRate": 1,
+        "ttoRate": 19,
+        "notSent": 82
+    },
+    "closures": {
+        "qbo": [
+            {
+                "key": "QBOA-9147",
+                "type": "API",
+                "component": "Banking API",
+                "assignee": "Anand Mattikopp",
+                "resolution": "Cannot Reproduce",
+                "feedback": "Received"
+            },
+            {
+                "key": "BDPLT-9185",
+                "type": "Widget",
+                "component": "DashboardSummary",
+                "assignee": "Puneet Bhagat",
+                "resolution": "Cannot Reproduce",
+                "feedback": "Pending"
+            },
+            {
+                "key": "QBOA-2657",
+                "type": "API",
+                "component": "ReconciliationAPI",
+                "assignee": "Megha Agrawal",
+                "resolution": "Done",
+                "feedback": "Pending"
+            }
+        ],
+        "tto": [
+            {
+                "key": "FTDC-16913",
+                "type": "API",
+                "component": "TaxCalcService",
+                "assignee": "Lester Gloria",
+                "resolution": "Won't Fix",
+                "priority": "P1: High"
+            },
+            {
+                "key": "FTDC-1070",
+                "type": "API",
+                "component": "TaxCalcService",
+                "assignee": "Gregory Miller",
+                "resolution": "Cannot Reproduce",
+                "priority": "P1: High"
+            },
+            {
+                "key": "LG01WBPERF-26669",
+                "type": "Widget",
+                "component": "tax-prep/iep",
+                "assignee": "Mark Thompson",
+                "resolution": "Cannot Reproduce",
+                "priority": "P3"
+            },
+            {
+                "key": "NTEX-2916",
+                "type": "Widget",
+                "component": "notification-center",
+                "assignee": "Russell Dean",
+                "resolution": "Done",
+                "priority": "P2"
+            }
+        ],
+        "resolutionBreakdown": {
+            "done": 2,
+            "duplicate": 0,
+            "obsolete": 0,
+            "other": 5
+        },
+        "velocity": {
+            "qboToday": 3,
+            "qboPrev": 5,
+            "ttoToday": 4,
+            "ttoPrev": 5
+        }
+    },
+    "criticalTickets": [
+        {
+            "key": "QBB-20142",
+            "app": "QBO",
+            "type": "API",
+            "component": "BillPaymentAPI",
+            "assignee": "Anusha Ragunathan",
+            "due": "2026-03-15",
+            "overdue": 25
+        },
+        {
+            "key": "QBOA-28896",
+            "app": "QBO",
+            "type": "Widget",
+            "component": "SalesTransactionList",
+            "assignee": null,
+            "due": "2026-03-12",
+            "overdue": 29
+        },
+        {
+            "key": "AIPA-4928",
+            "app": "QBO",
+            "type": "API",
+            "component": "Banking API",
+            "assignee": "Megha Agrawal",
+            "due": "2026-03-12",
+            "overdue": 26
+        },
+        {
+            "key": "LG01WBPERF-18130",
+            "app": "QBO",
+            "type": "Widget",
+            "component": "InvoiceListToolbar",
+            "assignee": "Anand Mattikopp",
+            "due": "2026-03-20",
+            "overdue": 29
+        },
+        {
+            "key": "UIPLATFORM-23009",
+            "app": "TTO",
+            "type": "Widget",
+            "component": "DashboardWidgets",
+            "assignee": null,
+            "due": "2026-03-20",
+            "overdue": 28
+        },
+        {
+            "key": "TTOB-16017",
+            "app": "TTO",
+            "type": "API",
+            "component": "DocumentUploadAPI",
+            "assignee": "Ali Vali",
+            "due": "2026-03-12",
+            "overdue": 25
+        },
+        {
+            "key": "CGCPVA-5340",
+            "app": "TTO",
+            "type": "Widget",
+            "component": "SalesTransactionList",
+            "assignee": "Lester Gloria",
+            "due": "2026-03-21",
+            "overdue": 29
+        },
+        {
+            "key": "IXP-24053",
+            "app": "TTO",
+            "type": "Widget",
+            "component": "ExpenseListContainer",
+            "assignee": "Mark Thompson",
+            "due": "2026-03-10",
+            "overdue": 28
+        }
+    ],
+    "unassigned": {
+        "count": 14,
+        "critical": [
+            {
+                "key": "ME-10810",
+                "app": "QBO",
+                "overdue": 33
+            },
+            {
+                "key": "QBOA-29774",
+                "app": "QBO",
+                "overdue": 29
+            },
+            {
+                "key": "SBGIPD-4782",
+                "app": "QBO",
+                "overdue": 28
+            },
+            {
+                "key": "LG01WBPERF-19128",
+                "app": "TTO",
+                "overdue": 29
+            },
+            {
+                "key": "CGCPVA-10232",
+                "app": "TTO",
+                "overdue": 32
+            }
+        ],
+        "high": [
+            {
+                "key": "QBOEA-24514",
+                "app": "QBO",
+                "overdue": 10
+            },
+            {
+                "key": "QBOEA-23527",
+                "app": "QBO",
+                "overdue": 10
+            },
+            {
+                "key": "ME-17008",
+                "app": "QBO",
+                "overdue": 10
+            },
+            {
+                "key": "QBB-4024",
+                "app": "QBO",
+                "overdue": 11
+            },
+            {
+                "key": "SBGIPD-2444",
+                "app": "QBO",
+                "overdue": 8
+            },
+            {
+                "key": "TXP-26268",
+                "app": "QBO",
+                "overdue": 9
+            },
+            {
+                "key": "TTOPLAT-9583",
+                "app": "TTO",
+                "overdue": 9
+            },
+            {
+                "key": "LG01WBPERF-15478",
+                "app": "TTO",
+                "overdue": 12
+            },
+            {
+                "key": "LG01WBPERF-15014",
+                "app": "TTO",
+                "overdue": 12
+            }
+        ]
+    },
+    "feedbackDetail": {
+        "respondent": "Megha Agrawal",
+        "ticket": "QBB-7042",
+        "app": "QBO",
+        "type": "Widget",
+        "component": "PayrollTaxCenter",
+        "responses": [
+            {
+                "q": "Issue Relevant?",
+                "a": "Yes",
+                "insight": "Bot identified a real issue"
+            },
+            {
+                "q": "Right Team?",
+                "a": "Yes",
+                "insight": "Routing accuracy check"
+            },
+            {
+                "q": "Already Known?",
+                "a": "Yes",
+                "insight": "Novelty of finding"
+            },
+            {
+                "q": "Bot Helpful?",
+                "a": "Partially",
+                "insight": "Value validation"
+            },
+            {
+                "q": "Context Enough?",
+                "a": "Partially",
+                "insight": "Report completeness"
+            },
+            {
+                "q": "Action Taken",
+                "a": "Fixed directly",
+                "insight": "Response type"
+            },
+            {
+                "q": "Own or Consume?",
+                "a": "Consume",
+                "insight": "Ownership model"
+            },
+            {
+                "q": "Improvement?",
+                "a": "Yes",
+                "insight": "Impact measurement"
+            },
+            {
+                "q": "Data Useful?",
+                "a": "Somewhat",
+                "insight": "Data quality"
+            },
+            {
+                "q": "Suggestion",
+                "a": "Add API trace IDs",
+                "insight": "Feature request"
+            }
+        ]
+    },
+    "workload": [
+        {
+            "name": "Erica Hang",
+            "app": "QBO",
+            "open": 12,
+            "pastDue": 4,
+            "closed": 2,
+            "total": 14,
+            "pct": 100,
+            "status": "Overloaded",
+            "statusColor": "red"
+        },
+        {
+            "name": "Durga Kandasamy",
+            "app": "QBO",
+            "open": 8,
+            "pastDue": 3,
+            "closed": 0,
+            "total": 8,
+            "pct": 66,
+            "status": "Heavy",
+            "statusColor": "amber"
+        },
+        {
+            "name": "Ali Vali",
+            "app": "TTO",
+            "open": 8,
+            "pastDue": 6,
+            "closed": 0,
+            "total": 8,
+            "pct": 100,
+            "status": "Overloaded",
+            "statusColor": "red"
+        },
+        {
+            "name": "Lester Gloria",
+            "app": "TTO",
+            "open": 5,
+            "pastDue": 0,
+            "closed": 1,
+            "total": 6,
+            "pct": 75,
+            "status": "Overloaded",
+            "statusColor": "red"
+        },
+        {
+            "name": "Anand Mattikopp",
+            "app": "QBO",
+            "open": 3,
+            "pastDue": 2,
+            "closed": 2,
+            "total": 5,
+            "pct": 41,
+            "status": "Moderate",
+            "statusColor": "amber"
+        },
+        {
+            "name": "Bhavin Bhatia",
+            "app": "QBO",
+            "open": 4,
+            "pastDue": 2,
+            "closed": 1,
+            "total": 5,
+            "pct": 41,
+            "status": "Moderate",
+            "statusColor": "amber"
+        },
+        {
+            "name": "David LeRoy",
+            "app": "TTO",
+            "open": 4,
+            "pastDue": 1,
+            "closed": 0,
+            "total": 4,
+            "pct": 50,
+            "status": "Moderate",
+            "statusColor": "amber"
+        },
+        {
+            "name": "Megha Agrawal",
+            "app": "QBO",
+            "open": 2,
+            "pastDue": 2,
+            "closed": 1,
+            "total": 3,
+            "pct": 25,
+            "status": "Normal",
+            "statusColor": "green"
+        },
+        {
+            "name": "Derek Wilson",
+            "app": "TTO",
+            "open": 2,
+            "pastDue": 0,
+            "closed": 1,
+            "total": 3,
+            "pct": 37,
+            "status": "Moderate",
+            "statusColor": "green"
+        },
+        {
+            "name": "Puneet Bhagat",
+            "app": "QBO",
+            "open": 2,
+            "pastDue": 2,
+            "closed": 0,
+            "total": 2,
+            "pct": 16,
+            "status": "Normal",
+            "statusColor": "blue"
+        }
+    ],
+    "closureLeaders": [
+        {
+            "name": "Jyothi P.",
+            "count": 1
+        },
+        {
+            "name": "Avinash P.",
+            "count": 1
+        },
+        {
+            "name": "David L.",
+            "count": 1
+        },
+        {
+            "name": "Sanjay K.",
+            "count": 3
+        },
+        {
+            "name": "Ravi S.",
+            "count": 1
+        },
+        {
+            "name": "Others",
+            "count": 1
+        }
+    ],
+    "actions": [
+        {
+            "priority": "Urgent",
+            "color": "red",
+            "text": "Escalate 9 critical past-due tickets (28-33 days overdue)"
+        },
+        {
+            "priority": "Urgent",
+            "color": "red",
+            "text": "Triage 14 unassigned tickets — assign owners to enable blocker forms"
+        },
+        {
+            "priority": "High",
+            "color": "amber",
+            "text": "Send blocker forms for 52 assigned past-due tickets"
+        },
+        {
+            "priority": "High",
+            "color": "amber",
+            "text": "Follow up on QBO feedback — 1% response rate needs outreach"
+        },
+        {
+            "priority": "Normal",
+            "color": "blue",
+            "text": "Review closure patterns for process improvement opportunities"
+        }
+    ],
+    "agentActions": {
+        "nextRun": "2026-04-16 09:00 IST",
+        "blockerForms": 52,
+        "remindersDue": 0,
+        "firstReminders": "2026-04-16"
+    },
+    "recommendations": [
+        {
+            "label": "Report Verbosity",
+            "value": "Increase for API tickets"
+        },
+        {
+            "label": "Routing Context",
+            "value": "Add cross-team info"
+        },
+        {
+            "label": "Duplicate Detection",
+            "value": "0 of 7 closed = Duplicate"
+        },
+        {
+            "label": "QBO Response Rate",
+            "value": "1% — needs intervention",
+            "alert": true
+        }
+    ]
+},
+  "2026-04-16": {
+    "date": "2026-04-16",
+    "dateFormatted": "April 16, 2026",
+    "qbo": {
+        "open": 50,
+        "closed": 13,
+        "pastDue": 33,
+        "total": 63,
+        "widget": 35,
+        "api": 28,
+        "assigned": 41,
+        "unassigned": 9,
+        "avgOverdue": 10,
+        "maxOverdue": 23
+    },
+    "tto": {
+        "open": 29,
+        "closed": 12,
+        "pastDue": 23,
+        "total": 41,
+        "widget": 22,
+        "api": 19,
+        "assigned": 25,
+        "unassigned": 4,
+        "avgOverdue": 14,
+        "maxOverdue": 29
+    },
+    "grand": {
+        "open": 79,
+        "closed": 25,
+        "pastDue": 56,
+        "total": 104,
+        "onTrack": 23
+    },
+    "newClosuresToday": 8,
+    "severity": {
+        "critical": {
+            "qbo": 3,
+            "tto": 6
+        },
+        "high": {
+            "qbo": 26,
+            "tto": 14
+        },
+        "moderate": {
+            "qbo": 4,
+            "tto": 3
+        }
+    },
+    "feedback": {
+        "sent": 26,
+        "received": 1,
+        "responseRate": 4,
+        "qboRate": 2,
+        "ttoRate": 12,
+        "notSent": 78
+    },
+    "closures": {
+        "qbo": [
+            {
+                "key": "QBOA-13622",
+                "type": "API",
+                "component": "Banking API",
+                "assignee": "Durga Kandasamy",
+                "resolution": "Done",
+                "feedback": "Pending"
+            },
+            {
+                "key": "ME-23506",
+                "type": "Widget",
+                "component": "ReconcileWidget",
+                "assignee": "Sanjay Kumar",
+                "resolution": "Duplicate",
+                "feedback": "Pending"
+            },
+            {
+                "key": "TXP-21419",
+                "type": "Widget",
+                "component": "InvoiceListToolbar",
+                "assignee": "Priya Mehta",
+                "resolution": "Done",
+                "feedback": "Pending"
+            },
+            {
+                "key": "SBGIPD-22852",
+                "type": "Widget",
+                "component": "quickfills",
+                "assignee": "Bhavin Bhatia",
+                "resolution": "Won't Fix",
+                "feedback": "Pending"
+            },
+            {
+                "key": "QBOEA-14777",
+                "type": "API",
+                "component": "InvoiceService",
+                "assignee": "Priya Mehta",
+                "resolution": "Done",
+                "feedback": "Pending"
+            }
+        ],
+        "tto": [
+            {
+                "key": "TTOB-10957",
+                "type": "Widget",
+                "component": "ExpenseListContainer",
+                "assignee": "Lester Gloria",
+                "resolution": "Won't Fix",
+                "priority": "P2"
+            },
+            {
+                "key": "TTOPLAT-11559",
+                "type": "API",
+                "component": "TaxCalcService",
+                "assignee": "Jiwoo Jeong",
+                "resolution": "Cannot Reproduce",
+                "priority": "P2"
+            },
+            {
+                "key": "DATAX-27009",
+                "type": "API",
+                "component": "NotificationService",
+                "assignee": "David LeRoy",
+                "resolution": "Done",
+                "priority": "P2"
+            }
+        ],
+        "resolutionBreakdown": {
+            "done": 4,
+            "duplicate": 1,
+            "obsolete": 0,
+            "other": 3
+        },
+        "velocity": {
+            "qboToday": 5,
+            "qboPrev": 8,
+            "ttoToday": 3,
+            "ttoPrev": 9
+        }
+    },
+    "criticalTickets": [
+        {
+            "key": "LG01WBPERF-11983",
+            "app": "QBO",
+            "type": "Widget",
+            "component": "QuickbooksDesktopMigrationBanner",
+            "assignee": "Anand Mattikopp",
+            "due": "2026-03-19",
+            "overdue": 28
+        },
+        {
+            "key": "QBAA-1800",
+            "app": "QBO",
+            "type": "Widget",
+            "component": "OIAHeaderItem",
+            "assignee": null,
+            "due": "2026-03-25",
+            "overdue": 24
+        },
+        {
+            "key": "QBOA-15923",
+            "app": "QBO",
+            "type": "API",
+            "component": "InvoiceService",
+            "assignee": "Ravi Shankar",
+            "due": "2026-03-16",
+            "overdue": 29
+        },
+        {
+            "key": "DATAX-14095",
+            "app": "TTO",
+            "type": "API",
+            "component": "lxor activity",
+            "assignee": null,
+            "due": "2026-03-10",
+            "overdue": 26
+        },
+        {
+            "key": "TPDM-26507",
+            "app": "TTO",
+            "type": "API",
+            "component": "TaxCalcService",
+            "assignee": null,
+            "due": "2026-03-24",
+            "overdue": 29
+        },
+        {
+            "key": "TPDM-15957",
+            "app": "TTO",
+            "type": "Widget",
+            "component": "pro-matching",
+            "assignee": "Mark Thompson",
+            "due": "2026-03-20",
+            "overdue": 24
+        },
+        {
+            "key": "IIEA-27706",
+            "app": "TTO",
+            "type": "API",
+            "component": "UserProfileAPI",
+            "assignee": "Abhinav Konda",
+            "due": "2026-03-24",
+            "overdue": 26
+        },
+        {
+            "key": "DATAX-15747",
+            "app": "TTO",
+            "type": "API",
+            "component": "ixp-ff flags",
+            "assignee": "Mark Thompson",
+            "due": "2026-03-18",
+            "overdue": 28
+        }
+    ],
+    "unassigned": {
+        "count": 13,
+        "critical": [
+            {
+                "key": "ME-16879",
+                "app": "QBO",
+                "overdue": 31
+            },
+            {
+                "key": "QBOEA-9998",
+                "app": "QBO",
+                "overdue": 29
+            },
+            {
+                "key": "QBOA-24381",
+                "app": "QBO",
+                "overdue": 28
+            },
+            {
+                "key": "NTEX-9903",
+                "app": "TTO",
+                "overdue": 28
+            },
+            {
+                "key": "CONSUMER-18699",
+                "app": "TTO",
+                "overdue": 26
+            }
+        ],
+        "high": [
+            {
+                "key": "QBAA-5942",
+                "app": "QBO",
+                "overdue": 8
+            },
+            {
+                "key": "AIPA-23739",
+                "app": "QBO",
+                "overdue": 8
+            },
+            {
+                "key": "QBOEA-3104",
+                "app": "QBO",
+                "overdue": 10
+            },
+            {
+                "key": "AIPA-11842",
+                "app": "QBO",
+                "overdue": 11
+            },
+            {
+                "key": "BDPLT-14624",
+                "app": "QBO",
+                "overdue": 7
+            },
+            {
+                "key": "QBOEA-28292",
+                "app": "QBO",
+                "overdue": 10
+            },
+            {
+                "key": "FTDC-26224",
+                "app": "TTO",
+                "overdue": 11
+            },
+            {
+                "key": "LG01WBPERF-1640",
+                "app": "TTO",
+                "overdue": 11
+            }
+        ]
+    },
+    "feedbackDetail": {
+        "respondent": "Derek Wilson",
+        "ticket": "CONSUMER-23161",
+        "app": "TTO",
+        "type": "API",
+        "component": "lxor activity",
+        "responses": [
+            {
+                "q": "Issue Relevant?",
+                "a": "Partially",
+                "insight": "Bot identified a real issue"
+            },
+            {
+                "q": "Right Team?",
+                "a": "Yes",
+                "insight": "Routing accuracy check"
+            },
+            {
+                "q": "Already Known?",
+                "a": "Yes",
+                "insight": "Novelty of finding"
+            },
+            {
+                "q": "Bot Helpful?",
+                "a": "Yes",
+                "insight": "Value validation"
+            },
+            {
+                "q": "Context Enough?",
+                "a": "Partially",
+                "insight": "Report completeness"
+            },
+            {
+                "q": "Action Taken",
+                "a": "Investigating",
+                "insight": "Response type"
+            },
+            {
+                "q": "Own or Consume?",
+                "a": "Consume",
+                "insight": "Ownership model"
+            },
+            {
+                "q": "Improvement?",
+                "a": "Yes",
+                "insight": "Impact measurement"
+            },
+            {
+                "q": "Data Useful?",
+                "a": "Somewhat",
+                "insight": "Data quality"
+            },
+            {
+                "q": "Suggestion",
+                "a": "Add API trace IDs",
+                "insight": "Feature request"
+            }
+        ]
+    },
+    "workload": [
+        {
+            "name": "Erica Hang",
+            "app": "QBO",
+            "open": 11,
+            "pastDue": 11,
+            "closed": 1,
+            "total": 12,
+            "pct": 100,
+            "status": "Overloaded",
+            "statusColor": "red"
+        },
+        {
+            "name": "Durga Kandasamy",
+            "app": "QBO",
+            "open": 10,
+            "pastDue": 9,
+            "closed": 0,
+            "total": 10,
+            "pct": 83,
+            "status": "Overloaded",
+            "statusColor": "red"
+        },
+        {
+            "name": "Bhavin Bhatia",
+            "app": "QBO",
+            "open": 7,
+            "pastDue": 5,
+            "closed": 2,
+            "total": 9,
+            "pct": 75,
+            "status": "Overloaded",
+            "statusColor": "red"
+        },
+        {
+            "name": "David LeRoy",
+            "app": "TTO",
+            "open": 8,
+            "pastDue": 7,
+            "closed": 0,
+            "total": 8,
+            "pct": 100,
+            "status": "Overloaded",
+            "statusColor": "red"
+        },
+        {
+            "name": "Derek Wilson",
+            "app": "TTO",
+            "open": 7,
+            "pastDue": 0,
+            "closed": 0,
+            "total": 7,
+            "pct": 87,
+            "status": "Overloaded",
+            "statusColor": "red"
+        },
+        {
+            "name": "Ali Vali",
+            "app": "TTO",
+            "open": 7,
+            "pastDue": 6,
+            "closed": 0,
+            "total": 7,
+            "pct": 87,
+            "status": "Overloaded",
+            "statusColor": "red"
+        },
+        {
+            "name": "Megha Agrawal",
+            "app": "QBO",
+            "open": 5,
+            "pastDue": 4,
+            "closed": 1,
+            "total": 6,
+            "pct": 50,
+            "status": "Moderate",
+            "statusColor": "amber"
+        },
+        {
+            "name": "Anand Mattikopp",
+            "app": "QBO",
+            "open": 3,
+            "pastDue": 2,
+            "closed": 0,
+            "total": 3,
+            "pct": 25,
+            "status": "Normal",
+            "statusColor": "blue"
+        },
+        {
+            "name": "Lester Gloria",
+            "app": "TTO",
+            "open": 2,
+            "pastDue": 1,
+            "closed": 1,
+            "total": 3,
+            "pct": 37,
+            "status": "Moderate",
+            "statusColor": "green"
+        },
+        {
+            "name": "Puneet Bhagat",
+            "app": "QBO",
+            "open": 1,
+            "pastDue": 1,
+            "closed": 1,
+            "total": 2,
+            "pct": 16,
+            "status": "Normal",
+            "statusColor": "green"
+        }
+    ],
+    "closureLeaders": [
+        {
+            "name": "Priya M.",
+            "count": 2
+        },
+        {
+            "name": "Avinash P.",
+            "count": 2
+        },
+        {
+            "name": "David L.",
+            "count": 1
+        },
+        {
+            "name": "Derek W.",
+            "count": 2
+        },
+        {
+            "name": "Anusha R.",
+            "count": 1
+        },
+        {
+            "name": "Others",
+            "count": 1
+        }
+    ],
+    "actions": [
+        {
+            "priority": "Urgent",
+            "color": "red",
+            "text": "Escalate 9 critical past-due tickets (26-31 days overdue)"
+        },
+        {
+            "priority": "Urgent",
+            "color": "red",
+            "text": "Triage 13 unassigned tickets — assign owners to enable blocker forms"
+        },
+        {
+            "priority": "High",
+            "color": "amber",
+            "text": "Send blocker forms for 41 assigned past-due tickets"
+        },
+        {
+            "priority": "High",
+            "color": "amber",
+            "text": "Follow up on QBO feedback — 2% response rate needs outreach"
+        },
+        {
+            "priority": "Normal",
+            "color": "blue",
+            "text": "Review closure patterns for process improvement opportunities"
+        }
+    ],
+    "agentActions": {
+        "nextRun": "2026-04-17 09:00 IST",
+        "blockerForms": 41,
+        "remindersDue": 2,
+        "firstReminders": "2026-04-17"
+    },
+    "recommendations": [
+        {
+            "label": "Report Verbosity",
+            "value": "Increase for API tickets"
+        },
+        {
+            "label": "Routing Context",
+            "value": "Add cross-team info"
+        },
+        {
+            "label": "Duplicate Detection",
+            "value": "1 of 8 closed = Duplicate"
+        },
+        {
+            "label": "QBO Response Rate",
+            "value": "2% — needs intervention",
+            "alert": true
+        }
+    ]
+},
+  "2026-04-17": {
+    "date": "2026-04-17",
+    "dateFormatted": "April 17, 2026",
+    "qbo": {
+        "open": 50,
+        "closed": 15,
+        "pastDue": 34,
+        "total": 65,
+        "widget": 37,
+        "api": 28,
+        "assigned": 41,
+        "unassigned": 9,
+        "avgOverdue": 9,
+        "maxOverdue": 22
+    },
+    "tto": {
+        "open": 29,
+        "closed": 15,
+        "pastDue": 22,
+        "total": 44,
+        "widget": 24,
+        "api": 20,
+        "assigned": 25,
+        "unassigned": 4,
+        "avgOverdue": 12,
+        "maxOverdue": 29
+    },
+    "grand": {
+        "open": 79,
+        "closed": 30,
+        "pastDue": 56,
+        "total": 109,
+        "onTrack": 23
+    },
+    "newClosuresToday": 5,
+    "severity": {
+        "critical": {
+            "qbo": 2,
+            "tto": 6
+        },
+        "high": {
+            "qbo": 29,
+            "tto": 13
+        },
+        "moderate": {
+            "qbo": 3,
+            "tto": 3
+        }
+    },
+    "feedback": {
+        "sent": 31,
+        "received": 2,
+        "responseRate": 6,
+        "qboRate": 0,
+        "ttoRate": 10,
+        "notSent": 78
+    },
+    "closures": {
+        "qbo": [
+            {
+                "key": "TXP-6498",
+                "type": "Widget",
+                "component": "toolbox-panel-footer",
+                "assignee": "Ravi Shankar",
+                "resolution": "Done",
+                "feedback": "Pending"
+            },
+            {
+                "key": "SBGIPD-4542",
+                "type": "Widget",
+                "component": "toolbox-panel-footer",
+                "assignee": "Megha Agrawal",
+                "resolution": "Duplicate",
+                "feedback": "Pending"
+            }
+        ],
+        "tto": [
+            {
+                "key": "FTDC-24429",
+                "type": "API",
+                "component": "lxor activity",
+                "assignee": "Ali Vali",
+                "resolution": "Duplicate",
+                "priority": "P2"
+            },
+            {
+                "key": "TTOPLAT-20674",
+                "type": "Widget",
+                "component": "gtkm/parent",
+                "assignee": "Sarah Chen",
+                "resolution": "Done",
+                "priority": "P2"
+            },
+            {
+                "key": "TTOPLAT-13142",
+                "type": "Widget",
+                "component": "gtkm/parent",
+                "assignee": "Russell Dean",
+                "resolution": "Obsolete",
+                "priority": "P2"
+            }
+        ],
+        "resolutionBreakdown": {
+            "done": 2,
+            "duplicate": 2,
+            "obsolete": 1,
+            "other": 0
+        },
+        "velocity": {
+            "qboToday": 2,
+            "qboPrev": 13,
+            "ttoToday": 3,
+            "ttoPrev": 12
+        }
+    },
+    "criticalTickets": [
+        {
+            "key": "BDPLT-4458",
+            "app": "QBO",
+            "type": "Widget",
+            "component": "quickfills",
+            "assignee": "Priya Mehta",
+            "due": "2026-03-24",
+            "overdue": 24
+        },
+        {
+            "key": "QBAA-25045",
+            "app": "QBO",
+            "type": "API",
+            "component": "ReconciliationAPI",
+            "assignee": "Durga Kandasamy",
+            "due": "2026-03-25",
+            "overdue": 24
+        },
+        {
+            "key": "LG01WBPERF-20414",
+            "app": "TTO",
+            "type": "Widget",
+            "component": "ExpenseListContainer",
+            "assignee": "Lester Gloria",
+            "due": "2026-03-12",
+            "overdue": 27
+        },
+        {
+            "key": "NTEX-25591",
+            "app": "TTO",
+            "type": "Widget",
+            "component": "tax-prep/core",
+            "assignee": "Mark Thompson",
+            "due": "2026-03-22",
+            "overdue": 24
+        },
+        {
+            "key": "CONSUMER-6958",
+            "app": "TTO",
+            "type": "Widget",
+            "component": "tax-prep/core",
+            "assignee": null,
+            "due": "2026-03-18",
+            "overdue": 24
+        },
+        {
+            "key": "LG01WBPERF-29839",
+            "app": "TTO",
+            "type": "Widget",
+            "component": "ExpenseListContainer",
+            "assignee": "Russell Dean",
+            "due": "2026-03-16",
+            "overdue": 25
+        },
+        {
+            "key": "FTDC-17009",
+            "app": "TTO",
+            "type": "Widget",
+            "component": "tax-prep/iep",
+            "assignee": "Jiwoo Jeong",
+            "due": "2026-03-25",
+            "overdue": 26
+        },
+        {
+            "key": "TPDM-10641",
+            "app": "TTO",
+            "type": "Widget",
+            "component": "my-docs/vault",
+            "assignee": "Lester Gloria",
+            "due": "2026-03-19",
+            "overdue": 21
+        }
+    ],
+    "unassigned": {
+        "count": 13,
+        "critical": [
+            {
+                "key": "LG01WBPERF-13092",
+                "app": "QBO",
+                "overdue": 27
+            },
+            {
+                "key": "ME-18397",
+                "app": "QBO",
+                "overdue": 26
+            },
+            {
+                "key": "FTDC-25442",
+                "app": "TTO",
+                "overdue": 28
+            },
+            {
+                "key": "CONSUMER-12528",
+                "app": "TTO",
+                "overdue": 29
+            }
+        ],
+        "high": [
+            {
+                "key": "BDPLT-9877",
+                "app": "QBO",
+                "overdue": 8
+            },
+            {
+                "key": "SBGIPD-8554",
+                "app": "QBO",
+                "overdue": 6
+            },
+            {
+                "key": "QBOEA-11339",
+                "app": "QBO",
+                "overdue": 6
+            },
+            {
+                "key": "ME-25975",
+                "app": "QBO",
+                "overdue": 7
+            },
+            {
+                "key": "QBOEA-8090",
+                "app": "QBO",
+                "overdue": 9
+            },
+            {
+                "key": "SBGIPD-24743",
+                "app": "QBO",
+                "overdue": 10
+            },
+            {
+                "key": "IXP-20555",
+                "app": "TTO",
+                "overdue": 8
+            },
+            {
+                "key": "TPDM-28283",
+                "app": "TTO",
+                "overdue": 7
+            }
+        ]
+    },
+    "feedbackDetail": {
+        "respondent": "Jyothi Potluri",
+        "ticket": "QBAA-2244",
+        "app": "QBO",
+        "type": "API",
+        "component": "sbseggraphqlorch",
+        "responses": [
+            {
+                "q": "Issue Relevant?",
+                "a": "Yes",
+                "insight": "Bot identified a real issue"
+            },
+            {
+                "q": "Right Team?",
+                "a": "Yes",
+                "insight": "Routing accuracy check"
+            },
+            {
+                "q": "Already Known?",
+                "a": "No",
+                "insight": "Novelty of finding"
+            },
+            {
+                "q": "Bot Helpful?",
+                "a": "Yes",
+                "insight": "Value validation"
+            },
+            {
+                "q": "Context Enough?",
+                "a": "Partially",
+                "insight": "Report completeness"
+            },
+            {
+                "q": "Action Taken",
+                "a": "Fixed directly",
+                "insight": "Response type"
+            },
+            {
+                "q": "Own or Consume?",
+                "a": "Own",
+                "insight": "Ownership model"
+            },
+            {
+                "q": "Improvement?",
+                "a": "Yes",
+                "insight": "Impact measurement"
+            },
+            {
+                "q": "Data Useful?",
+                "a": "Somewhat",
+                "insight": "Data quality"
+            },
+            {
+                "q": "Suggestion",
+                "a": "Verbose better",
+                "insight": "Feature request"
+            }
+        ]
+    },
+    "workload": [
+        {
+            "name": "Durga Kandasamy",
+            "app": "QBO",
+            "open": 8,
+            "pastDue": 6,
+            "closed": 1,
+            "total": 9,
+            "pct": 75,
+            "status": "Overloaded",
+            "statusColor": "red"
+        },
+        {
+            "name": "Anand Mattikopp",
+            "app": "QBO",
+            "open": 5,
+            "pastDue": 4,
+            "closed": 2,
+            "total": 7,
+            "pct": 58,
+            "status": "Heavy",
+            "statusColor": "amber"
+        },
+        {
+            "name": "Puneet Bhagat",
+            "app": "QBO",
+            "open": 3,
+            "pastDue": 3,
+            "closed": 2,
+            "total": 5,
+            "pct": 41,
+            "status": "Moderate",
+            "statusColor": "amber"
+        },
+        {
+            "name": "Erica Hang",
+            "app": "QBO",
+            "open": 2,
+            "pastDue": 1,
+            "closed": 3,
+            "total": 5,
+            "pct": 41,
+            "status": "Closing",
+            "statusColor": "amber"
+        },
+        {
+            "name": "Megha Agrawal",
+            "app": "QBO",
+            "open": 1,
+            "pastDue": 1,
+            "closed": 3,
+            "total": 4,
+            "pct": 33,
+            "status": "Closing",
+            "statusColor": "green"
+        },
+        {
+            "name": "Ali Vali",
+            "app": "TTO",
+            "open": 4,
+            "pastDue": 0,
+            "closed": 0,
+            "total": 4,
+            "pct": 50,
+            "status": "Moderate",
+            "statusColor": "amber"
+        },
+        {
+            "name": "Bhavin Bhatia",
+            "app": "QBO",
+            "open": 1,
+            "pastDue": 1,
+            "closed": 2,
+            "total": 3,
+            "pct": 25,
+            "status": "Closing",
+            "statusColor": "green"
+        },
+        {
+            "name": "David LeRoy",
+            "app": "TTO",
+            "open": 2,
+            "pastDue": 0,
+            "closed": 1,
+            "total": 3,
+            "pct": 37,
+            "status": "Moderate",
+            "statusColor": "green"
+        },
+        {
+            "name": "Derek Wilson",
+            "app": "TTO",
+            "open": 1,
+            "pastDue": 0,
+            "closed": 1,
+            "total": 2,
+            "pct": 25,
+            "status": "Normal",
+            "statusColor": "green"
+        },
+        {
+            "name": "Lester Gloria",
+            "app": "TTO",
+            "open": 1,
+            "pastDue": 0,
+            "closed": 0,
+            "total": 1,
+            "pct": 12,
+            "status": "Normal",
+            "statusColor": "blue"
+        }
+    ],
+    "closureLeaders": [
+        {
+            "name": "Moxiao H.",
+            "count": 2
+        },
+        {
+            "name": "Ali V.",
+            "count": 2
+        },
+        {
+            "name": "Jiwoo J.",
+            "count": 2
+        },
+        {
+            "name": "Jyothi P.",
+            "count": 2
+        },
+        {
+            "name": "Gregory M.",
+            "count": 3
+        },
+        {
+            "name": "Others",
+            "count": 1
+        }
+    ],
+    "actions": [
+        {
+            "priority": "Urgent",
+            "color": "red",
+            "text": "Escalate 8 critical past-due tickets (24-29 days overdue)"
+        },
+        {
+            "priority": "Urgent",
+            "color": "red",
+            "text": "Triage 13 unassigned tickets — assign owners to enable blocker forms"
+        },
+        {
+            "priority": "High",
+            "color": "amber",
+            "text": "Send blocker forms for 36 assigned past-due tickets"
+        },
+        {
+            "priority": "High",
+            "color": "amber",
+            "text": "Follow up on QBO feedback — 0% response rate needs outreach"
+        },
+        {
+            "priority": "Normal",
+            "color": "blue",
+            "text": "Review closure patterns for process improvement opportunities"
+        },
+        {
+            "priority": "Normal",
+            "color": "blue",
+            "text": "Past-due rate trending down — maintain momentum with daily standups"
+        }
+    ],
+    "agentActions": {
+        "nextRun": "2026-04-18 09:00 IST",
+        "blockerForms": 36,
+        "remindersDue": 4,
+        "firstReminders": "2026-04-18"
+    },
+    "recommendations": [
+        {
+            "label": "Report Verbosity",
+            "value": "Implemented — monitoring"
+        },
+        {
+            "label": "Routing Context",
+            "value": "Add cross-team info"
+        },
+        {
+            "label": "Duplicate Detection",
+            "value": "2 of 5 closed = Duplicate"
+        },
+        {
+            "label": "QBO Response Rate",
+            "value": "0% — needs intervention",
+            "alert": true
+        }
+    ]
+},
+  "2026-04-18": {
+    "date": "2026-04-18",
+    "dateFormatted": "April 18, 2026",
+    "qbo": {
+        "open": 50,
+        "closed": 17,
+        "pastDue": 33,
+        "total": 67,
+        "widget": 38,
+        "api": 29,
+        "assigned": 42,
+        "unassigned": 8,
+        "avgOverdue": 8,
+        "maxOverdue": 23
+    },
+    "tto": {
+        "open": 27,
+        "closed": 17,
+        "pastDue": 21,
+        "total": 44,
+        "widget": 24,
+        "api": 20,
+        "assigned": 23,
+        "unassigned": 4,
+        "avgOverdue": 10,
+        "maxOverdue": 26
+    },
+    "grand": {
+        "open": 77,
+        "closed": 34,
+        "pastDue": 54,
+        "total": 111,
+        "onTrack": 23
+    },
+    "newClosuresToday": 4,
+    "severity": {
+        "critical": {
+            "qbo": 2,
+            "tto": 5
+        },
+        "high": {
+            "qbo": 26,
+            "tto": 13
+        },
+        "moderate": {
+            "qbo": 5,
+            "tto": 3
+        }
+    },
+    "feedback": {
+        "sent": 35,
+        "received": 3,
+        "responseRate": 9,
+        "qboRate": 7,
+        "ttoRate": 16,
+        "notSent": 76
+    },
+    "closures": {
+        "qbo": [
+            {
+                "key": "SBGIPD-2069",
+                "type": "API",
+                "component": "Banking API",
+                "assignee": "Durga Kandasamy",
+                "resolution": "Duplicate",
+                "feedback": "Pending"
+            },
+            {
+                "key": "QBOEA-9668",
+                "type": "Widget",
+                "component": "BankFeedWidget",
+                "assignee": "Priya Mehta",
+                "resolution": "Duplicate",
+                "feedback": "Pending"
+            }
+        ],
+        "tto": [
+            {
+                "key": "UIPLATFORM-9704",
+                "type": "Widget",
+                "component": "pro-matching",
+                "assignee": "Ali Vali",
+                "resolution": "Done",
+                "priority": "P3"
+            },
+            {
+                "key": "IIEA-25541",
+                "type": "Widget",
+                "component": "notification-center",
+                "assignee": "Gregory Miller",
+                "resolution": "Cannot Reproduce",
+                "priority": "P2"
+            }
+        ],
+        "resolutionBreakdown": {
+            "done": 1,
+            "duplicate": 2,
+            "obsolete": 0,
+            "other": 1
+        },
+        "velocity": {
+            "qboToday": 2,
+            "qboPrev": 15,
+            "ttoToday": 2,
+            "ttoPrev": 15
+        }
+    },
+    "criticalTickets": [
+        {
+            "key": "SBGIPD-23928",
+            "app": "QBO",
+            "type": "Widget",
+            "component": "quickfills",
+            "assignee": "Anusha Ragunathan",
+            "due": "2026-03-25",
+            "overdue": 24
+        },
+        {
+            "key": "QBB-15156",
+            "app": "QBO",
+            "type": "Widget",
+            "component": "ReconcileWidget",
+            "assignee": "Durga Kandasamy",
+            "due": "2026-03-10",
+            "overdue": 23
+        },
+        {
+            "key": "IIEA-20238",
+            "app": "TTO",
+            "type": "Widget",
+            "component": "tto-player",
+            "assignee": "Mark Thompson",
+            "due": "2026-03-18",
+            "overdue": 24
+        },
+        {
+            "key": "UIPLATFORM-16417",
+            "app": "TTO",
+            "type": "Widget",
+            "component": "tax-prep/iep",
+            "assignee": "Gregory Miller",
+            "due": "2026-03-15",
+            "overdue": 25
+        },
+        {
+            "key": "TTOPLAT-27681",
+            "app": "TTO",
+            "type": "API",
+            "component": "TaxCalcService",
+            "assignee": "Jiwoo Jeong",
+            "due": "2026-03-21",
+            "overdue": 22
+        },
+        {
+            "key": "TTOPLAT-4427",
+            "app": "TTO",
+            "type": "Widget",
+            "component": "pro-matching",
+            "assignee": "Jiwoo Jeong",
+            "due": "2026-03-19",
+            "overdue": 21
+        },
+        {
+            "key": "IXP-2202",
+            "app": "TTO",
+            "type": "API",
+            "component": "TaxCalcService",
+            "assignee": null,
+            "due": "2026-03-18",
+            "overdue": 22
+        }
+    ],
+    "unassigned": {
+        "count": 12,
+        "critical": [
+            {
+                "key": "TXP-4798",
+                "app": "QBO",
+                "overdue": 25
+            },
+            {
+                "key": "ME-28031",
+                "app": "QBO",
+                "overdue": 22
+            },
+            {
+                "key": "TTOPLAT-29487",
+                "app": "TTO",
+                "overdue": 26
+            },
+            {
+                "key": "DATAX-14541",
+                "app": "TTO",
+                "overdue": 22
+            }
+        ],
+        "high": [
+            {
+                "key": "QBOEA-17988",
+                "app": "QBO",
+                "overdue": 7
+            },
+            {
+                "key": "LG01WBPERF-25787",
+                "app": "QBO",
+                "overdue": 8
+            },
+            {
+                "key": "BDPLT-25903",
+                "app": "QBO",
+                "overdue": 5
+            },
+            {
+                "key": "QBOEA-9750",
+                "app": "QBO",
+                "overdue": 9
+            },
+            {
+                "key": "QBAA-10438",
+                "app": "QBO",
+                "overdue": 8
+            },
+            {
+                "key": "LG01WBPERF-16883",
+                "app": "TTO",
+                "overdue": 5
+            },
+            {
+                "key": "TTOB-21644",
+                "app": "TTO",
+                "overdue": 9
+            }
+        ]
+    },
+    "feedbackDetail": {
+        "respondent": "David LeRoy",
+        "ticket": "LG01WBPERF-77",
+        "app": "TTO",
+        "type": "Widget",
+        "component": "tto-player",
+        "responses": [
+            {
+                "q": "Issue Relevant?",
+                "a": "Yes",
+                "insight": "Bot identified a real issue"
+            },
+            {
+                "q": "Right Team?",
+                "a": "No",
+                "insight": "Routing accuracy check"
+            },
+            {
+                "q": "Already Known?",
+                "a": "Yes",
+                "insight": "Novelty of finding"
+            },
+            {
+                "q": "Bot Helpful?",
+                "a": "Yes",
+                "insight": "Value validation"
+            },
+            {
+                "q": "Context Enough?",
+                "a": "Yes",
+                "insight": "Report completeness"
+            },
+            {
+                "q": "Action Taken",
+                "a": "Investigating",
+                "insight": "Response type"
+            },
+            {
+                "q": "Own or Consume?",
+                "a": "Own",
+                "insight": "Ownership model"
+            },
+            {
+                "q": "Improvement?",
+                "a": "Yes",
+                "insight": "Impact measurement"
+            },
+            {
+                "q": "Data Useful?",
+                "a": "Yes",
+                "insight": "Data quality"
+            },
+            {
+                "q": "Suggestion",
+                "a": "Include bundle sizes",
+                "insight": "Feature request"
+            }
+        ]
+    },
+    "workload": [
+        {
+            "name": "Durga Kandasamy",
+            "app": "QBO",
+            "open": 6,
+            "pastDue": 2,
+            "closed": 3,
+            "total": 9,
+            "pct": 75,
+            "status": "Overloaded",
+            "statusColor": "red"
+        },
+        {
+            "name": "Bhavin Bhatia",
+            "app": "QBO",
+            "open": 8,
+            "pastDue": 3,
+            "closed": 1,
+            "total": 9,
+            "pct": 75,
+            "status": "Overloaded",
+            "statusColor": "red"
+        },
+        {
+            "name": "Lester Gloria",
+            "app": "TTO",
+            "open": 7,
+            "pastDue": 2,
+            "closed": 2,
+            "total": 9,
+            "pct": 100,
+            "status": "Overloaded",
+            "statusColor": "red"
+        },
+        {
+            "name": "Erica Hang",
+            "app": "QBO",
+            "open": 7,
+            "pastDue": 4,
+            "closed": 1,
+            "total": 8,
+            "pct": 66,
+            "status": "Heavy",
+            "statusColor": "amber"
+        },
+        {
+            "name": "Anand Mattikopp",
+            "app": "QBO",
+            "open": 7,
+            "pastDue": 5,
+            "closed": 1,
+            "total": 8,
+            "pct": 66,
+            "status": "Heavy",
+            "statusColor": "amber"
+        },
+        {
+            "name": "Ali Vali",
+            "app": "TTO",
+            "open": 7,
+            "pastDue": 4,
+            "closed": 1,
+            "total": 8,
+            "pct": 100,
+            "status": "Overloaded",
+            "statusColor": "red"
+        },
+        {
+            "name": "Puneet Bhagat",
+            "app": "QBO",
+            "open": 4,
+            "pastDue": 3,
+            "closed": 2,
+            "total": 6,
+            "pct": 50,
+            "status": "Moderate",
+            "statusColor": "amber"
+        },
+        {
+            "name": "Derek Wilson",
+            "app": "TTO",
+            "open": 3,
+            "pastDue": 3,
+            "closed": 2,
+            "total": 5,
+            "pct": 62,
+            "status": "Heavy",
+            "statusColor": "amber"
+        },
+        {
+            "name": "David LeRoy",
+            "app": "TTO",
+            "open": 3,
+            "pastDue": 2,
+            "closed": 2,
+            "total": 5,
+            "pct": 62,
+            "status": "Heavy",
+            "statusColor": "amber"
+        },
+        {
+            "name": "Megha Agrawal",
+            "app": "QBO",
+            "open": 1,
+            "pastDue": 1,
+            "closed": 2,
+            "total": 3,
+            "pct": 25,
+            "status": "Closing",
+            "statusColor": "green"
+        }
+    ],
+    "closureLeaders": [
+        {
+            "name": "Moxiao H.",
+            "count": 3
+        },
+        {
+            "name": "Lester G.",
+            "count": 3
+        },
+        {
+            "name": "Sanjay K.",
+            "count": 2
+        },
+        {
+            "name": "Priya M.",
+            "count": 2
+        },
+        {
+            "name": "Others",
+            "count": 1
+        }
+    ],
+    "actions": [
+        {
+            "priority": "Urgent",
+            "color": "red",
+            "text": "Escalate 7 critical past-due tickets (22-27 days overdue)"
+        },
+        {
+            "priority": "Urgent",
+            "color": "red",
+            "text": "Triage 12 unassigned tickets — assign owners to enable blocker forms"
+        },
+        {
+            "priority": "High",
+            "color": "amber",
+            "text": "Send blocker forms for 31 assigned past-due tickets"
+        },
+        {
+            "priority": "High",
+            "color": "amber",
+            "text": "Follow up on QBO feedback — 7% response rate needs outreach"
+        },
+        {
+            "priority": "Normal",
+            "color": "blue",
+            "text": "Review closure patterns for process improvement opportunities"
+        },
+        {
+            "priority": "Normal",
+            "color": "blue",
+            "text": "Past-due rate trending down — maintain momentum with daily standups"
+        }
+    ],
+    "agentActions": {
+        "nextRun": "2026-04-19 09:00 IST",
+        "blockerForms": 31,
+        "remindersDue": 6,
+        "firstReminders": "2026-04-19"
+    },
+    "recommendations": [
+        {
+            "label": "Report Verbosity",
+            "value": "Implemented — monitoring"
+        },
+        {
+            "label": "Routing Context",
+            "value": "Added in v2"
+        },
+        {
+            "label": "Duplicate Detection",
+            "value": "2 of 4 closed = Duplicate"
+        },
+        {
+            "label": "QBO Response Rate",
+            "value": "7% — needs intervention",
+            "alert": true
+        }
+    ]
+},
+  "2026-04-19": {
+    "date": "2026-04-19",
+    "dateFormatted": "April 19, 2026",
+    "qbo": {
+        "open": 50,
+        "closed": 19,
+        "pastDue": 31,
+        "total": 69,
+        "widget": 39,
+        "api": 30,
+        "assigned": 43,
+        "unassigned": 7,
+        "avgOverdue": 9,
+        "maxOverdue": 22
+    },
+    "tto": {
+        "open": 26,
+        "closed": 18,
+        "pastDue": 21,
+        "total": 44,
+        "widget": 24,
+        "api": 20,
+        "assigned": 23,
+        "unassigned": 3,
+        "avgOverdue": 9,
+        "maxOverdue": 26
+    },
+    "grand": {
+        "open": 76,
+        "closed": 37,
+        "pastDue": 52,
+        "total": 113,
+        "onTrack": 24
+    },
+    "newClosuresToday": 3,
+    "severity": {
+        "critical": {
+            "qbo": 2,
+            "tto": 6
+        },
+        "high": {
+            "qbo": 26,
+            "tto": 12
+        },
+        "moderate": {
+            "qbo": 3,
+            "tto": 3
+        }
+    },
+    "feedback": {
+        "sent": 38,
+        "received": 3,
+        "responseRate": 8,
+        "qboRate": 2,
+        "ttoRate": 20,
+        "notSent": 75
+    },
+    "closures": {
+        "qbo": [
+            {
+                "key": "QBOA-29645",
+                "type": "Widget",
+                "component": "DashboardSummary",
+                "assignee": "Jyothi Potluri",
+                "resolution": "Done",
+                "feedback": "Pending"
+            },
+            {
+                "key": "QBAA-14434",
+                "type": "Widget",
+                "component": "DashboardSummary",
+                "assignee": "Priya Mehta",
+                "resolution": "Done",
+                "feedback": "Received"
+            }
+        ],
+        "tto": [
+            {
+                "key": "CONSUMER-21422",
+                "type": "API",
+                "component": "UserProfileAPI",
+                "assignee": "Abhinav Konda",
+                "resolution": "Done",
+                "priority": "P2"
+            }
+        ],
+        "resolutionBreakdown": {
+            "done": 3,
+            "duplicate": 0,
+            "obsolete": 0,
+            "other": 0
+        },
+        "velocity": {
+            "qboToday": 2,
+            "qboPrev": 17,
+            "ttoToday": 1,
+            "ttoPrev": 17
+        }
+    },
+    "criticalTickets": [
+        {
+            "key": "ME-13452",
+            "app": "QBO",
+            "type": "API",
+            "component": "Reports API",
+            "assignee": "Jyothi Potluri",
+            "due": "2026-03-11",
+            "overdue": 23
+        },
+        {
+            "key": "SBGIPD-8454",
+            "app": "QBO",
+            "type": "API",
+            "component": "advancedMatchDetails",
+            "assignee": "Puneet Bhagat",
+            "due": "2026-03-13",
+            "overdue": 18
+        },
+        {
+            "key": "CGCPVA-1948",
+            "app": "TTO",
+            "type": "Widget",
+            "component": "tto-player",
+            "assignee": "Derek Wilson",
+            "due": "2026-03-19",
+            "overdue": 22
+        },
+        {
+            "key": "UIPLATFORM-9001",
+            "app": "TTO",
+            "type": "Widget",
+            "component": "tax-prep/iep",
+            "assignee": "Mark Thompson",
+            "due": "2026-03-15",
+            "overdue": 20
+        },
+        {
+            "key": "IIEA-29535",
+            "app": "TTO",
+            "type": "Widget",
+            "component": "ExpenseTransactionList",
+            "assignee": "Lester Gloria",
+            "due": "2026-03-25",
+            "overdue": 17
+        },
+        {
+            "key": "NTEX-16110",
+            "app": "TTO",
+            "type": "API",
+            "component": "UserProfileAPI",
+            "assignee": null,
+            "due": "2026-03-18",
+            "overdue": 18
+        },
+        {
+            "key": "DATAX-10425",
+            "app": "TTO",
+            "type": "API",
+            "component": "UserProfileAPI",
+            "assignee": "Ali Vali",
+            "due": "2026-03-24",
+            "overdue": 23
+        },
+        {
+            "key": "CGCPVA-21936",
+            "app": "TTO",
+            "type": "API",
+            "component": "TaxCalcService",
+            "assignee": "Jiwoo Jeong",
+            "due": "2026-03-19",
+            "overdue": 21
+        }
+    ],
+    "unassigned": {
+        "count": 10,
+        "critical": [
+            {
+                "key": "QBOEA-13605",
+                "app": "QBO",
+                "overdue": 23
+            },
+            {
+                "key": "QBOA-8772",
+                "app": "QBO",
+                "overdue": 23
+            },
+            {
+                "key": "IIEA-12762",
+                "app": "TTO",
+                "overdue": 24
+            },
+            {
+                "key": "CGCPVA-23913",
+                "app": "TTO",
+                "overdue": 22
+            }
+        ],
+        "high": [
+            {
+                "key": "QBB-28198",
+                "app": "QBO",
+                "overdue": 7
+            },
+            {
+                "key": "SBGIPD-1265",
+                "app": "QBO",
+                "overdue": 8
+            },
+            {
+                "key": "QBB-20870",
+                "app": "QBO",
+                "overdue": 7
+            },
+            {
+                "key": "SBGIPD-26419",
+                "app": "QBO",
+                "overdue": 5
+            },
+            {
+                "key": "IIEA-27277",
+                "app": "TTO",
+                "overdue": 6
+            }
+        ]
+    },
+    "feedbackDetail": {
+        "respondent": "Erica Hang",
+        "ticket": "QBB-7134",
+        "app": "QBO",
+        "type": "Widget",
+        "component": "QuickbooksDesktopMigrationBanner",
+        "responses": [
+            {
+                "q": "Issue Relevant?",
+                "a": "Yes",
+                "insight": "Bot identified a real issue"
+            },
+            {
+                "q": "Right Team?",
+                "a": "No",
+                "insight": "Routing accuracy check"
+            },
+            {
+                "q": "Already Known?",
+                "a": "Yes",
+                "insight": "Novelty of finding"
+            },
+            {
+                "q": "Bot Helpful?",
+                "a": "Partially",
+                "insight": "Value validation"
+            },
+            {
+                "q": "Context Enough?",
+                "a": "Partially",
+                "insight": "Report completeness"
+            },
+            {
+                "q": "Action Taken",
+                "a": "Redirected to another team",
+                "insight": "Response type"
+            },
+            {
+                "q": "Own or Consume?",
+                "a": "Own",
+                "insight": "Ownership model"
+            },
+            {
+                "q": "Improvement?",
+                "a": "Yes",
+                "insight": "Impact measurement"
+            },
+            {
+                "q": "Data Useful?",
+                "a": "Yes",
+                "insight": "Data quality"
+            },
+            {
+                "q": "Suggestion",
+                "a": "Verbose better",
+                "insight": "Feature request"
+            }
+        ]
+    },
+    "workload": [
+        {
+            "name": "Puneet Bhagat",
+            "app": "QBO",
+            "open": 9,
+            "pastDue": 6,
+            "closed": 3,
+            "total": 12,
+            "pct": 100,
+            "status": "Overloaded",
+            "statusColor": "red"
+        },
+        {
+            "name": "Ali Vali",
+            "app": "TTO",
+            "open": 7,
+            "pastDue": 7,
+            "closed": 2,
+            "total": 9,
+            "pct": 100,
+            "status": "Overloaded",
+            "statusColor": "red"
+        },
+        {
+            "name": "Lester Gloria",
+            "app": "TTO",
+            "open": 7,
+            "pastDue": 1,
+            "closed": 2,
+            "total": 9,
+            "pct": 100,
+            "status": "Overloaded",
+            "statusColor": "red"
+        },
+        {
+            "name": "Bhavin Bhatia",
+            "app": "QBO",
+            "open": 5,
+            "pastDue": 5,
+            "closed": 3,
+            "total": 8,
+            "pct": 66,
+            "status": "Heavy",
+            "statusColor": "amber"
+        },
+        {
+            "name": "David LeRoy",
+            "app": "TTO",
+            "open": 6,
+            "pastDue": 6,
+            "closed": 2,
+            "total": 8,
+            "pct": 100,
+            "status": "Overloaded",
+            "statusColor": "red"
+        },
+        {
+            "name": "Anand Mattikopp",
+            "app": "QBO",
+            "open": 5,
+            "pastDue": 4,
+            "closed": 1,
+            "total": 6,
+            "pct": 50,
+            "status": "Moderate",
+            "statusColor": "amber"
+        },
+        {
+            "name": "Durga Kandasamy",
+            "app": "QBO",
+            "open": 3,
+            "pastDue": 1,
+            "closed": 3,
+            "total": 6,
+            "pct": 50,
+            "status": "Moderate",
+            "statusColor": "amber"
+        },
+        {
+            "name": "Megha Agrawal",
+            "app": "QBO",
+            "open": 4,
+            "pastDue": 4,
+            "closed": 1,
+            "total": 5,
+            "pct": 41,
+            "status": "Moderate",
+            "statusColor": "amber"
+        },
+        {
+            "name": "Derek Wilson",
+            "app": "TTO",
+            "open": 3,
+            "pastDue": 1,
+            "closed": 2,
+            "total": 5,
+            "pct": 62,
+            "status": "Heavy",
+            "statusColor": "amber"
+        },
+        {
+            "name": "Erica Hang",
+            "app": "QBO",
+            "open": 2,
+            "pastDue": 1,
+            "closed": 2,
+            "total": 4,
+            "pct": 33,
+            "status": "Moderate",
+            "statusColor": "green"
+        }
+    ],
+    "closureLeaders": [
+        {
+            "name": "Erica H.",
+            "count": 3
+        },
+        {
+            "name": "Durga K.",
+            "count": 3
+        },
+        {
+            "name": "Jyothi P.",
+            "count": 3
+        },
+        {
+            "name": "Others",
+            "count": 1
+        }
+    ],
+    "actions": [
+        {
+            "priority": "Urgent",
+            "color": "red",
+            "text": "Escalate 8 critical past-due tickets (20-25 days overdue)"
+        },
+        {
+            "priority": "Urgent",
+            "color": "red",
+            "text": "Triage 10 unassigned tickets — assign owners to enable blocker forms"
+        },
+        {
+            "priority": "High",
+            "color": "amber",
+            "text": "Send blocker forms for 29 assigned past-due tickets"
+        },
+        {
+            "priority": "High",
+            "color": "amber",
+            "text": "Follow up on QBO feedback — 2% response rate needs outreach"
+        },
+        {
+            "priority": "Normal",
+            "color": "blue",
+            "text": "Review closure patterns for process improvement opportunities"
+        },
+        {
+            "priority": "Normal",
+            "color": "blue",
+            "text": "Past-due rate trending down — maintain momentum with daily standups"
+        }
+    ],
+    "agentActions": {
+        "nextRun": "2026-04-20 09:00 IST",
+        "blockerForms": 29,
+        "remindersDue": 8,
+        "firstReminders": "2026-04-20"
+    },
+    "recommendations": [
+        {
+            "label": "Report Verbosity",
+            "value": "Implemented — monitoring"
+        },
+        {
+            "label": "Routing Context",
+            "value": "Added in v2"
+        },
+        {
+            "label": "Duplicate Detection",
+            "value": "0 of 3 closed = Duplicate"
+        },
+        {
+            "label": "QBO Response Rate",
+            "value": "2% — needs intervention",
+            "alert": true
+        }
+    ]
+},
+  "2026-04-20": {
+    "date": "2026-04-20",
+    "dateFormatted": "April 20, 2026",
+    "qbo": {
+        "open": 48,
+        "closed": 24,
+        "pastDue": 29,
+        "total": 72,
+        "widget": 41,
+        "api": 31,
+        "assigned": 42,
+        "unassigned": 6,
+        "avgOverdue": 8,
+        "maxOverdue": 20
+    },
+    "tto": {
+        "open": 23,
+        "closed": 22,
+        "pastDue": 19,
+        "total": 45,
+        "widget": 25,
+        "api": 20,
+        "assigned": 21,
+        "unassigned": 2,
+        "avgOverdue": 8,
+        "maxOverdue": 26
+    },
+    "grand": {
+        "open": 71,
+        "closed": 46,
+        "pastDue": 48,
+        "total": 117,
+        "onTrack": 23
+    },
+    "newClosuresToday": 9,
+    "severity": {
+        "critical": {
+            "qbo": 2,
+            "tto": 4
+        },
+        "high": {
+            "qbo": 22,
+            "tto": 12
+        },
+        "moderate": {
+            "qbo": 5,
+            "tto": 3
+        }
+    },
+    "feedback": {
+        "sent": 47,
+        "received": 6,
+        "responseRate": 13,
+        "qboRate": 4,
+        "ttoRate": 25,
+        "notSent": 70
+    },
+    "closures": {
+        "qbo": [
+            {
+                "key": "ME-11748",
+                "type": "API",
+                "component": "Banking API",
+                "assignee": "Priya Mehta",
+                "resolution": "Done",
+                "feedback": "Pending"
+            },
+            {
+                "key": "SBGIPD-22274",
+                "type": "Widget",
+                "component": "quickfills",
+                "assignee": "Puneet Bhagat",
+                "resolution": "Done",
+                "feedback": "Received"
+            },
+            {
+                "key": "BDPLT-4805",
+                "type": "Widget",
+                "component": "QuickbooksDesktopMigrationBanner",
+                "assignee": "Anand Mattikopp",
+                "resolution": "Done",
+                "feedback": "Received"
+            },
+            {
+                "key": "ME-14733",
+                "type": "Widget",
+                "component": "toolbox-panel-footer",
+                "assignee": "Sanjay Kumar",
+                "resolution": "Done",
+                "feedback": "Pending"
+            },
+            {
+                "key": "BDPLT-21173",
+                "type": "API",
+                "component": "InvoiceService",
+                "assignee": "Durga Kandasamy",
+                "resolution": "Done",
+                "feedback": "Pending"
+            }
+        ],
+        "tto": [
+            {
+                "key": "NTEX-29031",
+                "type": "Widget",
+                "component": "SalesTransactionList",
+                "assignee": "Ali Vali",
+                "resolution": "Obsolete",
+                "priority": "P2"
+            },
+            {
+                "key": "CONSUMER-2984",
+                "type": "Widget",
+                "component": "ExpenseTransactionList",
+                "assignee": "Gregory Miller",
+                "resolution": "Duplicate",
+                "priority": "P3"
+            },
+            {
+                "key": "TPDM-22717",
+                "type": "API",
+                "component": "lxor activity",
+                "assignee": "Mark Thompson",
+                "resolution": "Done",
+                "priority": "P2"
+            },
+            {
+                "key": "NTEX-5126",
+                "type": "Widget",
+                "component": "notification-center",
+                "assignee": "Lester Gloria",
+                "resolution": "Done",
+                "priority": "P2"
+            }
+        ],
+        "resolutionBreakdown": {
+            "done": 7,
+            "duplicate": 1,
+            "obsolete": 1,
+            "other": 0
+        },
+        "velocity": {
+            "qboToday": 5,
+            "qboPrev": 19,
+            "ttoToday": 4,
+            "ttoPrev": 18
+        }
+    },
+    "criticalTickets": [
+        {
+            "key": "QBOEA-20214",
+            "app": "QBO",
+            "type": "API",
+            "component": "Banking API",
+            "assignee": "Anand Mattikopp",
+            "due": "2026-03-20",
+            "overdue": 19
+        },
+        {
+            "key": "LG01WBPERF-1092",
+            "app": "QBO",
+            "type": "API",
+            "component": "Payroll Tax",
+            "assignee": "Erica Hang",
+            "due": "2026-03-14",
+            "overdue": 21
+        },
+        {
+            "key": "UIPLATFORM-4602",
+            "app": "TTO",
+            "type": "Widget",
+            "component": "DashboardWidgets",
+            "assignee": "David LeRoy",
+            "due": "2026-03-10",
+            "overdue": 21
+        },
+        {
+            "key": "NTEX-20295",
+            "app": "TTO",
+            "type": "Widget",
+            "component": "SalesTransactionList",
+            "assignee": null,
+            "due": "2026-03-18",
+            "overdue": 21
+        },
+        {
+            "key": "FTDC-18238",
+            "app": "TTO",
+            "type": "Widget",
+            "component": "gtkm/parent",
+            "assignee": "Jiwoo Jeong",
+            "due": "2026-03-24",
+            "overdue": 20
+        },
+        {
+            "key": "IIEA-4573",
+            "app": "TTO",
+            "type": "API",
+            "component": "TaxCalcService",
+            "assignee": "Sarah Chen",
+            "due": "2026-03-11",
+            "overdue": 19
+        }
+    ],
+    "unassigned": {
+        "count": 8,
+        "critical": [
+            {
+                "key": "ME-10883",
+                "app": "QBO",
+                "overdue": 21
+            },
+            {
+                "key": "QBB-2993",
+                "app": "QBO",
+                "overdue": 21
+            },
+            {
+                "key": "FTDC-14968",
+                "app": "TTO",
+                "overdue": 23
+            },
+            {
+                "key": "TPDM-17065",
+                "app": "TTO",
+                "overdue": 23
+            }
+        ],
+        "high": [
+            {
+                "key": "BDPLT-3408",
+                "app": "QBO",
+                "overdue": 3
+            },
+            {
+                "key": "TXP-20932",
+                "app": "QBO",
+                "overdue": 4
+            },
+            {
+                "key": "QBOA-5135",
+                "app": "QBO",
+                "overdue": 5
+            }
+        ]
+    },
+    "feedbackDetail": {
+        "respondent": "Ali Vali",
+        "ticket": "NTEX-1881",
+        "app": "TTO",
+        "type": "Widget",
+        "component": "notification-center",
+        "responses": [
+            {
+                "q": "Issue Relevant?",
+                "a": "Yes",
+                "insight": "Bot identified a real issue"
+            },
+            {
+                "q": "Right Team?",
+                "a": "Yes",
+                "insight": "Routing accuracy check"
+            },
+            {
+                "q": "Already Known?",
+                "a": "No",
+                "insight": "Novelty of finding"
+            },
+            {
+                "q": "Bot Helpful?",
+                "a": "Partially",
+                "insight": "Value validation"
+            },
+            {
+                "q": "Context Enough?",
+                "a": "Partially",
+                "insight": "Report completeness"
+            },
+            {
+                "q": "Action Taken",
+                "a": "Investigating",
+                "insight": "Response type"
+            },
+            {
+                "q": "Own or Consume?",
+                "a": "Own",
+                "insight": "Ownership model"
+            },
+            {
+                "q": "Improvement?",
+                "a": "In Progress",
+                "insight": "Impact measurement"
+            },
+            {
+                "q": "Data Useful?",
+                "a": "Yes",
+                "insight": "Data quality"
+            },
+            {
+                "q": "Suggestion",
+                "a": "Verbose better",
+                "insight": "Feature request"
+            }
+        ]
+    },
+    "workload": [
+        {
+            "name": "Megha Agrawal",
+            "app": "QBO",
+            "open": 9,
+            "pastDue": 9,
+            "closed": 3,
+            "total": 12,
+            "pct": 100,
+            "status": "Overloaded",
+            "statusColor": "red"
+        },
+        {
+            "name": "Anand Mattikopp",
+            "app": "QBO",
+            "open": 6,
+            "pastDue": 4,
+            "closed": 2,
+            "total": 8,
+            "pct": 66,
+            "status": "Heavy",
+            "statusColor": "amber"
+        },
+        {
+            "name": "Lester Gloria",
+            "app": "TTO",
+            "open": 6,
+            "pastDue": 1,
+            "closed": 1,
+            "total": 7,
+            "pct": 87,
+            "status": "Overloaded",
+            "statusColor": "red"
+        },
+        {
+            "name": "Bhavin Bhatia",
+            "app": "QBO",
+            "open": 4,
+            "pastDue": 3,
+            "closed": 2,
+            "total": 6,
+            "pct": 50,
+            "status": "Moderate",
+            "statusColor": "amber"
+        },
+        {
+            "name": "David LeRoy",
+            "app": "TTO",
+            "open": 3,
+            "pastDue": 0,
+            "closed": 2,
+            "total": 5,
+            "pct": 62,
+            "status": "Heavy",
+            "statusColor": "amber"
+        },
+        {
+            "name": "Puneet Bhagat",
+            "app": "QBO",
+            "open": 2,
+            "pastDue": 2,
+            "closed": 2,
+            "total": 4,
+            "pct": 33,
+            "status": "Moderate",
+            "statusColor": "green"
+        },
+        {
+            "name": "Erica Hang",
+            "app": "QBO",
+            "open": 2,
+            "pastDue": 2,
+            "closed": 2,
+            "total": 4,
+            "pct": 33,
+            "status": "Moderate",
+            "statusColor": "green"
+        },
+        {
+            "name": "Durga Kandasamy",
+            "app": "QBO",
+            "open": 1,
+            "pastDue": 1,
+            "closed": 2,
+            "total": 3,
+            "pct": 25,
+            "status": "Closing",
+            "statusColor": "green"
+        },
+        {
+            "name": "Derek Wilson",
+            "app": "TTO",
+            "open": 1,
+            "pastDue": 1,
+            "closed": 1,
+            "total": 2,
+            "pct": 25,
+            "status": "Normal",
+            "statusColor": "green"
+        },
+        {
+            "name": "Ali Vali",
+            "app": "TTO",
+            "open": 1,
+            "pastDue": 0,
+            "closed": 1,
+            "total": 2,
+            "pct": 25,
+            "status": "Normal",
+            "statusColor": "green"
+        }
+    ],
+    "closureLeaders": [
+        {
+            "name": "Abhinav K.",
+            "count": 2
+        },
+        {
+            "name": "Moxiao H.",
+            "count": 2
+        },
+        {
+            "name": "Priya M.",
+            "count": 3
+        },
+        {
+            "name": "Sarah C.",
+            "count": 2
+        },
+        {
+            "name": "Anand M.",
+            "count": 3
+        },
+        {
+            "name": "Others",
+            "count": 1
+        }
+    ],
+    "actions": [
+        {
+            "priority": "Urgent",
+            "color": "red",
+            "text": "Escalate 6 critical past-due tickets (18-23 days overdue)"
+        },
+        {
+            "priority": "Urgent",
+            "color": "red",
+            "text": "Triage 8 unassigned tickets — assign owners to enable blocker forms"
+        },
+        {
+            "priority": "High",
+            "color": "amber",
+            "text": "Send blocker forms for 17 assigned past-due tickets"
+        },
+        {
+            "priority": "High",
+            "color": "amber",
+            "text": "Follow up on QBO feedback — 4% response rate needs outreach"
+        },
+        {
+            "priority": "Normal",
+            "color": "blue",
+            "text": "Review closure patterns for process improvement opportunities"
+        },
+        {
+            "priority": "Normal",
+            "color": "blue",
+            "text": "Past-due rate trending down — maintain momentum with daily standups"
+        }
+    ],
+    "agentActions": {
+        "nextRun": "2026-04-20 09:00 IST",
+        "blockerForms": 17,
+        "remindersDue": 10,
+        "firstReminders": "2026-04-20"
+    },
+    "recommendations": [
+        {
+            "label": "Report Verbosity",
+            "value": "Implemented — monitoring"
+        },
+        {
+            "label": "Routing Context",
+            "value": "Added in v2"
+        },
+        {
+            "label": "Duplicate Detection",
+            "value": "1 of 9 closed = Duplicate"
+        },
+        {
+            "label": "QBO Response Rate",
+            "value": "4% — needs intervention",
+            "alert": true
+        }
+    ]
+}
 // ^^^ NEW DAILY DATA ENTRIES GET APPENDED ABOVE THIS LINE ^^^
 </script>
 
