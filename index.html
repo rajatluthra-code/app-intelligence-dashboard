@@ -48,15 +48,18 @@ body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background
   display: flex; align-items: center; gap: 8px;
 }
 .date-picker-wrap label { font-size: 12px; opacity: 0.85; white-space: nowrap; }
-.date-select {
+.date-input {
   background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3);
-  padding: 6px 12px; border-radius: 8px; font-size: 13px; font-weight: 600;
+  padding: 6px 14px; border-radius: 8px; font-size: 13px; font-weight: 600;
   cursor: pointer; backdrop-filter: blur(10px); outline: none;
-  appearance: none; -webkit-appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='white' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat; background-position: right 10px center; padding-right: 30px;
+  font-family: inherit; color-scheme: dark;
 }
-.date-select option { background: #1A73E8; color: white; }
+.date-input::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; }
+.date-input:hover { border-color: rgba(255,255,255,0.6); }
+.date-dots { display: flex; gap: 3px; margin-left: 4px; }
+.date-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.3); }
+.date-dot.has-data { background: #34A853; }
+.date-dot.active { background: #FFD700; box-shadow: 0 0 4px #FFD700; }
 .date-nav-btn {
   background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);
   color: white; width: 30px; height: 30px; border-radius: 6px;
@@ -249,8 +252,9 @@ tr:nth-child(even):hover td { background: var(--light-blue); }
       <div class="date-picker-wrap">
         <label>Report Date:</label>
         <button class="date-nav-btn" id="prevDay" onclick="navigateDay(-1)" title="Previous day">&#9664;</button>
-        <select class="date-select" id="dateSelect" onchange="loadDate(this.value)"></select>
+        <input type="date" class="date-input" id="dateInput" onchange="onDatePick(this.value)" title="Pick a report date" />
         <button class="date-nav-btn" id="nextDay" onclick="navigateDay(1)" title="Next day">&#9654;</button>
+        <div class="date-dots" id="dateDots" title="Available report dates"></div>
       </div>
       <div>
         <div class="header-badge"><span class="live-dot"></span><span id="dateLabel">Loading...</span></div>
@@ -575,6 +579,7 @@ Chart.register(ChartDataLabels);
 Chart.defaults.plugins.datalabels.display = false;
 
 let currentDate = null;
+let currentFilter = 'all'; // 'all', 'qbo', 'tto'
 let chartInstances = {};
 
 // ===== DATE MANAGEMENT =====
@@ -582,17 +587,38 @@ function getAvailableDates() {
   return Object.keys(DAILY_DATA).sort();
 }
 
-function populateDateSelect() {
-  const select = document.getElementById('dateSelect');
+function setupDatePicker() {
+  const input = document.getElementById('dateInput');
   const dates = getAvailableDates();
-  select.innerHTML = '';
-  dates.forEach(d => {
-    const opt = document.createElement('option');
-    opt.value = d;
-    opt.textContent = DAILY_DATA[d].dateFormatted || d;
-    select.appendChild(opt);
-  });
+  if (dates.length) {
+    input.min = dates[0];
+    input.max = dates[dates.length - 1];
+  }
   document.getElementById('availDates').textContent = dates.length;
+  // Build date dots
+  const dotsEl = document.getElementById('dateDots');
+  dotsEl.innerHTML = '';
+  dates.forEach(d => {
+    const dot = document.createElement('div');
+    dot.className = 'date-dot has-data';
+    dot.title = DAILY_DATA[d].dateFormatted || d;
+    dot.onclick = () => loadDate(d);
+    dot.id = 'dot-' + d;
+    dotsEl.appendChild(dot);
+  });
+}
+
+function onDatePick(dateStr) {
+  if (DAILY_DATA[dateStr]) {
+    loadDate(dateStr);
+  } else {
+    // Snap to nearest available date
+    const dates = getAvailableDates();
+    let nearest = dates[0];
+    for (const d of dates) { if (d <= dateStr) nearest = d; }
+    loadDate(nearest);
+    document.getElementById('dateInput').value = nearest;
+  }
 }
 
 function navigateDay(dir) {
@@ -609,18 +635,97 @@ function updateNavButtons() {
   const idx = dates.indexOf(currentDate);
   document.getElementById('prevDay').disabled = idx <= 0;
   document.getElementById('nextDay').disabled = idx >= dates.length - 1;
+  // Update dot highlights
+  dates.forEach(d => {
+    const dot = document.getElementById('dot-' + d);
+    if (dot) dot.classList.toggle('active', d === currentDate);
+  });
+}
+
+// ===== FILTER: Build filtered view of the data =====
+function getFilteredData(data, filter) {
+  if (filter === 'all') return data;
+  // Create a filtered copy — show only selected app, zero out the other
+  const d = JSON.parse(JSON.stringify(data)); // deep clone
+  const keep = filter; // 'qbo' or 'tto'
+  const hide = keep === 'qbo' ? 'tto' : 'qbo';
+
+  // Zero out the hidden app
+  d[hide] = { open: 0, closed: 0, pastDue: 0, total: 0, widget: 0, api: 0, assigned: 0, unassigned: 0, avgOverdue: 0, maxOverdue: 0 };
+
+  // Recalculate grand totals from the kept app only
+  const k = d[keep];
+  d.grand = {
+    open: k.open, closed: k.closed, pastDue: k.pastDue,
+    total: k.total, onTrack: k.open - k.pastDue
+  };
+
+  // Recalculate severity
+  d.severity = {
+    critical: { qbo: d.qbo.open ? data.severity.critical.qbo : 0, tto: d.tto.open ? data.severity.critical.tto : 0 },
+    high: { qbo: d.qbo.open ? data.severity.high.qbo : 0, tto: d.tto.open ? data.severity.high.tto : 0 },
+    moderate: { qbo: d.qbo.open ? data.severity.moderate.qbo : 0, tto: d.tto.open ? data.severity.moderate.tto : 0 }
+  };
+
+  // Filter closures
+  d.closures = { ...data.closures };
+  if (hide === 'qbo') { d.closures.qbo = []; }
+  if (hide === 'tto') { d.closures.tto = []; }
+  d.newClosuresToday = d.closures.qbo.length + d.closures.tto.length;
+  // Recalc velocity
+  d.closures.velocity = {
+    qboToday: hide === 'qbo' ? 0 : data.closures.velocity.qboToday,
+    qboPrev: hide === 'qbo' ? 0 : data.closures.velocity.qboPrev,
+    ttoToday: hide === 'tto' ? 0 : data.closures.velocity.ttoToday,
+    ttoPrev: hide === 'tto' ? 0 : data.closures.velocity.ttoPrev
+  };
+
+  // Filter critical tickets
+  const appLabel = keep.toUpperCase();
+  d.criticalTickets = data.criticalTickets.filter(t => t.app === appLabel);
+
+  // Filter unassigned
+  d.unassigned = {
+    count: keep === 'qbo' ? data.qbo.unassigned : data.tto.unassigned,
+    critical: (data.unassigned.critical || []).filter(t => t.app === appLabel),
+    high: (data.unassigned.high || []).filter(t => t.app === appLabel)
+  };
+
+  // Filter feedback rates
+  d.feedback = { ...data.feedback };
+  if (keep === 'qbo') {
+    d.feedback.responseRate = data.feedback.qboRate;
+  } else {
+    d.feedback.responseRate = data.feedback.ttoRate;
+  }
+
+  // Filter workload
+  d.workload = data.workload.filter(w => w.app === appLabel);
+
+  // Filter closure leaders (keep all — they're aggregate)
+  d.closureLeaders = data.closureLeaders;
+
+  return d;
 }
 
 function loadDate(dateStr) {
-  const data = DAILY_DATA[dateStr];
-  if (!data) return;
+  const rawData = DAILY_DATA[dateStr];
+  if (!rawData) return;
   currentDate = dateStr;
 
-  document.getElementById('dateSelect').value = dateStr;
-  document.getElementById('dateLabel').textContent = data.dateFormatted || dateStr;
-  document.getElementById('lastRefreshed').textContent = `Viewing: ${data.dateFormatted || dateStr}`;
+  document.getElementById('dateInput').value = dateStr;
+  document.getElementById('dateLabel').textContent = rawData.dateFormatted || dateStr;
+  document.getElementById('lastRefreshed').textContent = `Viewing: ${rawData.dateFormatted || dateStr}`;
   document.title = `App Intelligence Dashboard \u2014 ${dateStr}`;
   updateNavButtons();
+
+  applyFilterAndRender();
+}
+
+function applyFilterAndRender() {
+  const rawData = DAILY_DATA[currentDate];
+  if (!rawData) return;
+  const data = getFilteredData(rawData, currentFilter);
 
   // Update badges
   document.getElementById('badge-closures').textContent = data.newClosuresToday || 0;
@@ -652,7 +757,7 @@ function renderKPIs(d) {
     <div class="kpi-card c-blue" onclick="showPage('pastdue')">
       <div class="kpi-value" style="color:var(--blue)">${d.grand.total}</div>
       <div class="kpi-label">Total Tickets</div>
-      <div class="kpi-change">QBO: ${d.qbo.total} | TTO: ${d.tto.total}</div>
+      <div class="kpi-change">${currentFilter === 'all' ? `QBO: ${d.qbo.total} | TTO: ${d.tto.total}` : currentFilter.toUpperCase() + ' Only'}</div>
     </div>
     <div class="kpi-card c-green" onclick="showPage('closures')">
       <div class="kpi-value" style="color:var(--green)">${d.grand.closed}</div>
@@ -737,7 +842,7 @@ function renderClosures(d) {
 function renderPastDue(d) {
   document.getElementById('pastdueCallout').innerHTML = `
     <div class="callout callout-red">
-      <span>&#x1F6A8;</span> <strong>${d.grand.pastDue} of ${d.grand.open} open tickets (${Math.round(d.grand.pastDue/d.grand.open*100)}%) are past their due date.</strong> ${d.unassigned.count} are unassigned.
+      <span>&#x1F6A8;</span> <strong>${d.grand.pastDue} of ${d.grand.open} open tickets (${d.grand.open ? Math.round(d.grand.pastDue/d.grand.open*100) : 0}%) are past their due date.</strong> ${d.unassigned.count} are unassigned.
     </div>`;
 
   let html = '<div class="card"><div class="card-title"><span><span class="icon">&#x1F6A8;</span> Critical Tickets (25-30 days overdue)</span></div><table>';
@@ -809,33 +914,38 @@ function renderFooter(d) {
 const dOpts = { responsive:true, maintainAspectRatio:false, plugins:{ legend:{position:'bottom',labels:{usePointStyle:true,padding:14,font:{size:11}}}} };
 
 function renderCharts(d) {
+  const f = currentFilter;
   const qboOnTrack = d.qbo.open - d.qbo.pastDue;
   const ttoOnTrack = d.tto.open - d.tto.pastDue;
 
+  // Build app-comparison labels & data (skip zeroed-out app for single filter)
+  const appLabels = f === 'qbo' ? ['QBO'] : f === 'tto' ? ['TTO'] : ['QBO','TTO'];
+  const pick = (qVal, tVal) => f === 'qbo' ? [qVal] : f === 'tto' ? [tVal] : [qVal, tVal];
+
   chartInstances.health = new Chart(document.getElementById('c_health'), {
-    type:'bar', data:{ labels:['QBO','TTO'],
+    type:'bar', data:{ labels: appLabels,
       datasets:[
-        {label:'On Track',data:[qboOnTrack,ttoOnTrack],backgroundColor:B,borderRadius:6},
-        {label:'Past Due',data:[d.qbo.pastDue,d.tto.pastDue],backgroundColor:R,borderRadius:6},
-        {label:'Closed',data:[d.qbo.closed,d.tto.closed],backgroundColor:G,borderRadius:6}
+        {label:'On Track',data: pick(qboOnTrack, ttoOnTrack),backgroundColor:B,borderRadius:6},
+        {label:'Past Due',data: pick(d.qbo.pastDue, d.tto.pastDue),backgroundColor:R,borderRadius:6},
+        {label:'Closed',data: pick(d.qbo.closed, d.tto.closed),backgroundColor:G,borderRadius:6}
       ]},
     options:{...dOpts, scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,beginAtZero:true,grid:{color:'#f0f0f0'}}},
-      plugins:{...dOpts.plugins, datalabels:{display:true,color:'#fff',font:{weight:'bold',size:12},formatter:(v)=>v>3?v:''}}}
+      plugins:{...dOpts.plugins, datalabels:{display:true,color:'#fff',font:{weight:'bold',size:12},formatter:(v)=>v>0?v:''}}}
   });
 
   chartInstances.donut = new Chart(document.getElementById('c_donut'), {
     type:'doughnut', data:{ labels:[`On Track (${d.grand.onTrack})`,`Past Due (${d.grand.pastDue})`,`Closed (${d.grand.closed})`],
       datasets:[{data:[d.grand.onTrack,d.grand.pastDue,d.grand.closed],backgroundColor:[B,R,G],borderWidth:3,borderColor:'#fff',hoverOffset:8}]},
     options:{...dOpts, cutout:'60%',
-      plugins:{...dOpts.plugins, datalabels:{display:true,color:'#fff',font:{weight:'bold',size:13},formatter:(v)=>Math.round(v/d.grand.total*100)+'%'}}}
+      plugins:{...dOpts.plugins, datalabels:{display:true,color:'#fff',font:{weight:'bold',size:13},formatter:(v)=> d.grand.total ? Math.round(v/d.grand.total*100)+'%' : '0%'}}}
   });
 
+  // Severity: show only non-zero app datasets
+  const sevDatasets = [];
+  if (f !== 'tto') sevDatasets.push({label:'QBO',data:[d.severity.critical.qbo,d.severity.high.qbo,d.severity.moderate.qbo],backgroundColor:B,borderRadius:6});
+  if (f !== 'qbo') sevDatasets.push({label:'TTO',data:[d.severity.critical.tto,d.severity.high.tto,d.severity.moderate.tto],backgroundColor:A,borderRadius:6});
   chartInstances.severity = new Chart(document.getElementById('c_severity'), {
-    type:'bar', data:{ labels:['Critical\n25-30d','High\n11-19d','Moderate\n1-10d'],
-      datasets:[
-        {label:'QBO',data:[d.severity.critical.qbo,d.severity.high.qbo,d.severity.moderate.qbo],backgroundColor:B,borderRadius:6},
-        {label:'TTO',data:[d.severity.critical.tto,d.severity.high.tto,d.severity.moderate.tto],backgroundColor:A,borderRadius:6}
-      ]},
+    type:'bar', data:{ labels:['Critical\n25-30d','High\n11-19d','Moderate\n1-10d'], datasets: sevDatasets },
     options:{...dOpts, indexAxis:'y', scales:{x:{beginAtZero:true,grid:{color:'#f0f0f0'}},y:{grid:{display:false}}},
       plugins:{...dOpts.plugins, datalabels:{display:true,anchor:'end',align:'right',color:'#333',font:{weight:'bold',size:11}}}}
   });
@@ -854,15 +964,16 @@ function renderCharts(d) {
     type:'pie', data:{ labels:[`API (${totalAPI})`,`Widget (${totalWidget})`],
       datasets:[{data:[totalAPI,totalWidget],backgroundColor:[B,A],borderWidth:3,borderColor:'#fff',hoverOffset:8}]},
     options:{...dOpts, plugins:{...dOpts.plugins,
-      datalabels:{display:true,color:'#fff',font:{weight:'bold',size:14},formatter:(v)=>Math.round(v/d.grand.total*100)+'%'}}}
+      datalabels:{display:true,color:'#fff',font:{weight:'bold',size:14},formatter:(v)=> d.grand.total ? Math.round(v/d.grand.total*100)+'%' : '0%'}}}
   });
 
   const topW = d.workload.slice(0, 5);
+  const wLabels = topW.map(w => { const parts = w.name.split(' '); return parts[0] + (parts[1] ? ' '+parts[1][0]+'.' : ''); });
   chartInstances.workloadMini = new Chart(document.getElementById('c_workload_mini'), {
-    type:'bar', data:{ labels:topW.map(w=>w.name.split(' ')[0]+' '+w.name.split(' ')[1][0]+'.'),
+    type:'bar', data:{ labels: wLabels,
       datasets:[
         {label:'Past Due',data:topW.map(w=>w.pastDue),backgroundColor:R,borderRadius:4},
-        {label:'On Track',data:topW.map(w=>w.open-w.pastDue),backgroundColor:B,borderRadius:4}
+        {label:'On Track',data:topW.map(w=>Math.max(0, w.open-w.pastDue)),backgroundColor:B,borderRadius:4}
       ]},
     options:{...dOpts, indexAxis:'y', scales:{x:{stacked:true,beginAtZero:true,grid:{color:'#f0f0f0'}},y:{stacked:true,grid:{display:false}}},
       plugins:{...dOpts.plugins, datalabels:{display:false}}}
@@ -871,10 +982,10 @@ function renderCharts(d) {
   // Closures charts
   const cv = d.closures.velocity;
   chartInstances.velocity = new Chart(document.getElementById('c_velocity'), {
-    type:'bar', data:{ labels:['QBO','TTO'],
+    type:'bar', data:{ labels: appLabels,
       datasets:[
-        {label:'Closed Today',data:[cv.qboToday,cv.ttoToday],backgroundColor:G,borderRadius:6},
-        {label:'Previously Closed',data:[cv.qboPrev,cv.ttoPrev],backgroundColor:'#A5D6A7',borderRadius:6}
+        {label:'Closed Today',data: pick(cv.qboToday, cv.ttoToday),backgroundColor:G,borderRadius:6},
+        {label:'Previously Closed',data: pick(cv.qboPrev, cv.ttoPrev),backgroundColor:'#A5D6A7',borderRadius:6}
       ]},
     options:{...dOpts, scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,beginAtZero:true,grid:{color:'#f0f0f0'}}},
       plugins:{...dOpts.plugins, datalabels:{display:true,color:'#fff',font:{weight:'bold',size:14}}}}
@@ -901,38 +1012,40 @@ function renderCharts(d) {
   });
 
   chartInstances.overdue = new Chart(document.getElementById('c_overdue'), {
-    type:'bar', data:{ labels:['QBO','TTO'],
+    type:'bar', data:{ labels: appLabels,
       datasets:[
-        {label:'Avg Overdue',data:[d.qbo.avgOverdue,d.tto.avgOverdue],backgroundColor:A,borderRadius:6},
-        {label:'Max Overdue',data:[d.qbo.maxOverdue,d.tto.maxOverdue],backgroundColor:R,borderRadius:6}
+        {label:'Avg Overdue',data: pick(d.qbo.avgOverdue, d.tto.avgOverdue),backgroundColor:A,borderRadius:6},
+        {label:'Max Overdue',data: pick(d.qbo.maxOverdue, d.tto.maxOverdue),backgroundColor:R,borderRadius:6}
       ]},
     options:{...dOpts, scales:{y:{beginAtZero:true,title:{display:true,text:'Days'},grid:{color:'#f0f0f0'}},x:{grid:{display:false}}},
-      plugins:{...dOpts.plugins, datalabels:{display:true,anchor:'end',align:'top',color:'#333',font:{weight:'bold',size:12},formatter:v=>v+'d'}}}
+      plugins:{...dOpts.plugins, datalabels:{display:true,anchor:'end',align:'top',color:'#333',font:{weight:'bold',size:12},formatter:v=>v?v+'d':''}}}
   });
 
   chartInstances.assigned = new Chart(document.getElementById('c_assigned'), {
-    type:'bar', data:{ labels:['QBO','TTO'],
+    type:'bar', data:{ labels: appLabels,
       datasets:[
-        {label:'Assigned',data:[d.qbo.assigned,d.tto.assigned],backgroundColor:A,borderRadius:6},
-        {label:'Unassigned',data:[d.qbo.unassigned,d.tto.unassigned],backgroundColor:GR,borderRadius:6}
+        {label:'Assigned',data: pick(d.qbo.assigned, d.tto.assigned),backgroundColor:A,borderRadius:6},
+        {label:'Unassigned',data: pick(d.qbo.unassigned, d.tto.unassigned),backgroundColor:GR,borderRadius:6}
       ]},
     options:{...dOpts, scales:{y:{beginAtZero:true,grid:{color:'#f0f0f0'}},x:{grid:{display:false}}},
       plugins:{...dOpts.plugins, datalabels:{display:true,anchor:'end',align:'top',color:'#333',font:{weight:'bold',size:12}}}}
   });
 
-  const apiPD = d.qbo.api + d.tto.api;  // approximate
-  const widgetPD = d.qbo.widget + d.tto.widget;
+  const totalAPIPD = d.qbo.api + d.tto.api;
+  const totalWidgetPD = d.qbo.widget + d.tto.widget;
   chartInstances.pdType = new Chart(document.getElementById('c_pd_type'), {
-    type:'doughnut', data:{ labels:['API Past Due','Widget Past Due'],
-      datasets:[{data:[apiPD > widgetPD ? 35 : apiPD, widgetPD > apiPD ? 25 : widgetPD],backgroundColor:[B,A],borderWidth:3,borderColor:'#fff',hoverOffset:8}]},
+    type:'doughnut', data:{ labels:[`API (${totalAPIPD})`,`Widget (${totalWidgetPD})`],
+      datasets:[{data:[totalAPIPD,totalWidgetPD],backgroundColor:[B,A],borderWidth:3,borderColor:'#fff',hoverOffset:8}]},
     options:{...dOpts, cutout:'55%', plugins:{...dOpts.plugins,
       datalabels:{display:true,color:'#fff',font:{weight:'bold',size:14},formatter:(v)=>v}}}
   });
 
   // Feedback charts
   chartInstances.respRate = new Chart(document.getElementById('c_resp_rate'), {
-    type:'bar', data:{ labels:['QBO','TTO','Overall'],
-      datasets:[{label:'Response Rate %',data:[d.feedback.qboRate,d.feedback.ttoRate,d.feedback.responseRate],backgroundColor:[R,G,A],borderRadius:6}]},
+    type:'bar', data:{ labels: f === 'all' ? ['QBO','TTO','Overall'] : [appLabels[0]],
+      datasets:[{label:'Response Rate %',
+        data: f === 'qbo' ? [d.feedback.qboRate] : f === 'tto' ? [d.feedback.ttoRate] : [d.feedback.qboRate,d.feedback.ttoRate,d.feedback.responseRate],
+        backgroundColor: f === 'qbo' ? [B] : f === 'tto' ? [A] : [R,G,A],borderRadius:6}]},
     options:{...dOpts, scales:{y:{beginAtZero:true,max:100,title:{display:true,text:'%'},grid:{color:'#f0f0f0'}},x:{grid:{display:false}}},
       plugins:{...dOpts.plugins,legend:{display:false},
       datalabels:{display:true,anchor:'end',align:'top',color:'#333',font:{weight:'bold',size:14},formatter:v=>v+'%'}}}
@@ -946,12 +1059,14 @@ function renderCharts(d) {
   });
 
   // Workload charts
+  const wAll = d.workload;
+  const wAllLabels = wAll.map(w => { const parts = w.name.split(' '); return parts[0] + (parts[1] ? ' '+parts[1][0]+'.' : ''); });
   chartInstances.workloadFull = new Chart(document.getElementById('c_workload_full'), {
-    type:'bar', data:{ labels:d.workload.map(w=>w.name.split(' ')[0]+' '+w.name.split(' ')[1][0]+'.'),
+    type:'bar', data:{ labels: wAllLabels,
       datasets:[
-        {label:'Past Due',data:d.workload.map(w=>w.pastDue),backgroundColor:R,borderRadius:4},
-        {label:'On Track',data:d.workload.map(w=>w.open-w.pastDue),backgroundColor:B,borderRadius:4},
-        {label:'Closed',data:d.workload.map(w=>w.closed),backgroundColor:G,borderRadius:4}
+        {label:'Past Due',data:wAll.map(w=>w.pastDue),backgroundColor:R,borderRadius:4},
+        {label:'On Track',data:wAll.map(w=>Math.max(0,w.open-w.pastDue)),backgroundColor:B,borderRadius:4},
+        {label:'Closed',data:wAll.map(w=>w.closed),backgroundColor:G,borderRadius:4}
       ]},
     options:{...dOpts, indexAxis:'y', scales:{x:{stacked:true,beginAtZero:true,grid:{color:'#f0f0f0'}},y:{stacked:true,grid:{display:false}}},
       plugins:{...dOpts.plugins, datalabels:{display:false}}}
@@ -1074,6 +1189,8 @@ function showPage(id) {
 function setFilter(val, btn) {
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
+  currentFilter = val;
+  applyFilterAndRender();
 }
 
 // ===== DETAIL PANEL =====
@@ -1109,7 +1226,7 @@ function closePanel() {
 }
 
 // ===== INIT =====
-populateDateSelect();
+setupDatePicker();
 const dates = getAvailableDates();
 loadDate(dates[dates.length - 1]); // Load most recent date
 </script>
