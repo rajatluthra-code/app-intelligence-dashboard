@@ -2693,9 +2693,16 @@ function showPage(id) {
     const txt = t.textContent.toLowerCase();
     if(txt.includes(id.substring(0,4))) t.classList.add('active');
   });
-  // Resize charts after page becomes visible (fixes Chart.js 0-dimension bug on hidden tabs)
+  // Re-render all charts after page becomes visible (Chart.js can't render on display:none canvases)
   requestAnimationFrame(() => {
-    Object.values(chartInstances).forEach(c => { if(c && c.resize) c.resize(); });
+    Object.values(chartInstances).forEach(c => { if(c && c.destroy) c.destroy(); });
+    chartInstances = {};
+    const rawData = DAILY_DATA[currentDate];
+    if (rawData) {
+      const data = getFilteredData(rawData, currentFilter);
+      renderCharts(data);
+      renderTrends();
+    }
   });
   window.scrollTo({top: 0, behavior: 'smooth'});
 }
