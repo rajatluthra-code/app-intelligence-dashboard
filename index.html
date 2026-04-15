@@ -2584,7 +2584,7 @@ function renderCharts(d) {
 
   chartInstances.closureRate = new Chart(document.getElementById('c_closure_rate'), {
     type:'bar', data:{ labels:d.closureLeaders.map(l=>l.name),
-      datasets:[{label:'Tickets Closed',data:d.closureLeaders.map(l=>l.count),backgroundColor:[G,'#66BB6A','#81C784','#A5D6A7','#C8E6C9','#E8F5E9'],borderRadius:6}]},
+      datasets:[{label:'Tickets Closed',data:d.closureLeaders.map(l=>l.closures || l.count || 0),backgroundColor:[G,'#66BB6A','#81C784','#A5D6A7','#C8E6C9','#E8F5E9'],borderRadius:6}]},
     options:{...dOpts, plugins:{...dOpts.plugins,legend:{display:false},
       datalabels:{display:true,anchor:'end',align:'top',color:'#333',font:{weight:'bold',size:12}}},
       scales:{y:{beginAtZero:true,grid:{color:'#f0f0f0'}},x:{grid:{display:false}}}}
@@ -2692,6 +2692,10 @@ function showPage(id) {
   document.querySelectorAll('.nav-tab').forEach(t => {
     const txt = t.textContent.toLowerCase();
     if(txt.includes(id.substring(0,4))) t.classList.add('active');
+  });
+  // Resize charts after page becomes visible (fixes Chart.js 0-dimension bug on hidden tabs)
+  requestAnimationFrame(() => {
+    Object.values(chartInstances).forEach(c => { if(c && c.resize) c.resize(); });
   });
   window.scrollTo({top: 0, behavior: 'smooth'});
 }
